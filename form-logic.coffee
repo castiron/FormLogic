@@ -1,5 +1,79 @@
 class FormLogic
 
+class Child
+	constructor: (@$el) ->
+		@$el.hide()
+		@parentName = @$el.data('depends-on')
+		@parents = []
+		for x in $('[name="'+@parentName+'"]:not([type="hidden"])')
+			if $(x).is('[type="checkbox"]')
+				@parentType = 'checkbox'
+			else if $(x).is('[type="radio"]')
+				@parentType = 'radio'
+			@parents.push $(x)
+
+		if @$el.data('show-if')
+			@setupShowIf()
+		else if @$el.data('show-if-any')
+			@setupShowIfAny()
+
+	setupShowIf: ->
+		val = @$el.data('show-if')
+		my = @
+		for $parent in @parents
+			$parent.change( ->
+				if my.parentType == 'checkbox' or my.parentType == 'radio'
+					if $(@).is(':checked') and $(@).val() == val.toString()
+						my.show()
+					else
+						my.hide()
+				else
+					if $(@).val() == val
+						my.show()
+					else
+						my.hide()
+			).change()
+
+
+	setupShowIfAny: ->
+		if @parentType == 'radio' or @parentType == 'checkbox'
+			my = @
+			for $parent in @parents
+				$parent.change( ->
+					any = false
+					for $parent in my.parents
+						if $parent.is(':checked')
+							any = true
+					if any
+						my.show()
+					else
+						my.hide()
+				)
+		else
+			for $parent in @parents
+				$parent.change( =>
+					if $parent.val() != ''
+						@show()
+					else
+						@hide()
+				)
+
+	show: ->
+		@$el.show()
+		for child in @$el.find('*')
+			name = $(child).attr('name')
+			if name
+				dependents = $(child).find('[data-depends-on="'+name+'"]')
+				if dependents.length > 0
+					$(child).change()
+
+	hide: ->
+		@$el.hide()
+		for child in @$el.find('*')
+			name = $(child).attr('name')
+			if name
+				$(child).find('[data-depends-on="'+name+'"]').hide()
+
 class DataValidate
   constructor: (el, @options) ->
     @$el = $(el)
@@ -153,3 +227,6 @@ $ ->
 		if $(@).find('[data-validate]')
 			new DataValidate($(@))
 	)
+
+	for child in $('[data-depends-on]')
+		new Child($(child))
