@@ -1,3 +1,5 @@
+class FormLogic
+
 class DataValidate
   constructor: (el, @options) ->
     @$el = $(el)
@@ -45,8 +47,8 @@ class DataValidate
               @validateConfirm($input)
       
       # Call a user defined function if it exists
-      if @isValid() and DataValidate.onValidSubmit?
-        return DataValidate.onValidSubmit()
+      if @isValid() and FormLogic.onValidSubmit?
+        return FormLogic.onValidSubmit()
       else if !@isValid()
         @addHint($(input)) for input in @$el.find('input')
         return false

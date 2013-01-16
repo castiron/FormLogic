@@ -1,25 +1,20 @@
-# DataValidate
+# FormLogic
 
-DataValidate is an unobtrusive JavaScript library for handling client-side form validation.
-Unlike other validation libraries, all of the work is in the markup using the underrated `data`
-property.
+FormLogic is an unobtrusive JavaScript library for handling client-side form validation and dynamic
+form manipulation. Unlike other validation libraries, all of the work is in the markup using the
+underrated `data` property.
 
 
 ### Getting Started
 
-DataValidate depends on jQuery because I'm lazy and you should be too.
+FormLogic depends on jQuery because I'm lazy and you should be too.
 
     <head>
         <script src="jquery.min.js" type="text/javascript"></script>
-        <script src="data-validate.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                new DataValidate($('#signupForm'));
-            });
-        </script>
+        <script src="form-logic.js" type="text/javascript"></script>
     </head>
     <body>
-        <form id="signupForm">
+        <form>
             <label>Name:</label>
             <input type="text" data-validate="required" data-message="Please provide a name." />
             <div class="error"></div>
@@ -36,26 +31,17 @@ supplied in `<div class="error"></div>`. All validations happen when the user su
 
 #### Configuration
 
-The main goal of DataValidate is to be light on the JavaScript configuration and heavy
+The main goal of FormLogic is to be light on the JavaScript configuration and heavy
 on the markup.
 
-Any configurations you need to make are made when you instantiate DataValidate.
+Currently, the only possible configuration is a callback for when the form is successfully validated:
 
-    new DataValidate(element, options);
+    FormLogic.onValidSubmit = function() {
+         // Do whatever extra validation you need to do.
+         // Return false to halt the submit. (Be sure to display your own errors.)
 
-`element` can be a CSS selector or a jQuery object. `options` is an object containing
-configuration properties.
-
-Currently, the only possible option is a callback for when the form is successfully validated:
-
-    new DataValidate('#signupForm', {
-        onValidSubmit: function() {
-            // Do whatever extra validation you need to do.
-            // Return false to halt the submit. (Be sure to display your own errors.)
-
-            return true; // to submit the form
-        }
-    });
+         return true; // to submit the form
+    }
 
 At some point, custom validators can be added to the options object.
 
