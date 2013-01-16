@@ -45,8 +45,8 @@ class DataValidate
               @validateConfirm($input)
       
       # Call a user defined function if it exists
-      if @isValid() and typeof @options.onValidSubmit == 'function'   
-        return options.onValidSubmit()         
+      if @isValid() and DataValidate.onValidSubmit?
+        return DataValidate.onValidSubmit()
       else if !@isValid()
         @addHint($(input)) for input in @$el.find('input')
         return false
@@ -145,4 +145,9 @@ class DataValidate
   
   reset: ->
     @valid = true
- 
+
+$ ->
+	$('form').each( ->
+		if $(@).find('[data-validate]')
+			new DataValidate($(@))
+	)
