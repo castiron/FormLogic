@@ -15,9 +15,16 @@ FormLogic depends on jQuery because I'm lazy and you should be too.
     </head>
     <body>
         <form>
+            <!-- VALIDATION -->
             <label>Name:</label>
-            <input type="text" data-validate="required" data-message="Please provide a name." />
+            <input name="name" type="text" data-validate="required" data-message="Please provide a name." />
             <div class="error"></div>
+
+            <!-- DYNAMIC FIELDS -->
+            <div data-depends-on="name" data-show-if="Samantha">
+                <label>Special Field for Samantha</label>
+                <input name="age" type="text" />
+            </div>
 
             <input type="submit" value="submit" />
         </form>
@@ -26,6 +33,9 @@ FormLogic depends on jQuery because I'm lazy and you should be too.
 This, `data-validate="required"`, will validate the input element to make sure that the user
 enters something. If the user doesn't enter anything, then the value of `data-message` is
 supplied in `<div class="error"></div>`. All validations happen when the user submits the form.
+
+The `data-depends-on` attribute hides this element until the user types 'Samantha' into the field
+with the name `name`.
 
 ### API
 
@@ -115,6 +125,22 @@ All error messages are displayed in the next `<div class="error"></div>` element
 you want the message to go, then you can set `data-error-target` with a CSS selector of where you want
 the message to be displayed.
 
+#### `data-depends-on`
+
+Use this attribute to show that one field is dependent on another field. Use the `name` attribute of the
+form element, **not** the `id` attribute. Along with this, you must use a `data-show-if...` attribute.
+
+#### `data-show-if`
+
+Used with `data-depends-on`, this attribute determines when to show this field. For example, if this
+element is dependent on a field named `charities` and `data-show-if="YMCA"`, then this element will
+only be shown when user selects the YMCA charity.
+
+#### `data-show-if-any`
+
+Used with `data-depends-on`, this attribute shows this field whenever anything is selected or added
+to the field on which this depends.
+
 ### TODO
 
 * Use custom validators.
@@ -170,6 +196,30 @@ the message to be displayed.
                data-message="Please provide a <em>valid</em> year in the future."/>
         <div class="error"></div>
         <div id="expiration-error" class="error"></div>
+
+        <label>Donate to charities?</label>
+        <label>
+            <input type="radio" name="donate" value="yes"> Yes
+        </label>
+        <label>
+            <input type="radio" name="donate" value="no"> No
+        </label>
+
+        <div data-depends-on="donate" data-show-if="yes">
+            <label>Which ones?</label>
+            <label>
+                <input type="checkbox" name="charities[]" value="For the kids"> For the kids
+            </label>
+            <label>
+                <input type="checkbox" name="charities[]" value="Donald Fund"> Donald Fund
+            </label>
+            <label>
+                <input type="checkbox" name="charities[]" value="Wounded Soldiers"> Wounded Soldier
+            </label>
+        </div>
+        <div data-depends-on="charities[]" data-show-if-any="true">
+            <strong>THANKS!</strong>
+        </div>
 
         <input type="submit" class="submit btn" value="submit" />
     </form>
