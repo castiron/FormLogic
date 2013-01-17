@@ -70,7 +70,7 @@ class Child
 				)
 
 	show: ->
-		@$el.show()
+		@$el.show().data('ignore-validation', false)
 		for child in @$el.find('*')
 			name = $(child).attr('name')
 			if name
@@ -79,11 +79,11 @@ class Child
 					$(child).change()
 
 	hide: ->
-		@$el.hide()
+		@$el.data('ignore-validation', true).hide()
 		for child in @$el.find('*')
 			name = $(child).attr('name')
 			if name
-				$('[data-depends-on="'+name+'"]').hide()
+				$('[data-depends-on="'+name+'"]').data('ignore-validation', true).hide()
 
 
 
@@ -112,6 +112,7 @@ class DataValidate
           continue
           
         $input.val('') if $input.hasClass('has-hint')
+        continue if $input.data('ignore-validation')
    
         # Split up the list of validators
         vString = $input.data('validate')

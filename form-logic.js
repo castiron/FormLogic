@@ -122,7 +122,7 @@
 
     Child.prototype.show = function() {
       var child, dependents, name, _i, _len, _ref, _results;
-      this.$el.show();
+      this.$el.show().data('ignore-validation', false);
       _ref = this.$el.find('*');
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -144,14 +144,14 @@
 
     Child.prototype.hide = function() {
       var child, name, _i, _len, _ref, _results;
-      this.$el.hide();
+      this.$el.data('ignore-validation', true).hide();
       _ref = this.$el.find('*');
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         child = _ref[_i];
         name = $(child).attr('name');
         if (name) {
-          _results.push($('[data-depends-on="' + name + '"]').hide());
+          _results.push($('[data-depends-on="' + name + '"]').data('ignore-validation', true).hide());
         } else {
           _results.push(void 0);
         }
@@ -198,6 +198,9 @@
           }
           if ($input.hasClass('has-hint')) {
             $input.val('');
+          }
+          if ($input.data('ignore-validation')) {
+            continue;
           }
           vString = $input.data('validate');
           if (typeof vString !== 'string') {
