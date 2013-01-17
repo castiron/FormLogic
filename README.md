@@ -134,7 +134,7 @@ form element, **not** the `id` attribute. Along with this, you must use a `data-
 
 Used with `data-depends-on`, this attribute determines when to show this field. For example, if this
 element is dependent on a field named `charities` and `data-show-if="YMCA"`, then this element will
-only be shown when user selects the YMCA charity.
+only be shown when user selects the YMCA charity. This can take multiple values separated by semi-colons.
 
 #### `data-show-if-any`
 
@@ -219,6 +219,9 @@ to the field on which this depends.
         </div>
         <div data-depends-on="charities[]" data-show-if-any="true">
             <strong>THANKS!</strong>
+        </div>
+        <div data-depends-on="charities[]" data-show-if="For the kids; Donald Fund">
+            <strong>I like that one!</strong>
         </div>
 
         <input type="submit" class="submit btn" value="submit" />

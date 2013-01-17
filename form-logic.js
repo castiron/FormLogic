@@ -37,21 +37,35 @@
 
     Child.prototype.setupShowIf = function() {
       var $parent, my, val, _i, _len, _ref, _results;
-      val = this.$el.data('show-if');
+      val = this.$el.data('show-if').split(';');
+      val = val.map(function(str) {
+        return str.trim();
+      });
       my = this;
       _ref = this.parents;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         $parent = _ref[_i];
         _results.push($parent.change(function() {
-          if (my.parentType === 'checkbox' || my.parentType === 'radio') {
-            if ($(this).is(':checked') && $(this).val() === val.toString()) {
+          var $p, _j, _len1, _ref1;
+          if (my.parentType === 'checkbox') {
+            _ref1 = my.parents;
+            for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+              $p = _ref1[_j];
+              if ($p.is(':checked') && val.indexOf($p.val()) !== -1) {
+                my.show();
+                return;
+              }
+            }
+            return my.hide();
+          } else if (my.parentType === 'radio') {
+            if ($(this).is(':checked') && val.indexOf($(this).val()) !== -1) {
               return my.show();
             } else {
               return my.hide();
             }
           } else {
-            if ($(this).val() === val) {
+            if (val.indexOf($(this).val()) !== -1) {
               return my.show();
             } else {
               return my.hide();
