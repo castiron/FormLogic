@@ -54,6 +54,30 @@
         <div class="error"></div>
         <div id="expiration-error" class="error"></div>
 
+        <label>Donate to charities?</label>
+        <label>
+            <input type="radio" name="donate" value="yes"> Yes
+        </label>
+        <label>
+            <input type="radio" name="donate" value="no"> No
+        </label>
+
+        <div data-depends-on="donate" data-show-if="yes">
+            <label>Which ones?</label>
+            <label>
+                <input type="checkbox" name="charities[]" value="For the kids"> For the kids
+            </label>
+            <label>
+                <input type="checkbox" name="charities[]" value="Donald Fund"> Donald Fund
+            </label>
+            <label>
+                <input type="checkbox" name="charities[]" value="Wounded Soldiers"> Wounded Soldier
+            </label>
+        </div>
+        <div data-depends-on="charities[]" data-show-if-any="true">
+            <strong>THANKS!</strong>
+        </div>
+
         <input type="submit" class="submit btn" value="submit" />
     </form>
 </body>
