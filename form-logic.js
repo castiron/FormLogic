@@ -115,7 +115,7 @@
         child = _ref[_i];
         name = $(child).attr('name');
         if (name) {
-          dependents = $(child).find('[data-depends-on="' + name + '"]');
+          dependents = $('[data-depends-on="' + name + '"]');
           if (dependents.length > 0) {
             _results.push($(child).change());
           } else {
@@ -137,7 +137,7 @@
         child = _ref[_i];
         name = $(child).attr('name');
         if (name) {
-          _results.push($(child).find('[data-depends-on="' + name + '"]').hide());
+          _results.push($('[data-depends-on="' + name + '"]').hide());
         } else {
           _results.push(void 0);
         }

@@ -1,5 +1,8 @@
 class FormLogic
 
+
+
+
 class Child
 	constructor: (@$el) ->
 		@$el.hide()
@@ -63,7 +66,7 @@ class Child
 		for child in @$el.find('*')
 			name = $(child).attr('name')
 			if name
-				dependents = $(child).find('[data-depends-on="'+name+'"]')
+				dependents = $('[data-depends-on="'+name+'"]')
 				if dependents.length > 0
 					$(child).change()
 
@@ -72,7 +75,11 @@ class Child
 		for child in @$el.find('*')
 			name = $(child).attr('name')
 			if name
-				$(child).find('[data-depends-on="'+name+'"]').hide()
+				$('[data-depends-on="'+name+'"]').hide()
+
+
+
+
 
 class DataValidate
   constructor: (el, @options) ->
