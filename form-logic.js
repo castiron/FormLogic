@@ -245,8 +245,21 @@
     }
 
     DataValidate.prototype.validateRequired = function($input) {
-      if ($input.val() === '') {
+      var name, option, _i, _len, _ref;
+      if ($input.attr('type') === 'radio' || $input.attr('type') === 'checkbox') {
+        name = $input.attr('name');
+        _ref = $('[name="' + name + '"]');
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          option = _ref[_i];
+          if ($(option).is(':checked')) {
+            return;
+          }
+        }
         return this.showError($input, 'required');
+      } else {
+        if ($input.val() === '') {
+          return this.showError($input, 'required');
+        }
       }
     };
 

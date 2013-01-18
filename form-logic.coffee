@@ -141,7 +141,13 @@ class DataValidate
 		)
 
 	validateRequired: ($input) ->
-		@showError($input, 'required') if $input.val() == ''
+		if $input.attr('type') == 'radio' || $input.attr('type') == 'checkbox'
+			name = $input.attr('name')
+			for option in $('[name="'+name+'"]')
+				return if $(option).is(':checked')
+			@showError($input, 'required')
+		else
+			@showError($input, 'required') if $input.val() == ''
 
 	validateEmail: ($input) ->
 		return if $input.val() == ''
