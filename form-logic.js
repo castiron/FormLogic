@@ -188,7 +188,7 @@
           errorMessages = _ref2[_k];
           $(errorMessages).html('');
         }
-        inputs = _this.$el.find('input');
+        inputs = _this.$el.find('input, select, textarea');
         for (_l = 0, _len3 = inputs.length; _l < _len3; _l++) {
           input = inputs[_l];
           $input = $(input);

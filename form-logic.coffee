@@ -104,7 +104,7 @@ class DataValidate
         $(errorMessages).html('')
         
       # Sort through all the inputs
-      inputs = @$el.find('input')
+      inputs = @$el.find('input, select, textarea')
       for input in inputs
         $input = $(input)
         if $input.attr('type') == 'submit'
