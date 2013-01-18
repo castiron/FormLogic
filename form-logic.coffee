@@ -19,23 +19,18 @@ class Child
 			@setupShowIfAny()
 
 	setupShowIf: ->
-		val = @$el.data('show-if').split(';')
+		val = @$el.data('show-if').toString().split(';')
 		val = val.map (str) -> return str.trim()
 
 		my = @
 		for $parent in @parents
-			$parent.change(->
-				if my.parentType == 'checkbox'
+			$parent.change( ->
+				if my.parentType == 'checkbox' || my.parentType == 'radio'
 					for $p in my.parents
 						if $p.is(':checked') and val.indexOf($p.val()) != -1
 							my.show()
 							return
 					my.hide()
-				else if my.parentType == 'radio'
-					if $(@).is(':checked') and val.indexOf($(@).val()) != -1
-						my.show()
-					else
-						my.hide()
 				else
 					if val.indexOf($(@).val()) != -1
 						my.show()
@@ -68,6 +63,7 @@ class Child
 				)
 
 	show: ->
+		console.log 'showing'
 		@$el.show().data('ignore-validation', false)
 		for child in @$el.find('*')
 			name = $(child).attr('name')
@@ -77,6 +73,7 @@ class Child
 					$(child).change()
 
 	hide: ->
+		console.log 'hiding'
 		@$el.data('ignore-validation', true).hide()
 		for child in @$el.find('*')
 			name = $(child).attr('name')
