@@ -37,7 +37,7 @@
 
     Child.prototype.setupShowIf = function() {
       var $parent, my, val, _i, _len, _ref, _results;
-      val = this.$el.data('show-if').split(';');
+      val = this.$el.data('show-if').toString().split(';');
       val = val.map(function(str) {
         return str.trim();
       });
@@ -48,7 +48,8 @@
         $parent = _ref[_i];
         _results.push($parent.change(function() {
           var $p, _j, _len1, _ref1;
-          if (my.parentType === 'checkbox') {
+          console.log('changing ' + $(this).attr('name'));
+          if (my.parentType === 'checkbox' || my.parentType === 'radio') {
             _ref1 = my.parents;
             for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
               $p = _ref1[_j];
@@ -58,12 +59,6 @@
               }
             }
             return my.hide();
-          } else if (my.parentType === 'radio') {
-            if ($(this).is(':checked') && val.indexOf($(this).val()) !== -1) {
-              return my.show();
-            } else {
-              return my.hide();
-            }
           } else {
             if (val.indexOf($(this).val()) !== -1) {
               return my.show();
@@ -122,6 +117,7 @@
 
     Child.prototype.show = function() {
       var child, dependents, name, _i, _len, _ref, _results;
+      console.log('showing');
       this.$el.show().data('ignore-validation', false);
       _ref = this.$el.find('*');
       _results = [];
@@ -144,6 +140,7 @@
 
     Child.prototype.hide = function() {
       var child, name, _i, _len, _ref, _results;
+      console.log('hiding');
       this.$el.data('ignore-validation', true).hide();
       _ref = this.$el.find('*');
       _results = [];
