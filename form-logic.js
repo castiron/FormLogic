@@ -189,8 +189,7 @@
         for (_l = 0, _len3 = inputs.length; _l < _len3; _l++) {
           input = inputs[_l];
           $input = $(input);
-          if ($input.attr('type') === 'submit') {
-            _this.$submit = $input;
+          if ($input.is(':hidden') || $input.is(':submit')) {
             continue;
           }
           if ($input.hasClass('has-hint')) {

@@ -99,9 +99,7 @@ class DataValidate
 			inputs = @$el.find('input, select, textarea')
 			for input in inputs
 				$input = $(input)
-				if $input.attr('type') == 'submit'
-					@$submit = $input
-					continue
+				continue if $input.is(':hidden') or $input.is(':submit')
 
 				$input.val('') if $input.hasClass('has-hint')
 				continue if $input.data('ignore-validation')
