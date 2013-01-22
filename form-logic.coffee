@@ -87,7 +87,7 @@ class DataValidate
 		$('[data-flash-errors]').hide()
 
 		@$submit.click(=>
-
+			@reset()
 			# Hide existing errors
 			for errorInputs in @$el.find('.hasError')
 				$(errorInputs).removeClass('.hasError')

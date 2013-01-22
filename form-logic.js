@@ -173,6 +173,7 @@
       $('[data-flash-errors]').hide();
       this.$submit.click(function() {
         var $input, errorInputs, errorMessages, inputs, vString, validator, validators, _j, _k, _l, _len1, _len2, _len3, _len4, _len5, _m, _n, _ref1, _ref2, _ref3;
+        _this.reset();
         _ref1 = _this.$el.find('.hasError');
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           errorInputs = _ref1[_j];
