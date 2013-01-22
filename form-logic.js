@@ -116,7 +116,6 @@
 
     Child.prototype.show = function() {
       var child, dependents, name, _i, _len, _ref, _results;
-      console.log('showing');
       this.$el.show().data('ignore-validation', false);
       _ref = this.$el.find('*');
       _results = [];
@@ -139,7 +138,6 @@
 
     Child.prototype.hide = function() {
       var child, name, _i, _len, _ref, _results;
-      console.log('hiding');
       this.$el.data('ignore-validation', true).hide();
       _ref = this.$el.find('*');
       _results = [];

@@ -63,7 +63,6 @@ class Child
 				)
 
 	show: ->
-		console.log 'showing'
 		@$el.show().data('ignore-validation', false)
 		for child in @$el.find('*')
 			name = $(child).attr('name')
@@ -73,7 +72,6 @@ class Child
 					$(child).change()
 
 	hide: ->
-		console.log 'hiding'
 		@$el.data('ignore-validation', true).hide()
 		for child in @$el.find('*')
 			name = $(child).attr('name')
