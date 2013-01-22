@@ -125,6 +125,11 @@ All error messages are displayed in the next `<div class="error"></div>` element
 you want the message to go, then you can set `data-error-target` with a CSS selector of where you want
 the message to be displayed.
 
+### `data-flash-errors`
+
+Any element with this data attribute will be shown when an invalid form was submitted. This is for showing
+text like, "Please correct the errors below." No value is needed for the attribute: `data-flash-errors="true"`.
+
 #### `data-depends-on`
 
 Use this attribute to show that one field is dependent on another field. Use the `name` attribute of the
