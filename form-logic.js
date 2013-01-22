@@ -321,7 +321,7 @@
     };
 
     DataValidate.prototype.showError = function($input, type) {
-      var $error, $next, errorTarget, focusHandler, msg, my;
+      var $error, $next, errorTarget, msg;
       this.isValid(false);
       $input.addClass('has-error');
       errorTarget = $input.data('error-target');
@@ -337,21 +337,11 @@
         msg = $input.data('message-' + type);
         if (typeof msg === 'undefined') {
           msg = $input.data('message');
-          $error.html('<div class="error-msg">' + msg + '</div>');
+          return $error.html('<div class="error-msg">' + msg + '</div>');
         } else {
-          $error.append('<div class="error-msg">' + msg + '</div>');
+          return $error.append('<div class="error-msg">' + msg + '</div>');
         }
       }
-      my = this;
-      focusHandler = function() {
-        $(this).removeClass('has-error');
-        if (typeof $error !== 'undefined') {
-          $error.html('');
-        }
-        $(this).unbind('focus', focusHandler);
-        return my.reset();
-      };
-      return $input.focus(focusHandler);
     };
 
     DataValidate.prototype.addHint = function($input) {

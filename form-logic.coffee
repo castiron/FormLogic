@@ -197,16 +197,6 @@ class DataValidate
 			else
 				# append specific messages
 				$error.append('<div class="error-msg">' + msg + '</div>')
-		my = @
-
-		focusHandler = ->
-			$(@).removeClass('has-error')
-			if typeof $error != 'undefined'
-				$error.html('')
-			$(@).unbind('focus', focusHandler)
-			my.reset()
-
-		$input.focus(focusHandler)
 
 	addHint: ($input) ->
 		return if $input.val() != ''
