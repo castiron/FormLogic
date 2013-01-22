@@ -84,6 +84,7 @@ class DataValidate
 		@$el = $(el)
 		@$submit = @$el.find('input[type="submit"]')
 		@addHint($(input)) for input in @$el.find('input')
+		$('[data-flash-errors]').hide()
 
 		@$submit.click(=>
 
@@ -92,6 +93,7 @@ class DataValidate
 				$(errorInputs).removeClass('.hasError')
 			for errorMessages in @$el.find('.error')
 				$(errorMessages).html('')
+			$('[data-flash-errors]').hide()
 
 			# Sort through all the inputs
 			inputs = @$el.find('input, select, textarea')
@@ -130,6 +132,7 @@ class DataValidate
 			if @isValid() and FormLogic.onValidSubmit?
 				return FormLogic.onValidSubmit()
 			else if !@isValid()
+				$('[data-flash-errors]').show()
 				@addHint($(input)) for input in @$el.find('input')
 				return false
 			return true

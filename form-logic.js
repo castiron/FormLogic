@@ -170,6 +170,7 @@
         input = _ref[_i];
         this.addHint($(input));
       }
+      $('[data-flash-errors]').hide();
       this.$submit.click(function() {
         var $input, errorInputs, errorMessages, inputs, vString, validator, validators, _j, _k, _l, _len1, _len2, _len3, _len4, _len5, _m, _n, _ref1, _ref2, _ref3;
         _ref1 = _this.$el.find('.hasError');
@@ -182,6 +183,7 @@
           errorMessages = _ref2[_k];
           $(errorMessages).html('');
         }
+        $('[data-flash-errors]').hide();
         inputs = _this.$el.find('input, select, textarea');
         for (_l = 0, _len3 = inputs.length; _l < _len3; _l++) {
           input = inputs[_l];
@@ -227,6 +229,7 @@
         if (_this.isValid() && (FormLogic.onValidSubmit != null)) {
           return FormLogic.onValidSubmit();
         } else if (!_this.isValid()) {
+          $('[data-flash-errors]').show();
           _ref3 = _this.$el.find('input');
           for (_n = 0, _len5 = _ref3.length; _n < _len5; _n++) {
             input = _ref3[_n];
