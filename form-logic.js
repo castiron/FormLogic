@@ -28,9 +28,9 @@
         }
         this.parents.push($(x));
       }
-      if (this.$el.data('show-if')) {
+      if (this.$el.data('show-if') !== '') {
         this.setupShowIf();
-      } else if (this.$el.data('show-if-any')) {
+      } else if (this.$el.data('show-if-any') !== '') {
         this.setupShowIfAny();
       }
     }
