@@ -38,8 +38,8 @@
     Child.prototype.setupShowIf = function() {
       var $parent, my, val, _i, _len, _ref, _results;
       val = this.$el.data('show-if').toString().split(';');
-      val = val.map(function(str) {
-        return str.trim();
+      val = $.map(val, function(str) {
+        return $.trim(str);
       });
       my = this;
       _ref = this.parents;

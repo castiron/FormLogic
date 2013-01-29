@@ -20,7 +20,7 @@ class Child
 
 	setupShowIf: ->
 		val = @$el.data('show-if').toString().split(';')
-		val = val.map (str) -> return str.trim()
+		val = $.map val, (str) -> return $.trim str
 
 		my = @
 		for $parent in @parents
