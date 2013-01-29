@@ -56,14 +56,14 @@
             _ref1 = my.parents;
             for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
               $p = _ref1[_j];
-              if ($p.is(':checked') && !$.inArray($p.val(), val)) {
+              if ($p.is(':checked') && $.inArray($p.val(), val) !== -1) {
                 my.show();
                 return;
               }
             }
             return my.hide();
           } else {
-            if (!$.inArray($(this).val(), val)) {
+            if ($.inArray($(this).val(), val) !== -1) {
               return my.show();
             } else {
               return my.hide();

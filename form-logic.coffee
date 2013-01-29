@@ -29,12 +29,12 @@ class Child
 			$parent.change( ->
 				if my.parentType == 'checkbox' || my.parentType == 'radio'
 					for $p in my.parents
-						if $p.is(':checked') and !$.inArray($p.val(), val)
+						if $p.is(':checked') and $.inArray($p.val(), val) != -1
 							my.show()
 							return
 					my.hide()
 				else
-					unless $.inArray($(@).val(), val)
+					if $.inArray($(@).val(), val) != -1
 						my.show()
 					else
 						my.hide()
