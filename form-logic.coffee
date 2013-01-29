@@ -19,7 +19,9 @@ class Child
 			@setupShowIfAny()
 
 	setupShowIf: ->
-		val = @$el.data('show-if').toString().split(';')
+		val = @$el.data('show-if')
+		return unless val
+		val = val.toString().split(';')
 		val = $.map val, (str) -> return $.trim str
 
 		my = @
@@ -27,12 +29,12 @@ class Child
 			$parent.change( ->
 				if my.parentType == 'checkbox' || my.parentType == 'radio'
 					for $p in my.parents
-						if $p.is(':checked') and val.indexOf($p.val()) != -1
+						if $p.is(':checked') and !$.inArray($p.val(), val)
 							my.show()
 							return
 					my.hide()
 				else
-					if val.indexOf($(@).val()) != -1
+					unless $.inArray($(@).val(), val)
 						my.show()
 					else
 						my.hide()

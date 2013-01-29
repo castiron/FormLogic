@@ -37,7 +37,11 @@
 
     Child.prototype.setupShowIf = function() {
       var $parent, my, val, _i, _len, _ref, _results;
-      val = this.$el.data('show-if').toString().split(';');
+      val = this.$el.data('show-if');
+      if (!val) {
+        return;
+      }
+      val = val.toString().split(';');
       val = $.map(val, function(str) {
         return $.trim(str);
       });
@@ -52,14 +56,14 @@
             _ref1 = my.parents;
             for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
               $p = _ref1[_j];
-              if ($p.is(':checked') && val.indexOf($p.val()) !== -1) {
+              if ($p.is(':checked') && !$.inArray($p.val(), val)) {
                 my.show();
                 return;
               }
             }
             return my.hide();
           } else {
-            if (val.indexOf($(this).val()) !== -1) {
+            if (!$.inArray($(this).val(), val)) {
               return my.show();
             } else {
               return my.hide();
