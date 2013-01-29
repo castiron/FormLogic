@@ -13,9 +13,9 @@ class Child
 				@parentType = 'radio'
 			@parents.push $(x)
 
-		if @$el.data('show-if')
+		if @$el.data('show-if') != ''
 			@setupShowIf()
-		else if @$el.data('show-if-any')
+		else if @$el.data('show-if-any') != ''
 			@setupShowIfAny()
 
 	setupShowIf: ->
