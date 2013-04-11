@@ -208,12 +208,17 @@ class DataValidate
 	showError: ($input, type) ->
 		@isValid(false)
 		$input.addClass('has-error')
+
 		errorTarget = $input.data('error-target')
 		if typeof errorTarget != 'undefined'
 			$error = @$el.find(errorTarget)
 		else
 			$next = $input.next()
 			$error = $next if typeof $next != 'undefined' and $next.hasClass('error')
+
+		if !$error.length
+			$error = $input.siblings('.error').first()
+
 		# Only show the error if we found a place to show them
 		if typeof $error != 'undefined'
 			msg = $input.data('message-' + type)

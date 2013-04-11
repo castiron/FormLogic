@@ -409,6 +409,9 @@
           $error = $next;
         }
       }
+      if (!$error.length) {
+        $error = $input.siblings('.error').first();
+      }
       if (typeof $error !== 'undefined') {
         msg = $input.data('message-' + type);
         if (typeof msg === 'undefined') {
