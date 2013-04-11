@@ -1,4 +1,6 @@
-class FormLogic
+# A global object (currently blank) for handling
+# callbacks and configurations
+class @FormLogic
 
 
 class Child
