@@ -180,6 +180,10 @@
         this.addHint($(input));
       }
       $('[data-flash-errors]').hide();
+      this.stripeKey = this.$el.data('stripe-key');
+      if (this.stripeKey) {
+        Stripe.setPublishableKey(this.stripeKey);
+      }
       this.$submit.click(function() {
         var $input, errorInputs, errorMessages, inputs, vString, validator, validators, _j, _k, _l, _len1, _len2, _len3, _len4, _len5, _m, _n, _ref1, _ref2, _ref3;
 
@@ -233,6 +237,15 @@
                 break;
               case 'confirm':
                 _this.validateConfirm($input);
+                break;
+              case 'stripe-number':
+                _this.validateStripeNumber($input);
+                break;
+              case 'stripe-cvc':
+                _this.validateStripeCVC($input);
+                break;
+              case 'stripe-expiry':
+                _this.validateStripeExpiry($input);
             }
           }
         }
@@ -333,6 +346,52 @@
       confirm = $(confirmTarget).val();
       if (password !== confirm) {
         return this.showError($input, 'confirm');
+      }
+    };
+
+    DataValidate.prototype.validateStripeNumber = function($input) {
+      var val;
+
+      val = $input.val();
+      if (val === '' || !this.stripeKey) {
+        return;
+      }
+      if (!Stripe.validateCardNumber(val)) {
+        return this.showError($input, 'stripe-number');
+      }
+    };
+
+    DataValidate.prototype.validateStripeCVC = function($input) {
+      var val;
+
+      val = $input.val();
+      if (val === '' || !this.stripeKey) {
+        return;
+      }
+      if (!Stripe.validateCVC(val)) {
+        return this.showError($input, 'stripe-cvc');
+      }
+    };
+
+    DataValidate.prototype.validateStripeExpiry = function($input) {
+      var $month, $year;
+
+      $month = this.$el.find($input.data('expiry-month-target'));
+      $year = this.$el.find($input.data('expiry-year-target'));
+      if ($month.length === 0 || $year.length === 0) {
+        return;
+      }
+      if ($month.hasClass('has-hint')) {
+        $month.val('');
+      }
+      if ($year.hasClass('has-hint')) {
+        $year.val('');
+      }
+      if ($month.val() === '' || $year.val() === '') {
+        return;
+      }
+      if (!Stripe.validateExpiry($month.val(), $year.val())) {
+        return this.showError($input, 'stripe-expiry');
       }
     };
 

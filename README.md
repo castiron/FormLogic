@@ -70,6 +70,11 @@ The current set of validators are:
 * `number` - The value must be an integer or float.
 * `confirm` - The value must match the value of the element specified by `data-confirm-target`
 
+Stripe validators (see below for details):
+* `stripe-number` - Credit card validation
+* `stripe-cvc` - Credit card security code validation
+* `stripe-expiry` - Credit card expiration validation
+
 At some point, custom validators will also be accepted.
 
 #### `data-message`
@@ -145,6 +150,52 @@ only be shown when user selects the YMCA charity. This can take multiple values 
 
 Used with `data-depends-on`, this attribute shows this field whenever anything is selected or added
 to the field on which this depends.
+
+### Integrating with Stripe
+
+Stripe, an online credit card processor, has convenience methods for validating credit card info that allow you to accept a wider range of credit card numbers (i.e. `4444 4444 4444 4444` and `4444-4444-4444-4444` are both acceptable for generating Stripe tokens.
+
+To use these methods you must include the 	`Stripe.js` source: 
+
+    <script src="https://js.stripe.com/v1/"></script>
+
+And you **must** include your publishable Stripe API key on the form with the `data-stripe-key` attribute.
+
+#### `data-stripe-key`
+
+This is a required attribute for forms that are leveraging the `Stripe.js` source to generate a Stripe credit card token. It must be placed on the `<form>` element with the public Stripe API key.
+
+#### `data-expiry-month-target`
+
+Required for `stripe-expiry` validator. Takes a css selector that points to the expiration month input element.
+
+#### `data-expiry-year-target`
+
+Required for `stripe-expiry` validator. Takes a css selector that points to the expiration year input element.
+
+#### Stripe Validators
+
+#### `stripe-number`
+#### `stripe-cvc`
+
+These validators follow the same patterns as other validation methods. And like other attributes, you can still use `data-message` to display the errors or be more specific with `data-message-stripe-number` or `data-message-stripe-cvc`. 
+
+### `stripe-expiry`
+
+This validator is a little more complex because it involves more than one input element. Any element with this validator must provide two attributes: `data-expiry-month-target` and `data-expiry-year-target`. These attributes respectively take a css selector (i.e. `.exp-month` or `#exp-month`) that points to the appropriate input element. You can add this validator to either the month input or the year input, it doesn't matter; probably not both. It may be useful to use the `data-error-target` element for displaying the errors from the two elements in the one spot. Each target can still have other validators, like 	`required` if you want.
+
+    <label>Expiration:</label>
+    <input type="text" class="exp-month" data-hint="MM"
+           data-validate="required stripe-expiry"
+           data-expiry-month-target=".exp-month"
+           data-expiry-year-target=".exp-year"
+           data-error-target="#expiration-error"
+           data-message-required="Please provide a month."
+           data-message-stripe-expiry="Please provide a <em>valid</em> month in the future."/>
+    <input type="text" class="exp-year" data-hint="YYYY"
+           data-validate="required"
+           data-message-required="Please provide a year." />
+    <div id="expiration-error" class="error"></div>
 
 ### TODO
 

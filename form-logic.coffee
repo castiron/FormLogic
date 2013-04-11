@@ -87,6 +87,9 @@ class DataValidate
 		@$submit = @$el.find('input[type="submit"]')
 		@addHint($(input)) for input in @$el.find('input')
 		$('[data-flash-errors]').hide()
+		@stripeKey = @$el.data('stripe-key')
+		if @stripeKey
+			Stripe.setPublishableKey(@stripeKey)
 
 		@$submit.click(=>
 			@reset()
@@ -127,6 +130,12 @@ class DataValidate
 							@validateNumber($input)
 						when 'confirm'
 							@validateConfirm($input)
+						when 'stripe-number'
+							@validateStripeNumber($input)
+						when 'stripe-cvc'
+							@validateStripeCVC($input)
+						when 'stripe-expiry'
+							@validateStripeExpiry($input)
 
 			# Call a user defined function if it exists
 			if @isValid() and FormLogic.onValidSubmit?
@@ -177,6 +186,24 @@ class DataValidate
 		confirm = $(confirmTarget).val()
 		@showError($input, 'confirm') if password != confirm
 
+	validateStripeNumber: ($input) ->
+		val = $input.val()
+		return if val == '' || !@stripeKey
+		@showError($input, 'stripe-number') if !Stripe.validateCardNumber(val)
+
+	validateStripeCVC: ($input) ->
+		val = $input.val()
+		return if val == '' || !@stripeKey
+		@showError($input, 'stripe-cvc') if !Stripe.validateCVC(val)
+
+	validateStripeExpiry: ($input) ->
+		$month = @$el.find($input.data('expiry-month-target'))
+		$year = @$el.find($input.data('expiry-year-target'))
+		return if $month.length == 0 || $year.length == 0
+		$month.val('') if $month.hasClass('has-hint')
+		$year.val('') if $year.hasClass('has-hint')
+		return if $month.val() == '' || $year.val() == ''
+		@showError($input, 'stripe-expiry') if !Stripe.validateExpiry($month.val(), $year.val())
 
 	showError: ($input, type) ->
 		@isValid(false)
