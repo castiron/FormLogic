@@ -213,11 +213,7 @@ class DataValidate
 		if typeof errorTarget != 'undefined'
 			$error = @$el.find(errorTarget)
 		else
-			$next = $input.next()
-			$error = $next if typeof $next != 'undefined' and $next.hasClass('error')
-
-		if !$error.length
-			$error = $input.siblings('.error').first()
+			$error = $('<div class="error"></div>')
 
 		# Only show the error if we found a place to show them
 		if typeof $error != 'undefined'
@@ -229,6 +225,9 @@ class DataValidate
 			else
 				# append specific messages
 				$error.append('<div class="error-msg">' + msg + '</div>')
+
+		if typeof errorTarget == 'undefined'
+			$input.after($error)
 
 	addHint: ($input) ->
 		return if $input.val() != ''

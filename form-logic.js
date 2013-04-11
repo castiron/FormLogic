@@ -396,7 +396,7 @@
     };
 
     DataValidate.prototype.showError = function($input, type) {
-      var $error, $next, errorTarget, msg;
+      var $error, errorTarget, msg;
 
       this.isValid(false);
       $input.addClass('has-error');
@@ -404,22 +404,19 @@
       if (typeof errorTarget !== 'undefined') {
         $error = this.$el.find(errorTarget);
       } else {
-        $next = $input.next();
-        if (typeof $next !== 'undefined' && $next.hasClass('error')) {
-          $error = $next;
-        }
-      }
-      if (!$error.length) {
-        $error = $input.siblings('.error').first();
+        $error = $('<div class="error"></div>');
       }
       if (typeof $error !== 'undefined') {
         msg = $input.data('message-' + type);
         if (typeof msg === 'undefined') {
           msg = $input.data('message');
-          return $error.html('<div class="error-msg">' + msg + '</div>');
+          $error.html('<div class="error-msg">' + msg + '</div>');
         } else {
-          return $error.append('<div class="error-msg">' + msg + '</div>');
+          $error.append('<div class="error-msg">' + msg + '</div>');
         }
+      }
+      if (typeof errorTarget === 'undefined') {
+        return $input.after($error);
       }
     };
 

@@ -18,7 +18,6 @@ FormLogic depends on jQuery because I'm lazy and you should be too.
             <!-- VALIDATION -->
             <label>Name:</label>
             <input name="name" type="text" data-validate="required" data-message="Please provide a name." />
-            <div class="error"></div>
 
             <!-- DYNAMIC FIELDS -->
             <div data-depends-on="name" data-show-if="Samantha">
@@ -32,7 +31,7 @@ FormLogic depends on jQuery because I'm lazy and you should be too.
 
 This, `data-validate="required"`, will validate the input element to make sure that the user
 enters something. If the user doesn't enter anything, then the value of `data-message` is
-supplied in `<div class="error"></div>`. All validations happen when the user submits the form.
+shown as an error message after the input element. All validations happen when the user submits the form.
 
 The `data-depends-on` attribute hides this element until the user types 'Samantha' into the field
 with the name `name`.
@@ -126,7 +125,7 @@ element will have the class `has-hint`.
 
 #### `data-error-target`
 
-All error messages are displayed in the next `<div class="error"></div>` element. If that isn't where
+All error messages are added after the input element in a `<div class="error"></div>` element. If that isn't where
 you want the message to go, then you can set `data-error-target` with a CSS selector of where you want
 the message to be displayed.
 
