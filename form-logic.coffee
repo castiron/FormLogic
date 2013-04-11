@@ -229,7 +229,7 @@ class DataValidate
 
 $ ->
 	$('form').each(->
-		if $(@).find('[data-validate]')
+		if $(@).find('[data-validate]').length
 			new DataValidate($(@))
 	)
 
