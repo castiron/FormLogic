@@ -175,10 +175,9 @@ Required for `stripe-expiry` validator. Takes a css selector that points to the 
 
 #### Stripe Validators
 
-#### `stripe-number`
-#### `stripe-cvc`
+#### `stripe-number`, `stripe-cvc`
 
-These validators follow the same patterns as other validation methods. And like other attributes, you can still use `data-message` to display the errors or be more specific with `data-message-stripe-number` or `data-message-stripe-cvc`. 
+Stripe validators follow the same patterns as other validation methods. And like other attributes, you can still use `data-message` to display the errors or be more specific with `data-message-stripe-number` or `data-message-stripe-cvc`. 
 
 ### `stripe-expiry`
 
