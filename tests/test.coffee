@@ -5,13 +5,13 @@ describe 'FormLogic', ->
   $form = $('#signupForm')
   errorClass = 'has-error'
 
-  afterEach ->
-    $('#signupForm')
-      .find('input, select, textarea')
-      .not('input[type="submit"]')
-      .val('')
-      .removeClass('has-error')
-    $('.error').remove()
+  # afterEach ->
+  #   $('#signupForm')
+  #     .find('input, select, textarea')
+  #     .not('input[type="submit"]')
+  #     .val('')
+  #     .removeClass('has-error')
+  #   $('.error').remove()
 
   describe 'constructor', ->
     it 'exists in the global scope', ->
@@ -19,7 +19,13 @@ describe 'FormLogic', ->
       expect(fl).to.exist
 
   describe 'validators', ->
-    it 'validates a required value'
+    it 'validates a required value', ->
+      $form.submit()
+      $input = $('#email')
+      setTimeout ->
+        console.log $input.hasClass(errorClass)
+        expect($input.hasClass(errorClass)).to.be.true
+      , 50
     it 'validates email format'
     it 'validates a phone number'
     it 'validates a minimum number'
@@ -38,12 +44,7 @@ describe 'FormLogic', ->
   describe 'API', ->
     it 'allows for creating custom validators' 
     it 'allows custom validators to override existing/default validators'
+    it 'calls onValidSubmit callback'
 
 
   # describe 'validators', ->
-  #   it 'validates a required value', ->
-  #     $('#signupForm input[type="submit"]').click()
-  #     setTimeout ->
-  #       console.log $input.hasClass(errorClass)
-  #       expect($input.hasClass(errorClass)).to.be.true
-  #     , 50

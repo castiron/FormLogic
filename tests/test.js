@@ -8,10 +8,6 @@
     var $form, errorClass;
     $form = $('#signupForm');
     errorClass = 'has-error';
-    afterEach(function() {
-      $('#signupForm').find('input, select, textarea').not('input[type="submit"]').val('').removeClass('has-error');
-      return $('.error').remove();
-    });
     describe('constructor', function() {
       return it('exists in the global scope', function() {
         var fl;
@@ -20,7 +16,15 @@
       });
     });
     describe('validators', function() {
-      it('validates a required value');
+      it('validates a required value', function() {
+        var $input;
+        $form.submit();
+        $input = $('#email');
+        return setTimeout(function() {
+          console.log($input.hasClass(errorClass));
+          return expect($input.hasClass(errorClass)).to.be["true"];
+        }, 50);
+      });
       it('validates email format');
       it('validates a phone number');
       it('validates a minimum number');
@@ -38,7 +42,8 @@
     });
     return describe('API', function() {
       it('allows for creating custom validators');
-      return it('allows custom validators to override existing/default validators');
+      it('allows custom validators to override existing/default validators');
+      return it('calls onValidSubmit callback');
     });
   });
 
