@@ -16,13 +16,13 @@
       });
     });
     describe('validators', function() {
-      it('validates a required value', function() {
+      it('validates a required value', function(done) {
         var $input;
         $form.submit();
         $input = $('#email');
         return setTimeout(function() {
-          console.log($input.hasClass(errorClass));
-          return expect($input.hasClass(errorClass)).to.be["true"];
+          expect($input.hasClass(errorClass)).to.be["true"];
+          return done();
         }, 50);
       });
       it('validates email format');

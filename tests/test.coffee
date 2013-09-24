@@ -11,11 +11,12 @@ describe 'FormLogic', ->
       expect(fl).to.exist
 
   describe 'validators', ->
-    it 'validates a required value', ->
+    it 'validates a required value', (done) ->
       $form.submit()
       $input = $('#email')
       setTimeout ->
         expect($input.hasClass(errorClass)).to.be.true
+        done()
       , 50
     it 'validates email format'
     it 'validates a phone number'
