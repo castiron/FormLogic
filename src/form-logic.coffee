@@ -7,6 +7,7 @@ class @FormLogic
 		@setupHandlers()
 
 
+	# Adds a validator to FormLogic
 	validator: (name, func) ->
 		if !func || typeof(func) != 'function'
 			throw 'The second argument you passed to FormLogic.validator() was not a function'
@@ -14,32 +15,52 @@ class @FormLogic
 		@validators[name] = func
 
 
+	# Calls validators on blur and on form submit
 	setupHandlers: ->
-		for input in $('[data-validate')
-			$(input).blur @runValidators
-			$(input).focus @clearErrors
+		my = @
+		for form in $('form')
+			$form = $(form)
+			for input in $form.find('[data-validate]')
+				$input = $(input)
+				$input.blur  -> @runValidators($input)
+				$input.focus -> @clearErrors($input)
 
+			$form.submit ->
+				hasError = false
+				$form = $(@)
+				for input in $form.find('[data-validate]')
+					unless my.runValidators($(input))
+						hasError = true
 
-	runValidators: (e) ->
-		$input = $(@)
-		return if ($input.is(':hidden') or $input.is(':submit')) and !$input.data('force-validation')
+				return !hasError
+
+	# Evaluates the input according to the validators specified by data-validate
+	runValidators: ($input)->
+		hasError = false
+		return hasError if ($input.is(':hidden') or $input.is(':submit')) and !$input.data('force-validation')
 
 		vString = $input.data('validate')
-		return if typeof vString != 'string'
+		return hasError if typeof vString != 'string'
 		vNames = vString.split(' ')
 
 		for name in vNames
 			continue unless @validators[name]
-			unless @validators.name $input
+			unless @validators[name]($input)
 				@showError $input, name
+				hasError = true
 
+		return !hasError
 
-	clearErrors: (e) ->
-
+	# Removes errors for the given input field
+	clearErrors: ($input) ->
+		return if ($input.is(':hidden') or $input.is(':submit')) and !$input.data('force-validation')
+		# TODO
 
 	showError: ($input, name) ->
+		# TODO
 
 
+	# Establishes a list of default validators
 	buildDefaultValidators: ->
 		@validator 'required', ($input)->
 			console.log 'validating required'
@@ -47,9 +68,9 @@ class @FormLogic
 				name = $input.attr('name')
 				for option in $('[name="'+name+'"]')
 					return if $(option).is(':checked')
-				showError($input, 'required')
+				return false
 			else
-				showError($input, 'required') if $input.val() == ''
+				return false if $input.val() == ''
 
 
 

@@ -18,44 +18,70 @@
     };
 
     FormLogic.prototype.setupHandlers = function() {
-      var input, _i, _len, _ref, _results;
-      _ref = $('[data-validate');
+      var $form, $input, form, input, my, _i, _j, _len, _len1, _ref, _ref1, _results;
+      my = this;
+      _ref = $('form');
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        input = _ref[_i];
-        $(input).blur(this.runValidators);
-        _results.push($(input).focus(this.clearErrors));
+        form = _ref[_i];
+        $form = $(form);
+        _ref1 = $form.find('[data-validate]');
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          input = _ref1[_j];
+          $input = $(input);
+          $input.blur(function() {
+            return this.runValidators($input);
+          });
+          $input.focus(function() {
+            return this.clearErrors($input);
+          });
+        }
+        _results.push($form.submit(function() {
+          var hasError, _k, _len2, _ref2;
+          hasError = false;
+          $form = $(this);
+          _ref2 = $form.find('[data-validate]');
+          for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+            input = _ref2[_k];
+            if (!my.runValidators($(input))) {
+              hasError = true;
+            }
+          }
+          return !hasError;
+        }));
       }
       return _results;
     };
 
-    FormLogic.prototype.runValidators = function(e) {
-      var $input, name, vNames, vString, _i, _len, _results;
-      $input = $(this);
+    FormLogic.prototype.runValidators = function($input) {
+      var hasError, name, vNames, vString, _i, _len;
+      hasError = false;
       if (($input.is(':hidden') || $input.is(':submit')) && !$input.data('force-validation')) {
-        return;
+        return hasError;
       }
       vString = $input.data('validate');
       if (typeof vString !== 'string') {
-        return;
+        return hasError;
       }
       vNames = vString.split(' ');
-      _results = [];
       for (_i = 0, _len = vNames.length; _i < _len; _i++) {
         name = vNames[_i];
         if (!this.validators[name]) {
           continue;
         }
-        if (!this.validators.name($input)) {
-          _results.push(this.showError($input, name));
-        } else {
-          _results.push(void 0);
+        if (!this.validators[name]($input)) {
+          this.showError($input, name);
+          hasError = true;
         }
       }
-      return _results;
+      return !hasError;
     };
 
-    FormLogic.prototype.clearErrors = function(e) {};
+    FormLogic.prototype.clearErrors = function($input) {
+      if (($input.is(':hidden') || $input.is(':submit')) && !$input.data('force-validation')) {
+
+      }
+    };
 
     FormLogic.prototype.showError = function($input, name) {};
 
@@ -72,10 +98,10 @@
               return;
             }
           }
-          return showError($input, 'required');
+          return false;
         } else {
           if ($input.val() === '') {
-            return showError($input, 'required');
+            return false;
           }
         }
       });
