@@ -35,7 +35,7 @@ describe 'FormLogic', ->
     it 'creates a default div after the input element when no options are specified'
     it 'opts for the data-error-target if specified'
 
-  describe 'API' ->
+  describe 'API', ->
     it 'allows for creating custom validators' 
     it 'allows custom validators to override existing/default validators'
 

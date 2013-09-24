@@ -32,9 +32,13 @@
       it('does not validate hidden input elements');
       return it('validates hidden elements if given the data-force-validation option');
     });
-    return describe('errors', function() {
+    describe('errors', function() {
       it('creates a default div after the input element when no options are specified');
       return it('opts for the data-error-target if specified');
+    });
+    return describe('API', function() {
+      it('allows for creating custom validators');
+      return it('allows custom validators to override existing/default validators');
     });
   });
 
