@@ -9,9 +9,22 @@ module.exports = (grunt) ->
       build:
         src: '<%= pkg.name %>.js'
         dest: '<%= pkg.name %>.min.js'
+    coffee: 
+      compile: 
+        files: 
+          'src/*.js': ['src/*.coffee']
+          'tests/*.js': ['tests/*.coffee']
+    watch:
+      coffee:
+        files: ['src/*.coffee', 'tests/*.coffee']
+        tasks: ['coffee']
+      
+  
 
-  # Load the plugin that provides the "uglify" task
+
   grunt.loadNpmTasks 'grunt-contrib-uglify'
+  grunt.loadNpmTasks 'grunt-contrib-coffee'
+  grunt.loadNpmTasks 'grunt-contrib-watch'
 
   # Default task
   grunt.registerTask 'default', ['uglify']
