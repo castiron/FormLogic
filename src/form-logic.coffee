@@ -4,6 +4,7 @@ class @FormLogic
 
 		@buildDefaultValidators()
 		@setupHandlers()
+		@errorClass = 'has-error'
 
 
 	# Adds a validator to FormLogic
@@ -53,9 +54,11 @@ class @FormLogic
 	# Removes errors for the given input field
 	clearErrors: ($input) ->
 		return if ($input.is(':hidden') or $input.is(':submit')) and !$input.data('force-validation')
+		$input.removeClass(@errorClass)
 		# TODO
 
 	showError: ($input, name) ->
+		$input.addClass(@errorClass)
 		# TODO
 
 

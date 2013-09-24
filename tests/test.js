@@ -16,14 +16,11 @@
       });
     });
     describe('validators', function() {
-      it('validates a required value', function(done) {
+      it('validates a required value', function() {
         var $input;
-        $form.submit();
         $input = $('#email');
-        return setTimeout(function() {
-          expect($input.hasClass(errorClass)).to.be["true"];
-          return done();
-        }, 50);
+        $form.submit();
+        return expect($input.hasClass(errorClass)).to.be["true"];
       });
       it('validates email format');
       it('validates a phone number');

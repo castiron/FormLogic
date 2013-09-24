@@ -7,6 +7,7 @@
       this.validators = {};
       this.buildDefaultValidators();
       this.setupHandlers();
+      this.errorClass = 'has-error';
     }
 
     FormLogic.prototype.validator = function(name, func) {
@@ -78,11 +79,14 @@
 
     FormLogic.prototype.clearErrors = function($input) {
       if (($input.is(':hidden') || $input.is(':submit')) && !$input.data('force-validation')) {
-
+        return;
       }
+      return $input.removeClass(this.errorClass);
     };
 
-    FormLogic.prototype.showError = function($input, name) {};
+    FormLogic.prototype.showError = function($input, name) {
+      return $input.addClass(this.errorClass);
+    };
 
     FormLogic.prototype.buildDefaultValidators = function() {
       return this.validator('required', function($input) {
