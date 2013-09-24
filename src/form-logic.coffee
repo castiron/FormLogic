@@ -1,6 +1,5 @@
 class @FormLogic
 	constructor: ->
-		console.log 'yo'
 		@validators = {}
 
 		@buildDefaultValidators()
@@ -63,7 +62,6 @@ class @FormLogic
 	# Establishes a list of default validators
 	buildDefaultValidators: ->
 		@validator 'required', ($input)->
-			console.log 'validating required'
 			if $input.attr('type') == 'radio' || $input.attr('type') == 'checkbox'
 				name = $input.attr('name')
 				for option in $('[name="'+name+'"]')

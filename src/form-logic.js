@@ -4,7 +4,6 @@
 
   this.FormLogic = (function() {
     function FormLogic() {
-      console.log('yo');
       this.validators = {};
       this.buildDefaultValidators();
       this.setupHandlers();
@@ -88,7 +87,6 @@
     FormLogic.prototype.buildDefaultValidators = function() {
       return this.validator('required', function($input) {
         var name, option, _i, _len, _ref;
-        console.log('validating required');
         if ($input.attr('type') === 'radio' || $input.attr('type') === 'checkbox') {
           name = $input.attr('name');
           _ref = $('[name="' + name + '"]');

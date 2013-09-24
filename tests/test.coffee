@@ -5,14 +5,6 @@ describe 'FormLogic', ->
   $form = $('#signupForm')
   errorClass = 'has-error'
 
-  # afterEach ->
-  #   $('#signupForm')
-  #     .find('input, select, textarea')
-  #     .not('input[type="submit"]')
-  #     .val('')
-  #     .removeClass('has-error')
-  #   $('.error').remove()
-
   describe 'constructor', ->
     it 'exists in the global scope', ->
       fl = new FormLogic
@@ -23,7 +15,6 @@ describe 'FormLogic', ->
       $form.submit()
       $input = $('#email')
       setTimeout ->
-        console.log $input.hasClass(errorClass)
         expect($input.hasClass(errorClass)).to.be.true
       , 50
     it 'validates email format'
