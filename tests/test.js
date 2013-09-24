@@ -19,13 +19,22 @@
         return expect(fl).to.exist;
       });
     });
-    return describe('validators', function() {
-      return it('validates a required value', function() {
-        $('#signupForm input[type="submit"]').click();
-        return setTimeout(function() {
-          return expect($input.hasClass(errorClass)).to.be["true"];
-        }, 50);
-      });
+    describe('validators', function() {
+      it('validates a required value');
+      it('validates email format');
+      it('validates a phone number');
+      it('validates a minimum number');
+      it('validates a maximum number');
+      it('validates a minimum length');
+      it('validates a maximum length');
+      it('validates that the value is a number');
+      it('validates a confirmation value');
+      it('does not validate hidden input elements');
+      return it('validates hidden elements if given the data-force-validation option');
+    });
+    return describe('errors', function() {
+      it('creates a default div after the input element when no options are specified');
+      return it('opts for the data-error-target if specified');
     });
   });
 
