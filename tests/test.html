@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>FormLogic Tests</title>
+	<link rel="stylesheet" media="all" href="mocha.css">
+	<link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+<body>
+	
+	<form id="signupForm">
+		<label>Email:</label>
+		<input type="text" class="email" id="email"
+					data-validate="required email"
+					data-message-required="Please provide an email."
+					data-message-email="Please provide a <em>valid</em> email address." />
+
+		<label>Password:</label>
+		<input type="password" id="password" class="password"
+					data-validate="required"
+					data-message-required="Please provide a password."/>
+
+		<label>Confirm Password:</label>
+		<input type="password"
+					data-validate="required confirm"
+					data-confirm-target="#password"
+					data-message-required="Please confirm your password."
+					data-message-confirm="Your passwords do not match." />
+
+		<label>Security Code:</label>
+		<input type="text" class="cvc"
+					data-validate="required number minimum maximum"
+					data-message-required="Please provide a security code."
+					data-message="Please provide a <em>valid</em> security code."
+					data-minimum="100"
+					data-maximum="999" />
+
+		<label>Expiration:</label>
+		<input type="text" class="exp-month" data-hint="MM"
+					data-validate="required number minimum maximum"
+					data-minimum="1"
+					data-maximum="12"
+					data-error-target="#expiration-error"
+					data-message-required="Please provide a month."
+					data-message="Please provide a <em>valid</em> month in the future."/>
+		<input type="text" class="exp-year" data-hint="YYYY"
+					data-validate="required number minimum maximum"
+					data-minimum="2012"
+					data-maximum="2060"
+					data-message-required="Please provide a year."
+					data-message="Please provide a <em>valid</em> year in the future."/>
+		<div id="expiration-error" class="error"></div>
+
+		<label>Donate to charities?</label>
+		<label>
+			<input type="radio" name="donate" value="yes"> Yes
+		</label>
+		<label>
+			<input type="radio" name="donate" value="no"> No
+		</label>
+
+		<div data-depends-on="donate" data-show-if="yes">
+			<label>Which ones?</label>
+			<label>
+					<input type="checkbox" name="charities[]" value="For the kids"> For the kids
+			</label>
+			<label>
+					<input type="checkbox" name="charities[]" value="Donald Fund"> Donald Fund
+			</label>
+			<label>
+					<input type="checkbox" name="charities[]" value="Wounded Soldiers"> Wounded Soldier
+			</label>
+		</div>
+		<div data-depends-on="charities[]" data-show-if-any="true">
+			<strong>THANKS!</strong>
+		</div>
+		<div data-depends-on="charities[]" data-show-if="For the kids; Donald Fund">
+			<strong>I like that one!</strong>
+		</div>
+
+		<input type="submit" class="submit btn" value="submit" />
+	</form>
+
+	<div id="results">
+		<div id="mocha"></div>
+		<div id="messages"></div>
+		<div id="fixtures"></div>
+	</div>
+
+	<script src="mocha.js"></script>
+	<script src="chai.js"></script>
+	<script src="jquery-1.10.2.min.js"></script>
+	<script src="../src/form-logic.js"></script>
+	<script>mocha.setup('bdd')</script>
+	<script src="test.js"></script>
+	<script>mocha.run();</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+#signupForm {
+  font-family: helvetica,arial,sans-serif;
+  padding: 20px;
+  width: 300px;
+  float: left;
+  label {
+    display: block;
+  }
+  input[type="text"], input[type="password"]{
+    padding: 5px;
+    width: 200px;
+    &.exp-month {
+      width: 25px;
+    }
+    &.exp-year {
+      width: 50px;
+    }
+  }
+  .error {
+    color: red;
+  }
+}
+
+#results {
+  float: left;
+  width: 300px;
+}
+
+#mocha {
+  margin: 0;
+}
