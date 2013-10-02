@@ -10,10 +10,12 @@ module.exports = (grunt) ->
         src: '<%= pkg.name %>.js'
         dest: '<%= pkg.name %>.min.js'
     coffee: 
-      compile: 
-        files: 
-          'src/*.js': ['src/*.coffee']
-          'tests/*.js': ['tests/*.coffee']
+      compile_src: 
+        files:
+          'src/form-logic.js': 'src/form-logic.coffee'
+      compile_test:
+        files:
+          'tests/test.js': 'tests/test.coffee'
     watch:
       coffee:
         files: ['src/*.coffee', 'tests/*.coffee']
