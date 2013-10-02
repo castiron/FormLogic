@@ -16,10 +16,17 @@ module.exports = (grunt) ->
       compile_test:
         files:
           'tests/test.js': 'tests/test.coffee'
+    sass:
+      dist:
+        files:
+          'tests/styles.css': 'tests/styles.scss'
     watch:
       coffee:
         files: ['src/*.coffee', 'tests/*.coffee']
         tasks: ['coffee']
+      sass:
+        files: ['tests/*.scss']
+        tasks: ['sass']
       
   
 
@@ -27,6 +34,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-sass'
 
   # Default task
   grunt.registerTask 'default', ['uglify']
