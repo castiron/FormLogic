@@ -101,9 +101,7 @@
           }
           return false;
         } else {
-          if ($input.val() === '') {
-            return false;
-          }
+          return $input.val() !== '';
         }
       });
       return this.validate('email', function($input) {

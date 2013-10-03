@@ -73,7 +73,7 @@ class @FormLogic
           return if $(option).is(':checked')
         return false
       else
-        return false if $input.val() == ''
+        $input.val() != ''
     @validate 'email', ($input) ->
       return true if $input.val() == ''
       re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
