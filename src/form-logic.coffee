@@ -8,7 +8,7 @@ class @FormLogic
 
 
   # Adds a validator to FormLogic
-  validator: (name, func) ->
+  validate: (name, func) ->
     if !func || typeof(func) != 'function'
       throw 'The second argument you passed to FormLogic.validator() was not a function'
 
@@ -66,7 +66,7 @@ class @FormLogic
 
   # Establishes a list of default validators
   buildDefaultValidators: ->
-    @validator 'required', ($input)->
+    @validate 'required', ($input)->
       if $input.attr('type') == 'radio' || $input.attr('type') == 'checkbox'
         name = $input.attr('name')
         for option in $('[name="' + name + '"]')
@@ -74,7 +74,7 @@ class @FormLogic
         return false
       else
         return false if $input.val() == ''
-    @validator 'email', ($input) ->
+    @validate 'email', ($input) ->
       return true if $input.val() == ''
       re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       re.test($input.val())

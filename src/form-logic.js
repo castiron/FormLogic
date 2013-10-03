@@ -9,7 +9,7 @@
       this.errorClass = 'has-error';
     }
 
-    FormLogic.prototype.validator = function(name, func) {
+    FormLogic.prototype.validate = function(name, func) {
       if (!func || typeof func !== 'function') {
         throw 'The second argument you passed to FormLogic.validator() was not a function';
       }
@@ -88,7 +88,7 @@
     };
 
     FormLogic.prototype.buildDefaultValidators = function() {
-      this.validator('required', function($input) {
+      this.validate('required', function($input) {
         var name, option, _i, _len, _ref;
         if ($input.attr('type') === 'radio' || $input.attr('type') === 'checkbox') {
           name = $input.attr('name');
@@ -106,7 +106,7 @@
           }
         }
       });
-      return this.validator('email', function($input) {
+      return this.validate('email', function($input) {
         var re;
         if ($input.val() === '') {
           return true;
