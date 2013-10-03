@@ -32,6 +32,7 @@ module.exports = (grunt) ->
         src: ['tests/test.html']
         options:
           run: true
+          reporter: 'Spec'
 
 
   grunt.loadNpmTasks 'grunt-contrib-uglify'
