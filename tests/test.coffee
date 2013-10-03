@@ -16,6 +16,9 @@ describe 'FormLogic', ->
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
+    it 'validates a required value for checkboxes'
+    it 'validates a required value for select elements'
+
     it 'validates email format', ->
       $input = $('#email')
       $input.val('test@test')

@@ -21,6 +21,8 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
+      it('validates a required value for checkboxes');
+      it('validates a required value for select elements');
       it('validates email format', function() {
         var $input;
         $input = $('#email');
