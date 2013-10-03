@@ -7,8 +7,8 @@ module.exports = (grunt) ->
       options:
         banner: '/* <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       build:
-        src: '<%= pkg.name %>.js'
-        dest: '<%= pkg.name %>.min.js'
+        src: 'src/<%= pkg.name %>.js'
+        dest: 'src/<%= pkg.name %>.min.js'
     coffee: 
       compile_src: 
         files:
