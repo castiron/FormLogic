@@ -17,7 +17,8 @@
     };
 
     FormLogic.prototype.setupHandlers = function() {
-      var $form, $input, form, input, my, _i, _j, _len, _len1, _ref, _ref1, _results;
+      var $form, $input, form, input, my, _i, _j, _len, _len1, _ref, _ref1, _results,
+        _this = this;
       my = this;
       _ref = $('form');
       _results = [];
@@ -29,10 +30,10 @@
           input = _ref1[_j];
           $input = $(input);
           $input.blur(function() {
-            return this.runValidators($input);
+            return my.runValidators($(this));
           });
           $input.focus(function() {
-            return this.clearErrors($input);
+            return my.clearErrors($(_this));
           });
         }
         _results.push($form.submit(function() {
@@ -66,6 +67,9 @@
       for (_i = 0, _len = vNames.length; _i < _len; _i++) {
         name = vNames[_i];
         if (!this.validators[name]) {
+          continue;
+        }
+        if (!(name === 'required' || $input.val() !== '')) {
           continue;
         }
         if (!this.validators[name]($input)) {
@@ -106,37 +110,30 @@
       });
       this.validate('email', function($input) {
         var re;
-        if ($input.val() === '') {
-          return true;
-        }
         re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test($input.val());
       });
       this.validate('minimum', function($input) {
         var min, val;
-        if ($input.val() === '') {
-          return true;
-        }
         min = parseFloat($input.data('minimum'));
         val = parseFloat($input.val());
         return val >= min;
       });
       this.validate('maximum', function($input) {
         var max, val;
-        if ($input.val() === '') {
-          return true;
-        }
         max = parseFloat($input.data('maximum'));
         val = parseFloat($input.val());
         return val <= max;
       });
-      return this.validate('number', function($input) {
+      this.validate('number', function($input) {
         var val;
-        if ($input.val() === '') {
-          return true;
-        }
         val = $input.val();
         return !isNaN(parseFloat(val)) && isFinite(val);
+      });
+      return this.validate('confirm', function($input) {
+        var target;
+        target = $input.data('confirm-target');
+        return $input.val() === $(target).val();
       });
     };
 

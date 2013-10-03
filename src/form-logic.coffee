@@ -23,9 +23,9 @@ class @FormLogic
       for input in $form.find('[data-validate]')
         $input = $(input)
         $input.blur ->
-          @runValidators($input)
-        $input.focus ->
-          @clearErrors($input)
+          my.runValidators($(@))
+        $input.focus =>
+          my.clearErrors($(@))
 
       $form.submit ->
         hasError = false
@@ -47,6 +47,7 @@ class @FormLogic
 
     for name in vNames
       continue unless @validators[name]
+      continue unless name == 'required' || $input.val() != ''
       unless @validators[name]($input)
         @showError $input, name
         hasError = true
@@ -77,25 +78,26 @@ class @FormLogic
         $input.val() != ''
 
     @validate 'email', ($input) ->
-      return true if $input.val() == ''
       re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       re.test($input.val())
 
     @validate 'minimum', ($input) ->
-      return true if $input.val() == ''
       min = parseFloat($input.data('minimum'))
       val = parseFloat($input.val())
       val >= min
 
     @validate 'maximum', ($input) ->
-      return true if $input.val() == ''
       max = parseFloat($input.data('maximum'))
       val = parseFloat($input.val())
       val <= max
 
     @validate 'number', ($input) ->
-      return true if $input.val() == ''
       val = $input.val()
       !isNaN(parseFloat(val)) && isFinite(val)
+
+    @validate 'confirm', ($input) ->
+      target = $input.data('confirm-target')
+      $input.val() == $(target).val() 
+
 
 fl = new FormLogic

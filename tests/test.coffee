@@ -13,34 +13,43 @@ describe 'FormLogic', ->
   describe 'validators', ->
     it 'validates a required value', ->
       $input = $('#required')
-      $form.submit()
+      $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
     it 'validates email format', ->
       $input = $('#email')
       $input.val('test@test')
-      $form.submit()
+      $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
     it 'validates a minimum number', ->
       $input = $('#minimum')
       $input.val(200)
-      $form.submit()
+      $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
     it 'validates a maximum number', ->
       $input = $('#maximum')
       $input.val(400)
-      $form.submit()
+      $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
+    it 'validates a confirmation value', ->
+      $target = $('#confirm-target')
+      $input = $('#confirm')
+      $target.val('test1')
+      $input.val('test2')
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true
+
+    it "validates true unless the validation is 'required'"
 
     it 'validates a phone number'
 
     it 'validates a minimum length'
     it 'validates a maximum length'
     it 'validates that the value is a number'
-    it 'validates a confirmation value'
+    
     it 'does not validate hidden input elements'
     it 'validates hidden elements if given the data-force-validation option'
 
@@ -52,6 +61,14 @@ describe 'FormLogic', ->
     it 'allows for creating custom validators' 
     it 'allows custom validators to override existing/default validators'
     it 'calls onValidSubmit callback'
+
+  describe 'Chosen JS', ->
+    it 'validates required for select elements'
+
+  describe 'Stripe', ->
+    it 'validates credit card number'
+    it 'validates cvc code'
+    it 'validates expiration date'
 
 
   # describe 'validators', ->
