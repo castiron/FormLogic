@@ -104,13 +104,39 @@
           return $input.val() !== '';
         }
       });
-      return this.validate('email', function($input) {
+      this.validate('email', function($input) {
         var re;
         if ($input.val() === '') {
           return true;
         }
         re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test($input.val());
+      });
+      this.validate('minimum', function($input) {
+        var min, val;
+        if ($input.val() === '') {
+          return true;
+        }
+        min = parseFloat($input.data('minimum'));
+        val = parseFloat($input.val());
+        return val >= min;
+      });
+      this.validate('maximum', function($input) {
+        var max, val;
+        if ($input.val() === '') {
+          return true;
+        }
+        max = parseFloat($input.data('maximum'));
+        val = parseFloat($input.val());
+        return val <= max;
+      });
+      return this.validate('number', function($input) {
+        var val;
+        if ($input.val() === '') {
+          return true;
+        }
+        val = $input.val();
+        return !isNaN(parseFloat(val)) && isFinite(val);
       });
     };
 

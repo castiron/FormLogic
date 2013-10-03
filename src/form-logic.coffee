@@ -66,6 +66,7 @@ class @FormLogic
 
   # Establishes a list of default validators
   buildDefaultValidators: ->
+
     @validate 'required', ($input)->
       if $input.attr('type') == 'radio' || $input.attr('type') == 'checkbox'
         name = $input.attr('name')
@@ -74,10 +75,27 @@ class @FormLogic
         return false
       else
         $input.val() != ''
+
     @validate 'email', ($input) ->
       return true if $input.val() == ''
       re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       re.test($input.val())
 
+    @validate 'minimum', ($input) ->
+      return true if $input.val() == ''
+      min = parseFloat($input.data('minimum'))
+      val = parseFloat($input.val())
+      val >= min
+
+    @validate 'maximum', ($input) ->
+      return true if $input.val() == ''
+      max = parseFloat($input.data('maximum'))
+      val = parseFloat($input.val())
+      val <= max
+
+    @validate 'number', ($input) ->
+      return true if $input.val() == ''
+      val = $input.val()
+      !isNaN(parseFloat(val)) && isFinite(val)
 
 fl = new FormLogic

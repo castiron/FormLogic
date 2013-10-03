@@ -11,15 +11,32 @@ describe 'FormLogic', ->
       expect(fl).to.exist
 
   describe 'validators', ->
-    it 'validates a required value', -> 
-      $input = $('#email')
+    it 'validates a required value', ->
+      $input = $('#required')
       $form.submit()
       expect($input.hasClass(errorClass)).to.be.true
 
-    it 'validates email format'
+    it 'validates email format', ->
+      $input = $('#email')
+      $input.val('test@test')
+      $form.submit()
+      expect($input.hasClass(errorClass)).to.be.true
+
+    it 'validates a minimum number', ->
+      $input = $('#minimum')
+      $input.val(200)
+      $form.submit()
+      expect($input.hasClass(errorClass)).to.be.true
+
+    it 'validates a maximum number', ->
+      $input = $('#maximum')
+      $input.val(400)
+      $form.submit()
+      expect($input.hasClass(errorClass)).to.be.true
+
+
     it 'validates a phone number'
-    it 'validates a minimum number'
-    it 'validates a maximum number'
+
     it 'validates a minimum length'
     it 'validates a maximum length'
     it 'validates that the value is a number'

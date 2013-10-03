@@ -9,76 +9,21 @@
 <body>
 	
 	<form id="signupForm">
+		<label>Required:</label>
+		<input type="text" id="required" data-validate="required" />
+
 		<label>Email:</label>
-		<input type="text" class="email" id="email"
-					data-validate="required email"
-					data-message-required="Please provide an email."
-					data-message-email="Please provide a <em>valid</em> email address." />
+		<input type="text" id="email" data-validate="email" />
 
-		<label>Password:</label>
-		<input type="password" id="password" class="password"
-					data-validate="required"
-					data-message-required="Please provide a password."/>
+		<label>Minimum:</label>
+		<input type="text" id="minimum" data-validate="minimum" data-minimum="300" />
 
-		<label>Confirm Password:</label>
-		<input type="password"
-					data-validate="required confirm"
-					data-confirm-target="#password"
-					data-message-required="Please confirm your password."
-					data-message-confirm="Your passwords do not match." />
+		<label>Maximum:</label>
+		<input type="text" id="maximum" data-validate="maximum" data-minimum="300" />
 
-		<label>Security Code:</label>
-		<input type="text" class="cvc"
-					data-validate="required number minimum maximum"
-					data-message-required="Please provide a security code."
-					data-message="Please provide a <em>valid</em> security code."
-					data-minimum="100"
-					data-maximum="999" />
-
-		<label>Expiration:</label>
-		<input type="text" class="exp-month" data-hint="MM"
-					data-validate="required number minimum maximum"
-					data-minimum="1"
-					data-maximum="12"
-					data-error-target="#expiration-error"
-					data-message-required="Please provide a month."
-					data-message="Please provide a <em>valid</em> month in the future."/>
-		<input type="text" class="exp-year" data-hint="YYYY"
-					data-validate="required number minimum maximum"
-					data-minimum="2012"
-					data-maximum="2060"
-					data-message-required="Please provide a year."
-					data-message="Please provide a <em>valid</em> year in the future."/>
-		<div id="expiration-error" class="error"></div>
-
-		<label>Donate to charities?</label>
-		<label>
-			<input type="radio" name="donate" value="yes"> Yes
-		</label>
-		<label>
-			<input type="radio" name="donate" value="no"> No
-		</label>
-
-		<div data-depends-on="donate" data-show-if="yes">
-			<label>Which ones?</label>
-			<label>
-					<input type="checkbox" name="charities[]" value="For the kids"> For the kids
-			</label>
-			<label>
-					<input type="checkbox" name="charities[]" value="Donald Fund"> Donald Fund
-			</label>
-			<label>
-					<input type="checkbox" name="charities[]" value="Wounded Soldiers"> Wounded Soldier
-			</label>
+		<div>
+			<input type="submit" class="submit btn" value="submit" />
 		</div>
-		<div data-depends-on="charities[]" data-show-if-any="true">
-			<strong>THANKS!</strong>
-		</div>
-		<div data-depends-on="charities[]" data-show-if="For the kids; Donald Fund">
-			<strong>I like that one!</strong>
-		</div>
-
-		<input type="submit" class="submit btn" value="submit" />
 	</form>
 
 	<div id="results">

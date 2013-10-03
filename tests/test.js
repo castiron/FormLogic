@@ -17,14 +17,32 @@
     describe('validators', function() {
       it('validates a required value', function() {
         var $input;
-        $input = $('#email');
+        $input = $('#required');
         $form.submit();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-      it('validates email format');
+      it('validates email format', function() {
+        var $input;
+        $input = $('#email');
+        $input.val('test@test');
+        $form.submit();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
+      it('validates a minimum number', function() {
+        var $input;
+        $input = $('#minimum');
+        $input.val(200);
+        $form.submit();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
+      it('validates a maximum number', function() {
+        var $input;
+        $input = $('#maximum');
+        $input.val(400);
+        $form.submit();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
       it('validates a phone number');
-      it('validates a minimum number');
-      it('validates a maximum number');
       it('validates a minimum length');
       it('validates a maximum length');
       it('validates that the value is a number');
