@@ -17,11 +17,10 @@
     };
 
     FormLogic.prototype.setupHandlers = function() {
-      var $form, $input, form, input, my, _i, _j, _len, _len1, _ref, _ref1, _results,
+      var $form, $input, form, input, my, _i, _j, _len, _len1, _ref, _ref1,
         _this = this;
       my = this;
       _ref = $('form');
-      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         form = _ref[_i];
         $form = $(form);
@@ -29,6 +28,9 @@
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           input = _ref1[_j];
           $input = $(input);
+          if ($(this).attr('type') === 'checkbox' || $(this).attr('type') === 'radio') {
+            return;
+          }
           $input.blur(function() {
             return my.runValidators($(this));
           });
@@ -36,7 +38,7 @@
             return my.clearErrors($(_this));
           });
         }
-        _results.push($form.submit(function() {
+        $form.submit(function() {
           var hasError, _k, _len2, _ref2;
           hasError = false;
           $form = $(this);
@@ -48,9 +50,8 @@
             }
           }
           return !hasError;
-        }));
+        });
       }
-      return _results;
     };
 
     FormLogic.prototype.runValidators = function($input) {

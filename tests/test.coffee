@@ -16,8 +16,21 @@ describe 'FormLogic', ->
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
-    it 'validates a required value for checkboxes'
-    it 'validates a required value for select elements'
+    it 'validates a required value for checkboxes', ->
+      $input = $('[name="check"]').first()
+      $form.submit()
+      expect($input.hasClass(errorClass)).to.be.true
+
+    it 'validates a required value for select elements', ->
+      $input = $('#select').first()
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true
+
+    it "validates empty values as true unless the validation is 'required'", ->
+      $input = $('#email')
+      $input.val('')
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.false
 
     it 'validates email format', ->
       $input = $('#email')
@@ -44,8 +57,6 @@ describe 'FormLogic', ->
       $input.val('test2')
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
-
-    it "validates true unless the validation is 'required'"
 
     it 'validates a phone number'
 

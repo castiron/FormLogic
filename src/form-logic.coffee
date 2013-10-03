@@ -22,6 +22,10 @@ class @FormLogic
       $form = $(form)
       for input in $form.find('[data-validate]')
         $input = $(input)
+
+        # Don't do blur validations for checkboxes and radio elements
+        return if $(@).attr('type') == 'checkbox' || $(@).attr('type') == 'radio'
+
         $input.blur ->
           my.runValidators($(@))
         $input.focus =>

@@ -21,8 +21,25 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-      it('validates a required value for checkboxes');
-      it('validates a required value for select elements');
+      it('validates a required value for checkboxes', function() {
+        var $input;
+        $input = $('[name="check"]').first();
+        $form.submit();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
+      it('validates a required value for select elements', function() {
+        var $input;
+        $input = $('#select').first();
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
+      it("validates empty values as true unless the validation is 'required'", function() {
+        var $input;
+        $input = $('#email');
+        $input.val('');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["false"];
+      });
       it('validates email format', function() {
         var $input;
         $input = $('#email');
@@ -53,7 +70,6 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-      it("validates true unless the validation is 'required'");
       it('validates a phone number');
       it('validates a minimum length');
       it('validates a maximum length');
