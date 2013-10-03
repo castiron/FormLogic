@@ -27,14 +27,18 @@ module.exports = (grunt) ->
       sass:
         files: ['tests/*.scss']
         tasks: ['sass']
-      
-  
+    mocha:
+      tests:
+        src: ['tests/test.html']
+        options:
+          run: true
 
 
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-sass'
+  grunt.loadNpmTasks 'grunt-mocha'
 
   # Default task
   grunt.registerTask 'default', ['uglify']
