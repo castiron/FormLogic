@@ -101,7 +101,7 @@
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             option = _ref[_i];
             if ($(option).is(':checked')) {
-              return;
+              return true;
             }
           }
           return false;
@@ -131,10 +131,15 @@
         val = $input.val();
         return !isNaN(parseFloat(val)) && isFinite(val);
       });
-      return this.validate('confirm', function($input) {
+      this.validate('confirm', function($input) {
         var target;
         target = $input.data('confirm-target');
         return $input.val() === $(target).val();
+      });
+      return this.validate('phone', function($input) {
+        var val;
+        val = $input.val().replace(/[^\d.]/g, '');
+        return val.length > 6 && val.length < 16;
       });
     };
 

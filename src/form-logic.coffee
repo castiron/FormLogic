@@ -72,36 +72,47 @@ class @FormLogic
   # Establishes a list of default validators
   buildDefaultValidators: ->
 
+    # Checks that a value was provided (only validator that doesn't accept empty values)
     @validate 'required', ($input)->
       if $input.attr('type') == 'radio' || $input.attr('type') == 'checkbox'
         name = $input.attr('name')
         for option in $('[name="' + name + '"]')
-          return if $(option).is(':checked')
+          return true if $(option).is(':checked')
         return false
       else
         $input.val() != ''
 
+    # Checks that the value is a valid email address
     @validate 'email', ($input) ->
       re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       re.test($input.val())
 
+    # Checks that the value is greater than or equal to the given minimum
     @validate 'minimum', ($input) ->
       min = parseFloat($input.data('minimum'))
       val = parseFloat($input.val())
       val >= min
 
+    # Checks that the value is less than or equal to the given maximum
     @validate 'maximum', ($input) ->
       max = parseFloat($input.data('maximum'))
       val = parseFloat($input.val())
       val <= max
 
+    # Checks that the value is numeric
     @validate 'number', ($input) ->
       val = $input.val()
       !isNaN(parseFloat(val)) && isFinite(val)
 
+    # Compares the value of two input elements to be sure they're equal
     @validate 'confirm', ($input) ->
       target = $input.data('confirm-target')
       $input.val() == $(target).val() 
+
+    # Simply checks for 7-15 number digits minus all other characters, not the best check
+    @validate 'phone', ($input) ->
+      val = $input.val().replace(/[^\d.]/g, '')
+      val.length > 6 && val.length < 16
 
 
 fl = new FormLogic

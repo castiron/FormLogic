@@ -70,7 +70,13 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-      it('validates a phone number');
+      it('validates a phone number', function() {
+        var $input;
+        $input = $('#phone');
+        $input.val('1 353 43');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
       it('validates a minimum length');
       it('validates a maximum length');
       it('validates that the value is a number');

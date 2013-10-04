@@ -58,7 +58,11 @@ describe 'FormLogic', ->
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
-    it 'validates a phone number'
+    it 'validates a phone number', ->
+      $input = $('#phone')
+      $input.val('1 353 43')
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true
 
     it 'validates a minimum length'
     it 'validates a maximum length'
