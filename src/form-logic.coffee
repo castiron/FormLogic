@@ -89,13 +89,13 @@ class @FormLogic
 
     # Checks that the value is greater than or equal to the given minimum
     @validate 'minimum', ($input) ->
-      min = parseFloat($input.data('minimum'))
+      min = parseFloat($input.data('min'))
       val = parseFloat($input.val())
       val >= min
 
     # Checks that the value is less than or equal to the given maximum
     @validate 'maximum', ($input) ->
-      max = parseFloat($input.data('maximum'))
+      max = parseFloat($input.data('max'))
       val = parseFloat($input.val())
       val <= max
 
@@ -114,5 +114,12 @@ class @FormLogic
       val = $input.val().replace(/[^\d.]/g, '')
       val.length > 6 && val.length < 16
 
+    # Checks that string is greater than some specified length
+    @validate 'min-length', ($input) ->
+      $input.val().length >= $input.data('min')
+
+    # Checks that string is less than some specified length
+    @validate 'max-length', ($input) ->
+      $input.val().length <= $input.data('max')
 
 fl = new FormLogic

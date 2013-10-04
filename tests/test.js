@@ -77,8 +77,30 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-      it('validates a minimum length');
-      it('validates a maximum length');
+      it('validates a minimum length', function() {
+        var $input;
+        $input = $('#min-length');
+        $input.val('38');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
+      it('validates a maximum length', function() {
+        var $input;
+        $input = $('#max-length');
+        $input.val('34343');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
+      it('validates the minimum and maximum length', function() {
+        var $input;
+        $input = $('#min-max-length');
+        $input.val('34343');
+        $input.blur();
+        expect($input.hasClass(errorClass)).to.be["true"];
+        $input.val('33');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
       it('validates that the value is a number');
       it('does not validate hidden input elements');
       return it('validates hidden elements if given the data-force-validation option');

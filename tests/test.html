@@ -28,10 +28,10 @@
 		<input type="text" id="email" data-validate="email" />
 
 		<label>Minimum:</label>
-		<input type="text" id="minimum" data-validate="minimum" data-minimum="300" />
+		<input type="text" id="minimum" data-validate="minimum" data-min="300" />
 
 		<label>Maximum:</label>
-		<input type="text" id="maximum" data-validate="maximum" data-maximum="300" />
+		<input type="text" id="maximum" data-validate="maximum" data-max="300" />
 
 		<label>Confirm Target:</label>
 		<input type="text" id="confirm-target" />
@@ -41,6 +41,15 @@
 
 		<label>Phone:</label>
 		<input type="text" id="phone" data-validate="phone" />
+
+		<label>Maximum Length:</label>
+		<input type="text" id="max-length" data-validate="max-length" data-max="4" />
+
+		<label>Minimum Length:</label>
+		<input type="text" id="min-length" data-validate="min-length" data-min="3" />
+
+		<label>In-between Length:</label>
+		<input type="text" id="min-max-length" data-validate="min-length max-length" data-min="3" data-max="4" />
 
 		<div>
 			<input type="submit" class="submit btn" value="submit" />

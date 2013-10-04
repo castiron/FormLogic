@@ -116,13 +116,13 @@
       });
       this.validate('minimum', function($input) {
         var min, val;
-        min = parseFloat($input.data('minimum'));
+        min = parseFloat($input.data('min'));
         val = parseFloat($input.val());
         return val >= min;
       });
       this.validate('maximum', function($input) {
         var max, val;
-        max = parseFloat($input.data('maximum'));
+        max = parseFloat($input.data('max'));
         val = parseFloat($input.val());
         return val <= max;
       });
@@ -136,10 +136,16 @@
         target = $input.data('confirm-target');
         return $input.val() === $(target).val();
       });
-      return this.validate('phone', function($input) {
+      this.validate('phone', function($input) {
         var val;
         val = $input.val().replace(/[^\d.]/g, '');
         return val.length > 6 && val.length < 16;
+      });
+      this.validate('min-length', function($input) {
+        return $input.val().length >= $input.data('min');
+      });
+      return this.validate('max-length', function($input) {
+        return $input.val().length <= $input.data('max');
       });
     };
 
