@@ -125,7 +125,9 @@
     });
     describe('errors', function() {
       it('creates a default div after the input element when no options are specified');
-      return it('opts for the data-error-target if specified');
+      it('opts for the data-error-target if specified');
+      it('shows specialized error messages data-message-`validator` if provided');
+      return it('shows general message (data-message) if specialized messages are not provided');
     });
     describe('API', function() {
       it('allows for creating custom validators');
