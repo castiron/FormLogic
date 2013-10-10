@@ -51,6 +51,17 @@
 		<label>In-between Length:</label>
 		<input type="text" id="min-max-length" data-validate="min-length max-length" data-min="3" data-max="4" />
 
+		<label>Number:</label>
+		<input type="text" id="number" data-validate="number" />
+
+		<div style="display: none;">
+			<label>Hidden:</label>
+			<input type="text" id="hidden1" data-validate="required" />
+
+			<label>Hidden:</label>
+			<input type="text" id="hidden2" data-validate="required" data-force-validation="true" />
+		</div>
+
 		<div>
 			<input type="submit" class="submit btn" value="submit" />
 		</div>

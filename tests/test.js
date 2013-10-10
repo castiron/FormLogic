@@ -101,9 +101,27 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-      it('validates that the value is a number');
-      it('does not validate hidden input elements');
-      return it('validates hidden elements if given the data-force-validation option');
+      it('validates that the value is a number', function() {
+        var $input;
+        $input = $('#number');
+        $input.val('33de4');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
+      it('does not validate hidden input elements', function() {
+        var $input;
+        $input = $('#hidden1');
+        $input.val('');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["false"];
+      });
+      return it('validates hidden elements if given the data-force-validation option', function() {
+        var $input;
+        $input = $('#hidden2');
+        $input.val('');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
     });
     describe('errors', function() {
       it('creates a default div after the input element when no options are specified');

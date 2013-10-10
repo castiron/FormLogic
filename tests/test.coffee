@@ -85,10 +85,23 @@ describe 'FormLogic', ->
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
-    it 'validates that the value is a number'
+    it 'validates that the value is a number', ->
+      $input = $('#number')
+      $input.val('33de4')
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true
     
-    it 'does not validate hidden input elements'
-    it 'validates hidden elements if given the data-force-validation option'
+    it 'does not validate hidden input elements', ->
+      $input = $('#hidden1')
+      $input.val('')
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.false
+
+    it 'validates hidden elements if given the data-force-validation option', ->
+      $input = $('#hidden2')
+      $input.val('')
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true
 
   describe 'errors', ->
     it 'creates a default div after the input element when no options are specified'
