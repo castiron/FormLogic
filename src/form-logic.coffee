@@ -43,15 +43,24 @@ class @FormLogic
   # Evaluates the input according to the validators specified by data-validate
   runValidators: ($input)->
     hasError = false
-    return hasError if ($input.is(':hidden') or $input.is(':submit')) and !$input.data('force-validation')
 
+    # Skip hidden & submit elements unless forced to validate
+    return false if ($input.is(':hidden') or $input.is(':submit')) and !$input.data('force-validation')
+
+    # Parse out the specified validators
     vString = $input.data('validate')
-    return hasError if typeof vString != 'string'
+    return false if typeof vString != 'string'
     vNames = vString.split(' ')
 
     for name in vNames
+
+      # Skip validators we don't know
       continue unless @validators[name]
+
+      # The only validator for empty values is 'required'
       continue unless name == 'required' || $input.val() != ''
+
+      # Call the validators one by one
       unless @validators[name]($input)
         @showError $input, name
         hasError = true

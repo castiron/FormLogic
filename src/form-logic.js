@@ -58,11 +58,11 @@
       var hasError, name, vNames, vString, _i, _len;
       hasError = false;
       if (($input.is(':hidden') || $input.is(':submit')) && !$input.data('force-validation')) {
-        return hasError;
+        return false;
       }
       vString = $input.data('validate');
       if (typeof vString !== 'string') {
-        return hasError;
+        return false;
       }
       vNames = vString.split(' ');
       for (_i = 0, _len = vNames.length; _i < _len; _i++) {
