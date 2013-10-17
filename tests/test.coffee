@@ -5,11 +5,6 @@ describe 'FormLogic', ->
   $form = $('#signupForm')
   errorClass = 'has-error'
 
-  describe 'constructor', ->
-    it 'exists in the global scope', ->
-      fl = new FormLogic
-      expect(fl).to.exist
-
   describe 'validators', ->
     it 'validates a required value', ->
       $input = $('#required')
@@ -114,6 +109,9 @@ describe 'FormLogic', ->
     it 'allows for creating custom validators' 
     it 'allows custom validators to override existing/default validators'
     it 'calls onValidSubmit callback'
+    it 'exists in the global scope', ->
+      fl = new FormLogic
+      expect(fl).to.exist
 
   describe 'Chosen JS', ->
     it 'validates required for select elements'

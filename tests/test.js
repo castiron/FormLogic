@@ -7,13 +7,6 @@
     var $form, errorClass;
     $form = $('#signupForm');
     errorClass = 'has-error';
-    describe('constructor', function() {
-      return it('exists in the global scope', function() {
-        var fl;
-        fl = new FormLogic;
-        return expect(fl).to.exist;
-      });
-    });
     describe('validators', function() {
       it('validates a required value', function() {
         var $input;
@@ -133,7 +126,12 @@
     describe('API', function() {
       it('allows for creating custom validators');
       it('allows custom validators to override existing/default validators');
-      return it('calls onValidSubmit callback');
+      it('calls onValidSubmit callback');
+      return it('exists in the global scope', function() {
+        var fl;
+        fl = new FormLogic;
+        return expect(fl).to.exist;
+      });
     });
     describe('Chosen JS', function() {
       return it('validates required for select elements');
