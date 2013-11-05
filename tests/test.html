@@ -62,19 +62,19 @@
 			<input type="text" id="hidden2" data-validate="required" data-force-validation="true" />
 		</div>
 
-		<label>Message:</label>
-		<input type="text" id="message" data-validate="required" data-error-message="Please enter something" />
+		<label>No target:</label>
+		<input type="text" id="no-target" data-validate="required" data-message="Please enter something" />
 
 		<label>Error target: </label>
 		<input type="text" id="error-target" data-validate="required" data-error="#error-result" />
-		<div id="error-result">Please enter something</div>
+		<div id="error-result" class="error">Please enter something</div>
 
 		<label>Error target special:</label>
 		<input type="text" id="error-target-special" data-validate="required minimum" data-min="300"
-		       data-error-required="error-result-required"
-		       data-error-minimum="error-result-minimum" />
-		<div id="error-result-required">Please enter something</div>
-		<div id="error-result-minimum">Please enter something above 300</div>
+		       data-error-required="#error-result-required"
+		       data-error-minimum="#error-result-minimum" />
+		<div id="error-result-required" class="error">Please enter something</div>
+		<div id="error-result-minimum" class="error">Please enter something above 300</div>
 
 
 		<div>

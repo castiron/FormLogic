@@ -5,6 +5,33 @@ describe 'FormLogic', ->
   $form = $('#signupForm')
   errorClass = 'has-error'
 
+
+  describe 'errors', ->
+
+    it 'hides error targets on page load', ->
+      expect($('#error-result').is(':hidden')).to.be.true
+
+    it 'creates a default div after the input element when no options are specified', ->
+      $input = $('#no-target')
+      message = $('#no-target').data('message')
+      $input.blur()
+      $error = $input.next()
+      expect($error.text() == message).to.be.true
+
+    it 'opts for the data-error if specified', ->
+      $('#error-target').blur()
+      expect($('#error-result').is(':hidden')).to.be.false
+
+    it 'opts for the data-error-`validator` if specified', ->
+      $input = $('#error-target-special')
+      $input.val 200
+      $input.blur()
+      expect($('#error-result-minimum').is(':hidden')).to.be.false
+
+    it 'shows specialized error messages data-message-`validator` if provided'
+    it 'shows general message (data-message) if specialized messages are not provided'
+
+
   describe 'validators', ->
     it 'validates a required value', ->
       $input = $('#required')
@@ -98,12 +125,6 @@ describe 'FormLogic', ->
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
-  describe 'errors', ->
-    it 'creates a default div after the input element when no options are specified'
-    it 'opts for the data-error-target if specified'
-    it 'opts for the data-error-target-`validator` if specified'
-    it 'shows specialized error messages data-message-`validator` if provided'
-    it 'shows general message (data-message) if specialized messages are not provided'
 
   describe 'API', ->
     it 'allows for creating custom validators' 
@@ -113,8 +134,10 @@ describe 'FormLogic', ->
       fl = new FormLogic
       expect(fl).to.exist
 
+
   describe 'Chosen JS', ->
     it 'validates required for select elements'
+
 
   describe 'Stripe', ->
     it 'validates credit card number'

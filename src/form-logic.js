@@ -6,7 +6,10 @@
       this.validators = {};
       this.buildDefaultValidators();
       this.setupHandlers();
-      this.errorClass = 'has-error';
+      this.hideErrorTargets();
+      this.fieldErrorClass = 'has-error';
+      this.errorClass = 'error';
+      window.FormLogicAlreadyInitialized = true;
     }
 
     FormLogic.prototype.validate = function(name, func) {
@@ -14,6 +17,42 @@
         throw 'The second argument you passed to FormLogic.validator() was not a function';
       }
       return this.validators[name] = func;
+    };
+
+    FormLogic.prototype.hideErrorTargets = function() {
+      var $form, $input, $next, form, input, name, target, vNames, vString, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
+      if (window.FormLogicAlreadyInitialized) {
+        return;
+      }
+      _ref = $('form');
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        form = _ref[_i];
+        $form = $(form);
+        _ref1 = $form.find('[data-validate]');
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          input = _ref1[_j];
+          $input = $(input);
+          vString = $input.data('validate');
+          if (typeof vString !== 'string') {
+            continue;
+          }
+          vNames = vString.split(' ');
+          for (_k = 0, _len2 = vNames.length; _k < _len2; _k++) {
+            name = vNames[_k];
+            target = $input.data('error-' + name);
+            if (!target) {
+              target = $input.data('error');
+            }
+            $next = $input.next('.' + this.errorClass);
+            if (target) {
+              $(target).hide();
+            } else if ($next) {
+              $next.hide();
+            }
+          }
+        }
+      }
+      return true;
     };
 
     FormLogic.prototype.setupHandlers = function() {
@@ -81,15 +120,41 @@
       return !hasError;
     };
 
-    FormLogic.prototype.clearErrors = function($input) {
+    FormLogic.prototype.clearErrors = function($input, name) {
+      var $next, target;
       if (($input.is(':hidden') || $input.is(':submit')) && !$input.data('force-validation')) {
         return;
       }
-      return $input.removeClass(this.errorClass);
+      $input.removeClass(this.fieldErrorClass);
+      target = $input.data('error-' + name);
+      if (!target) {
+        target = $input.data('error');
+      }
+      $next = $input.next('.' + this.errorClass);
+      if (target) {
+        return $(target).hide();
+      } else if ($next) {
+        return $next.hide();
+      }
     };
 
     FormLogic.prototype.showError = function($input, name) {
-      return $input.addClass(this.errorClass);
+      var message, target;
+      this.clearErrors($input, name);
+      $input.addClass(this.fieldErrorClass);
+      message = $input.data('message-' + name);
+      if (!message) {
+        message = $input.data('message');
+      }
+      target = $input.data('error-' + name);
+      if (!target) {
+        target = $input.data('error');
+      }
+      if (target) {
+        return $(target).show();
+      } else if (message) {
+        return $input.after('<div class="' + this.errorClass + '">' + message + '</div>');
+      }
     };
 
     FormLogic.prototype.buildDefaultValidators = function() {

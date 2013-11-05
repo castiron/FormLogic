@@ -7,6 +7,32 @@
     var $form, errorClass;
     $form = $('#signupForm');
     errorClass = 'has-error';
+    describe('errors', function() {
+      it('hides error targets on page load', function() {
+        return expect($('#error-result').is(':hidden')).to.be["true"];
+      });
+      it('creates a default div after the input element when no options are specified', function() {
+        var $error, $input, message;
+        $input = $('#no-target');
+        message = $('#no-target').data('message');
+        $input.blur();
+        $error = $input.next();
+        return expect($error.text() === message).to.be["true"];
+      });
+      it('opts for the data-error-target if specified', function() {
+        $('#error-target').blur();
+        return expect($('#error-result').is(':hidden')).to.be["false"];
+      });
+      it('opts for the data-error-target-`validator` if specified', function() {
+        var $input;
+        $input = $('#error-target-special');
+        $input.val(200);
+        $input.blur();
+        return expect($('#error-result-minimum').is(':hidden')).to.be["false"];
+      });
+      it('shows specialized error messages data-message-`validator` if provided');
+      return it('shows general message (data-message) if specialized messages are not provided');
+    });
     describe('validators', function() {
       it('validates a required value', function() {
         var $input;
@@ -115,13 +141,6 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-    });
-    describe('errors', function() {
-      it('creates a default div after the input element when no options are specified');
-      it('opts for the data-error-target if specified');
-      it('opts for the data-error-target-`validator` if specified');
-      it('shows specialized error messages data-message-`validator` if provided');
-      return it('shows general message (data-message) if specialized messages are not provided');
     });
     describe('API', function() {
       it('allows for creating custom validators');

@@ -4,7 +4,11 @@ class @FormLogic
 
     @buildDefaultValidators()
     @setupHandlers()
-    @errorClass = 'has-error'
+    @hideErrorTargets()
+    @fieldErrorClass = 'has-error'
+    @errorClass = 'error'
+
+    window.FormLogicAlreadyInitialized = true
 
 
   # Adds a validator to FormLogic
@@ -14,6 +18,31 @@ class @FormLogic
 
     @validators[name] = func
 
+  # This makes it easier for users to leave error targets in the markup
+  # without worrying about adding 'display: none' all the time.
+  hideErrorTargets: ->
+    return if window.FormLogicAlreadyInitialized
+    for form in $('form')
+      $form = $(form)
+      for input in $form.find('[data-validate]')
+        $input = $(input)
+
+        # Parse out the specified validators
+        vString = $input.data('validate')
+        continue if typeof vString != 'string'
+        vNames = vString.split(' ')
+
+        for name in vNames
+          target = $input.data('error-'+name)
+          target = $input.data('error') unless target
+          $next = $input.next('.'+@errorClass)
+
+          if target
+            $(target).hide()
+          else if $next
+            $next.hide()
+
+    true
 
   # Calls validators on blur and on form submit
   setupHandlers: ->
@@ -68,15 +97,30 @@ class @FormLogic
     return !hasError
 
   # Removes errors for the given input field
-  clearErrors: ($input) ->
+  clearErrors: ($input, name) ->
     return if ($input.is(':hidden') or $input.is(':submit')) and !$input.data('force-validation')
-    $input.removeClass(@errorClass)
-  # TODO
+    $input.removeClass(@fieldErrorClass)
+    target = $input.data('error-'+name)
+    target = $input.data('error') unless target
+    $next = $input.next('.'+@errorClass)
+
+    if target
+      $(target).hide()
+    else if $next
+      $next.hide()
 
   showError: ($input, name) ->
-    $input.addClass(@errorClass)
-  # TODO
+    @clearErrors $input, name
+    $input.addClass(@fieldErrorClass)
+    message = $input.data('message-'+name)
+    message = $input.data('message') unless message
+    target = $input.data('error-'+name)
+    target = $input.data('error') unless target
 
+    if target
+      $(target).show()
+    else if message
+      $input.after('<div class="'+@errorClass+'">'+message+'</div>')
 
   # Establishes a list of default validators
   buildDefaultValidators: ->
