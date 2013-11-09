@@ -4,8 +4,7 @@
   expect = chai.expect;
 
   describe('FormLogic', function() {
-    var $form, errorClass;
-    $form = $('#signupForm');
+    var errorClass;
     errorClass = 'has-error';
     describe('errors', function() {
       it('hides error targets on page load', function() {
@@ -59,7 +58,7 @@
       it('validates a required value for checkboxes', function() {
         var $input;
         $input = $('[name="check"]').first();
-        $form.submit();
+        $('#form-one').submit();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
       it('validates a required value for select elements', function() {

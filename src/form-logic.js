@@ -17,9 +17,16 @@
 
     FormLogic.validate = function(name, func) {
       if (!func || typeof func !== 'function') {
-        throw 'The second argument you passed to FormLogic.validator() was not a function';
+        throw 'The second argument you passed to FormLogic.validator() was not a function.';
       }
       return FormLogic._validators[name] = func;
+    };
+
+    FormLogic.onValidSubmit = function(form, func) {
+      if (!func || typeof func !== 'function') {
+        throw 'The second argument you passed to FormLogic.onValidSubmit() was not a function.';
+      }
+      return $(form).data('fl-submit-callback', func);
     };
 
     FormLogic.prototype.hideErrorTargets = function() {
@@ -80,8 +87,8 @@
             return my.clearErrors($(_this));
           });
         }
-        $form.submit(function() {
-          var hasError, _k, _len2, _ref2;
+        $form.submit(function(event) {
+          var callback, hasError, _k, _len2, _ref2;
           hasError = false;
           $form = $(this);
           _ref2 = $form.find('[data-validate]');
@@ -89,6 +96,12 @@
             input = _ref2[_k];
             if (!my.runValidators($(input), $form)) {
               hasError = true;
+            }
+          }
+          if (!hasError) {
+            callback = $form.data('fl-submit-callback');
+            if (typeof callback !== 'function') {
+              return callback.call($form, event);
             }
           }
           return !hasError;

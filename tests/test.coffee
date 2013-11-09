@@ -2,7 +2,6 @@ expect = chai.expect
 
 describe 'FormLogic', ->
 
-  $form = $('#signupForm')
   errorClass = 'has-error'
 
 
@@ -53,7 +52,7 @@ describe 'FormLogic', ->
 
     it 'validates a required value for checkboxes', ->
       $input = $('[name="check"]').first()
-      $form.submit()
+      $('#form-one').submit()
       expect($input.hasClass(errorClass)).to.be.true
 
     it 'validates a required value for select elements', ->

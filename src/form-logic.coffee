@@ -15,9 +15,17 @@ class @FormLogic
   # Adds a validator to FormLogic
   @validate: (name, func) ->
     if !func || typeof(func) != 'function'
-      throw 'The second argument you passed to FormLogic.validator() was not a function'
+      throw 'The second argument you passed to FormLogic.validator() was not a function.'
 
     FormLogic._validators[name] = func
+
+  @onValidSubmit: (form, func) ->
+    if !func || typeof(func) != 'function'
+      throw 'The second argument you passed to FormLogic.onValidSubmit() was not a function.'
+
+    $(form).data('fl-submit-callback', func)
+
+
 
   # This makes it easier for users to leave error targets in the markup
   # without worrying about adding 'display: none' all the time.
@@ -61,12 +69,16 @@ class @FormLogic
         $input.focus =>
           my.clearErrors($(@))
 
-      $form.submit ->
+      $form.submit (event) ->
         hasError = false
         $form = $(@)
         for input in $form.find('[data-validate]')
           unless my.runValidators($(input), $form)
             hasError = true
+
+        if !hasError
+          callback = $form.data('fl-submit-callback')
+          return callback.call($form, event) if typeof(callback) != 'function'
 
         return !hasError
 
