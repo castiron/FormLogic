@@ -30,10 +30,10 @@
 			<input type="text" id="email" data-validate="email" />
 
 			<label>Minimum:</label>
-			<input type="text" id="minimum" data-validate="minimum" data-min="300" />
+			<input type="text" id="minimum" data-validate="number" data-min="300" />
 
 			<label>Maximum:</label>
-			<input type="text" id="maximum" data-validate="maximum" data-max="300" />
+			<input type="text" id="maximum" data-validate="number" data-max="300" />
 
 			<label>Confirm Target:</label>
 			<input type="text" id="confirm-target" />
@@ -45,13 +45,13 @@
 			<input type="text" id="phone" data-validate="phone" />
 
 			<label>Maximum Length:</label>
-			<input type="text" id="max-length" data-validate="max-length" data-max="4" />
+			<input type="text" id="max-length" data-validate="length" data-max="4" />
 
 			<label>Minimum Length:</label>
-			<input type="text" id="min-length" data-validate="min-length" data-min="3" />
+			<input type="text" id="min-length" data-validate="length" data-min="3" />
 
 			<label>In-between Length:</label>
-			<input type="text" id="min-max-length" data-validate="min-length max-length" data-min="3" data-max="4" />
+			<input type="text" id="min-max-length" data-validate="length" data-min="3" data-max="4" />
 
 			<label>Number:</label>
 			<input type="text" id="number" data-validate="number" />
@@ -72,26 +72,26 @@
 			<div id="error-result" class="error">Please enter something</div>
 
 			<label>Error target special:</label>
-			<input type="text" id="error-target-special" data-validate="required minimum" data-min="300"
+			<input type="text" id="error-target-special" data-validate="required number" data-min="300"
 			       data-error-required="#error-result-required"
-			       data-error-minimum="#error-result-minimum" />
+			       data-error-number="#error-result-number" />
 			<div id="error-result-required" class="error">Please enter something</div>
-			<div id="error-result-minimum" class="error">Please enter something above 300</div>
+			<div id="error-result-number" class="error">Please enter something above 300</div>
 
 			<label>Special message:</label>
-			<input type="text" id="special-message" data-validate="required minimum" data-min="300"
+			<input type="text" id="special-message" data-validate="required number" data-min="300"
 					data-message="This message is not special."
-					data-message-minimum="This message is special. Please enter something 300 or higher." />
+					data-message-number="This message is special. Please enter something 300 or higher." />
 
 			<label>No special message:</label>
-			<input type="text" id="no-special-message" data-validate="minimum" 
+			<input type="text" id="no-special-message" data-validate="number" 
 							data-message="Please enter something 300 or higher." data-min="300" />
 
 			<label>Custom validator:</label>
 			<input type="text" id="validate-custom" data-validate="custom" />
 
 			<label>Custom validator overrides existing validator:</label>
-			<input type="text" id="validate-custom-override" data-validate="minimum" />
+			<input type="text" id="validate-custom-override" data-validate="number" />
 
 			<label>Chosen required:</label>
 			<select class="chosen-select" id="chosen-required" data-validate="required">
@@ -106,6 +106,12 @@
 				<option value="7">seven</option>
 				<option value="9">nine</option>
 			</select>
+
+<!--  <label>Credit card:</label>
+			<input type="text" id="card-number" data-validate="card-number" />
+
+			<label>CVC Code:</label>
+			<input type="text" id="card-cvc" data-validate="card-cvc" /> -->
 
 			<input type="submit" class="submit btn" value="submit" />
 		</form>

@@ -195,22 +195,24 @@
         re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test($input.val());
       });
-      FormLogic.validate('minimum', function($input, $form) {
-        var min, val;
-        min = parseFloat($input.data('min'));
-        val = parseFloat($input.val());
-        return val >= min;
-      });
-      FormLogic.validate('maximum', function($input, $form) {
-        var max, val;
-        max = parseFloat($input.data('max'));
-        val = parseFloat($input.val());
-        return val <= max;
-      });
       FormLogic.validate('number', function($input, $form) {
-        var val;
-        val = $input.val();
-        return !isNaN(parseFloat(val)) && isFinite(val);
+        var max, min, val;
+        val = parseFloat($input.val());
+        min = parseFloat($input.data('max'));
+        max = parseFloat($input.data('min'));
+        if (!(!isNaN(val) && isFinite(val))) {
+          return false;
+        }
+        if (max !== void 0 && min !== void 0) {
+          return (min <= val && val <= max);
+        }
+        if (max !== void 0 && min === void 0) {
+          return val <= max;
+        }
+        if (max === void 0 && min !== void 0) {
+          return min <= val;
+        }
+        return true;
       });
       FormLogic.validate('confirm', function($input, $form) {
         var target;
@@ -222,8 +224,21 @@
         val = $input.val().replace(/[^\d.]/g, '');
         return val.length > 6 && val.length < 16;
       });
-      FormLogic.validate('min-length', function($input, $form) {
-        return $input.val().length >= $input.data('min');
+      FormLogic.validate('length', function($input, $form) {
+        var max, min, val;
+        min = $input.data('min');
+        max = $input.data('max');
+        val = $input.val().length;
+        if (max !== void 0 && min !== void 0) {
+          return (min <= val && val <= max);
+        }
+        if (max !== void 0 && min === void 0) {
+          return val <= max;
+        }
+        if (max === void 0 && min !== void 0) {
+          return min <= val;
+        }
+        return true;
       });
       return FormLogic.validate('max-length', function($input, $form) {
         return $input.val().length <= $input.data('max');

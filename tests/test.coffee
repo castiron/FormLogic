@@ -30,7 +30,7 @@ describe 'FormLogic', ->
 
     it 'shows specialized error messages data-message-`validator` if provided', ->
       $input = $('#special-message')
-      message = $('#special-message').data('message-minimum')
+      message = $('#special-message').data('message-number')
       $input.val 200
       $input.blur()
       $error = $input.next()
@@ -155,7 +155,7 @@ describe 'FormLogic', ->
 
 
     it 'allows custom validators to override existing/default validators', ->
-      FormLogic.validate 'minimum', ($input, $form) ->
+      FormLogic.validate 'number', ($input, $form) ->
         val = $input.val()
         val > 700
 

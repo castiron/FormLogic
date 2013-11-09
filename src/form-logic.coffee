@@ -155,22 +155,16 @@ class @FormLogic
       re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       re.test($input.val())
 
-    # Checks that the value is greater than or equal to the given minimum
-    FormLogic.validate 'minimum', ($input, $form) ->
-      min = parseFloat($input.data('min'))
-      val = parseFloat($input.val())
-      val >= min
-
-    # Checks that the value is less than or equal to the given maximum
-    FormLogic.validate 'maximum', ($input, $form) ->
-      max = parseFloat($input.data('max'))
-      val = parseFloat($input.val())
-      val <= max
-
     # Checks that the value is numeric
     FormLogic.validate 'number', ($input, $form) ->
-      val = $input.val()
-      !isNaN(parseFloat(val)) && isFinite(val)
+      val = parseFloat($input.val())
+      min = parseFloat($input.data('max'))
+      max = parseFloat($input.data('min'))
+      return false             unless !isNaN(val) && isFinite(val)
+      return min <= val <= max if max != undefined and min != undefined
+      return val <= max        if max != undefined and min == undefined
+      return min <= val        if max == undefined and min != undefined
+      return true
 
     # Compares the value of two input elements to be sure they're equal
     FormLogic.validate 'confirm', ($input, $form) ->
@@ -183,8 +177,16 @@ class @FormLogic
       val.length > 6 && val.length < 16
 
     # Checks that string is greater than some specified length
-    FormLogic.validate 'min-length', ($input, $form) ->
-      $input.val().length >= $input.data('min')
+    FormLogic.validate 'length', ($input, $form) ->
+      min = $input.data('min')
+      max = $input.data('max')
+      val = $input.val().length
+
+      return min <= val <= max if max != undefined and min != undefined
+      return val <= max        if max != undefined and min == undefined
+      return min <= val        if max == undefined and min != undefined
+      return true
+        
 
     # Checks that string is less than some specified length
     FormLogic.validate 'max-length', ($input, $form) ->

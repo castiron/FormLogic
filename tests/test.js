@@ -32,7 +32,7 @@
       it('shows specialized error messages data-message-`validator` if provided', function() {
         var $error, $input, message;
         $input = $('#special-message');
-        message = $('#special-message').data('message-minimum');
+        message = $('#special-message').data('message-number');
         $input.val(200);
         $input.blur();
         $error = $input.next();
@@ -177,7 +177,7 @@
       });
       it('allows custom validators to override existing/default validators', function() {
         var $input;
-        FormLogic.validate('minimum', function($input, $form) {
+        FormLogic.validate('number', function($input, $form) {
           var val;
           val = $input.val();
           return val > 700;
