@@ -4,7 +4,10 @@
   width: 300px;
   float: left; }
   #signupForm label {
-    display: block; }
+    display: block;
+    margin-top: 10px; }
+    #signupForm label.checkbox {
+      margin-top: 3px; }
   #signupForm input[type="text"], #signupForm input[type="password"] {
     padding: 5px;
     width: 200px; }
@@ -12,6 +15,8 @@
       width: 25px; }
     #signupForm input[type="text"].exp-year, #signupForm input[type="password"].exp-year {
       width: 50px; }
+    #signupForm input[type="text"].has-error, #signupForm input[type="password"].has-error {
+      border: 1px solid red; }
   #signupForm .error {
     color: red; }
 
