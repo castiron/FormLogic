@@ -19,19 +19,35 @@
         $error = $input.next();
         return expect($error.text() === message).to.be["true"];
       });
-      it('opts for the data-error-target if specified', function() {
+      it('opts for the data-error if specified', function() {
         $('#error-target').blur();
         return expect($('#error-result').is(':hidden')).to.be["false"];
       });
-      it('opts for the data-error-target-`validator` if specified', function() {
+      it('opts for the data-error-`validator` if specified', function() {
         var $input;
         $input = $('#error-target-special');
         $input.val(200);
         $input.blur();
         return expect($('#error-result-minimum').is(':hidden')).to.be["false"];
       });
-      it('shows specialized error messages data-message-`validator` if provided');
-      return it('shows general message (data-message) if specialized messages are not provided');
+      it('shows specialized error messages data-message-`validator` if provided', function() {
+        var $error, $input, message;
+        $input = $('#special-message');
+        message = $('#special-message').data('message-minimum');
+        $input.val(200);
+        $input.blur();
+        $error = $input.next();
+        return expect($error.text() === message).to.be["true"];
+      });
+      return it('shows general message (data-message) if specialized messages are not provided', function() {
+        var $error, $input, message;
+        $input = $('#no-special-message');
+        message = $('#no-special-message').data('message');
+        $input.val(200);
+        $input.blur();
+        $error = $input.next();
+        return expect($error.text() === message).to.be["true"];
+      });
     });
     describe('validators', function() {
       it('validates a required value', function() {

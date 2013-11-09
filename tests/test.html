@@ -76,6 +76,14 @@
 		<div id="error-result-required" class="error">Please enter something</div>
 		<div id="error-result-minimum" class="error">Please enter something above 300</div>
 
+		<label>Special message:</label>
+		<input type="text" id="special-message" data-validate="required minimum" data-min="300"
+				data-message="This message is not special."
+				data-message-minimum="This message is special. Please enter something 300 or higher." />
+
+		<label>No special message:</label>
+		<input type="text" id="no-special-message" data-validate="minimum" 
+						data-message="Please enter something 300 or higher." data-min="300" />
 
 		<div>
 			<input type="submit" class="submit btn" value="submit" />

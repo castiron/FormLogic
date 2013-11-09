@@ -28,9 +28,21 @@ describe 'FormLogic', ->
       $input.blur()
       expect($('#error-result-minimum').is(':hidden')).to.be.false
 
-    it 'shows specialized error messages data-message-`validator` if provided'
-    it 'shows general message (data-message) if specialized messages are not provided'
+    it 'shows specialized error messages data-message-`validator` if provided', ->
+      $input = $('#special-message')
+      message = $('#special-message').data('message-minimum')
+      $input.val 200
+      $input.blur()
+      $error = $input.next()
+      expect($error.text() == message).to.be.true
 
+    it 'shows general message (data-message) if specialized messages are not provided', ->
+      $input = $('#no-special-message')
+      message = $('#no-special-message').data('message')
+      $input.val 200
+      $input.blur()
+      $error = $input.next()
+      expect($error.text() == message).to.be.true
 
   describe 'validators', ->
     it 'validates a required value', ->
