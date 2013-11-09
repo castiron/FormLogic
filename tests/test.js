@@ -159,9 +159,14 @@
       });
     });
     describe('API', function() {
+      it('exists in the global scope', function() {
+        var fl;
+        fl = new FormLogic;
+        return expect(fl).to.exist;
+      });
       it('allows for creating custom validators', function() {
         var $input;
-        FormLogic.validate('custom', function() {
+        FormLogic.validate('custom', function($input, $form) {
           var val;
           val = $input.val();
           return 'rosie' === $.trim(val);
@@ -173,7 +178,7 @@
       });
       it('allows custom validators to override existing/default validators', function() {
         var $input;
-        FormLogic.validate('minimum', function() {
+        FormLogic.validate('minimum', function($input, $form) {
           var val;
           val = $input.val();
           return val > 700;
@@ -183,12 +188,7 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-      it('calls onValidSubmit callback');
-      return it('exists in the global scope', function() {
-        var fl;
-        fl = new FormLogic;
-        return expect(fl).to.exist;
-      });
+      return it('calls onValidSubmit callback');
     });
     describe('Chosen JS', function() {
       return it('validates required for select elements');

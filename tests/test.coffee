@@ -8,6 +8,7 @@ describe 'FormLogic', ->
 
   describe 'errors', ->
 
+    # This one must run first. 
     it 'hides error targets on page load', ->
       expect($('#error-result').is(':hidden')).to.be.true
 
@@ -139,8 +140,12 @@ describe 'FormLogic', ->
 
 
   describe 'API', ->
+    it 'exists in the global scope', ->
+      fl = new FormLogic
+      expect(fl).to.exist
+
     it 'allows for creating custom validators', ->
-      FormLogic.validate 'custom', ->
+      FormLogic.validate 'custom', ($input, $form) ->
         val = $input.val()
         'rosie' == $.trim(val)
 
@@ -151,7 +156,7 @@ describe 'FormLogic', ->
 
 
     it 'allows custom validators to override existing/default validators', ->
-      FormLogic.validate 'minimum', ->
+      FormLogic.validate 'minimum', ($input, $form) ->
         val = $input.val()
         val > 700
 
@@ -161,9 +166,6 @@ describe 'FormLogic', ->
       expect($input.hasClass(errorClass)).to.be.true
 
     it 'calls onValidSubmit callback'
-    it 'exists in the global scope', ->
-      fl = new FormLogic
-      expect(fl).to.exist
 
 
   describe 'Chosen JS', ->

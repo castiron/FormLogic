@@ -87,7 +87,7 @@
           _ref2 = $form.find('[data-validate]');
           for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
             input = _ref2[_k];
-            if (!my.runValidators($(input))) {
+            if (!my.runValidators($(input), $form)) {
               hasError = true;
             }
           }
@@ -96,7 +96,7 @@
       }
     };
 
-    FormLogic.prototype.runValidators = function($input) {
+    FormLogic.prototype.runValidators = function($input, $form) {
       var hasError, name, vNames, vString, _i, _len;
       hasError = false;
       if (($input.is(':hidden') || $input.is(':submit')) && !$input.data('force-validation')) {
@@ -115,7 +115,7 @@
         if (!(name === 'required' || $input.val() !== '')) {
           continue;
         }
-        if (!FormLogic._validators[name]($input)) {
+        if (!FormLogic._validators[name]($input, $form)) {
           this.showError($input, name);
           hasError = true;
         }
@@ -161,7 +161,7 @@
     };
 
     FormLogic.prototype.buildDefaultValidators = function() {
-      FormLogic.validate('required', function($input) {
+      FormLogic.validate('required', function($input, $form) {
         var name, option, _i, _len, _ref;
         if ($input.attr('type') === 'radio' || $input.attr('type') === 'checkbox') {
           name = $input.attr('name');
@@ -177,42 +177,42 @@
           return $input.val() !== '';
         }
       });
-      FormLogic.validate('email', function($input) {
+      FormLogic.validate('email', function($input, $form) {
         var re;
         re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test($input.val());
       });
-      FormLogic.validate('minimum', function($input) {
+      FormLogic.validate('minimum', function($input, $form) {
         var min, val;
         min = parseFloat($input.data('min'));
         val = parseFloat($input.val());
         return val >= min;
       });
-      FormLogic.validate('maximum', function($input) {
+      FormLogic.validate('maximum', function($input, $form) {
         var max, val;
         max = parseFloat($input.data('max'));
         val = parseFloat($input.val());
         return val <= max;
       });
-      FormLogic.validate('number', function($input) {
+      FormLogic.validate('number', function($input, $form) {
         var val;
         val = $input.val();
         return !isNaN(parseFloat(val)) && isFinite(val);
       });
-      FormLogic.validate('confirm', function($input) {
+      FormLogic.validate('confirm', function($input, $form) {
         var target;
         target = $input.data('confirm-target');
         return $input.val() === $(target).val();
       });
-      FormLogic.validate('phone', function($input) {
+      FormLogic.validate('phone', function($input, $form) {
         var val;
         val = $input.val().replace(/[^\d.]/g, '');
         return val.length > 6 && val.length < 16;
       });
-      FormLogic.validate('min-length', function($input) {
+      FormLogic.validate('min-length', function($input, $form) {
         return $input.val().length >= $input.data('min');
       });
-      return FormLogic.validate('max-length', function($input) {
+      return FormLogic.validate('max-length', function($input, $form) {
         return $input.val().length <= $input.data('max');
       });
     };

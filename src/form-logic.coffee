@@ -65,13 +65,13 @@ class @FormLogic
         hasError = false
         $form = $(@)
         for input in $form.find('[data-validate]')
-          unless my.runValidators($(input))
+          unless my.runValidators($(input), $form)
             hasError = true
 
         return !hasError
 
   # Evaluates the input according to the validators specified by data-validate
-  runValidators: ($input)->
+  runValidators: ($input, $form)->
     hasError = false
 
     # Skip hidden & submit elements unless forced to validate
@@ -91,7 +91,7 @@ class @FormLogic
       continue unless name == 'required' || $input.val() != ''
 
       # Call the validators one by one
-      unless FormLogic._validators[name]($input)
+      unless FormLogic._validators[name]($input, $form)
         @showError $input, name
         hasError = true
 
@@ -127,7 +127,7 @@ class @FormLogic
   buildDefaultValidators: ->
 
     # Checks that a value was provided (only validator that doesn't accept empty values)
-    FormLogic.validate 'required', ($input)->
+    FormLogic.validate 'required', ($input, $form)->
       if $input.attr('type') == 'radio' || $input.attr('type') == 'checkbox'
         name = $input.attr('name')
         for option in $('[name="' + name + '"]')
@@ -137,43 +137,43 @@ class @FormLogic
         $input.val() != ''
 
     # Checks that the value is a valid email address
-    FormLogic.validate 'email', ($input) ->
+    FormLogic.validate 'email', ($input, $form) ->
       re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       re.test($input.val())
 
     # Checks that the value is greater than or equal to the given minimum
-    FormLogic.validate 'minimum', ($input) ->
+    FormLogic.validate 'minimum', ($input, $form) ->
       min = parseFloat($input.data('min'))
       val = parseFloat($input.val())
       val >= min
 
     # Checks that the value is less than or equal to the given maximum
-    FormLogic.validate 'maximum', ($input) ->
+    FormLogic.validate 'maximum', ($input, $form) ->
       max = parseFloat($input.data('max'))
       val = parseFloat($input.val())
       val <= max
 
     # Checks that the value is numeric
-    FormLogic.validate 'number', ($input) ->
+    FormLogic.validate 'number', ($input, $form) ->
       val = $input.val()
       !isNaN(parseFloat(val)) && isFinite(val)
 
     # Compares the value of two input elements to be sure they're equal
-    FormLogic.validate 'confirm', ($input) ->
+    FormLogic.validate 'confirm', ($input, $form) ->
       target = $input.data('confirm-target')
       $input.val() == $(target).val() 
 
     # Simply checks for 7-15 number digits minus all other characters, not the best check
-    FormLogic.validate 'phone', ($input) ->
+    FormLogic.validate 'phone', ($input, $form) ->
       val = $input.val().replace(/[^\d.]/g, '')
       val.length > 6 && val.length < 16
 
     # Checks that string is greater than some specified length
-    FormLogic.validate 'min-length', ($input) ->
+    FormLogic.validate 'min-length', ($input, $form) ->
       $input.val().length >= $input.data('min')
 
     # Checks that string is less than some specified length
-    FormLogic.validate 'max-length', ($input) ->
+    FormLogic.validate 'max-length', ($input, $form) ->
       $input.val().length <= $input.data('max')
 
 fl = new FormLogic
