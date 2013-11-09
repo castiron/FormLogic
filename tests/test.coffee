@@ -139,7 +139,17 @@ describe 'FormLogic', ->
 
 
   describe 'API', ->
-    it 'allows for creating custom validators' 
+    it 'allows for creating custom validators', ->
+      FormLogic.validate 'custom', ->
+        val = $input.val()
+        'rosie' == $.trim(val)
+
+      $input = $('#validate-custom')
+      $input.val 'cherry'
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true
+
+
     it 'allows custom validators to override existing/default validators'
     it 'calls onValidSubmit callback'
     it 'exists in the global scope', ->

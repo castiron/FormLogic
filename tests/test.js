@@ -159,7 +159,18 @@
       });
     });
     describe('API', function() {
-      it('allows for creating custom validators');
+      it('allows for creating custom validators', function() {
+        var $input;
+        FormLogic.validate('custom', function() {
+          var val;
+          val = $input.val();
+          return 'rosie' === $.trim(val);
+        });
+        $input = $('#validate-custom');
+        $input.val('cherry');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
       it('allows custom validators to override existing/default validators');
       it('calls onValidSubmit callback');
       return it('exists in the global scope', function() {

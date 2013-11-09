@@ -1,6 +1,7 @@
 class @FormLogic
   constructor: ->
-    @validators = {}
+    return FormLogic._instance if FormLogic._instance
+    FormLogic._validators = {}
 
     @buildDefaultValidators()
     @setupHandlers()
@@ -8,15 +9,16 @@ class @FormLogic
     @fieldErrorClass = 'has-error'
     @errorClass = 'error'
 
+    FormLogic._instance = @
     window.FormLogicAlreadyInitialized = true
 
 
   # Adds a validator to FormLogic
-  validate: (name, func) ->
+  @validate: (name, func) ->
     if !func || typeof(func) != 'function'
       throw 'The second argument you passed to FormLogic.validator() was not a function'
 
-    @validators[name] = func
+    FormLogic._validators[name] = func
 
   # This makes it easier for users to leave error targets in the markup
   # without worrying about adding 'display: none' all the time.
@@ -84,13 +86,13 @@ class @FormLogic
     for name in vNames
 
       # Skip validators we don't know
-      continue unless @validators[name]
+      continue unless FormLogic._validators[name]
 
       # The only validator for empty values is 'required'
       continue unless name == 'required' || $input.val() != ''
 
       # Call the validators one by one
-      unless @validators[name]($input)
+      unless FormLogic._validators[name]($input)
         @showError $input, name
         hasError = true
 
@@ -126,7 +128,7 @@ class @FormLogic
   buildDefaultValidators: ->
 
     # Checks that a value was provided (only validator that doesn't accept empty values)
-    @validate 'required', ($input)->
+    FormLogic.validate 'required', ($input)->
       if $input.attr('type') == 'radio' || $input.attr('type') == 'checkbox'
         name = $input.attr('name')
         for option in $('[name="' + name + '"]')
@@ -136,43 +138,43 @@ class @FormLogic
         $input.val() != ''
 
     # Checks that the value is a valid email address
-    @validate 'email', ($input) ->
+    FormLogic.validate 'email', ($input) ->
       re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       re.test($input.val())
 
     # Checks that the value is greater than or equal to the given minimum
-    @validate 'minimum', ($input) ->
+    FormLogic.validate 'minimum', ($input) ->
       min = parseFloat($input.data('min'))
       val = parseFloat($input.val())
       val >= min
 
     # Checks that the value is less than or equal to the given maximum
-    @validate 'maximum', ($input) ->
+    FormLogic.validate 'maximum', ($input) ->
       max = parseFloat($input.data('max'))
       val = parseFloat($input.val())
       val <= max
 
     # Checks that the value is numeric
-    @validate 'number', ($input) ->
+    FormLogic.validate 'number', ($input) ->
       val = $input.val()
       !isNaN(parseFloat(val)) && isFinite(val)
 
     # Compares the value of two input elements to be sure they're equal
-    @validate 'confirm', ($input) ->
+    FormLogic.validate 'confirm', ($input) ->
       target = $input.data('confirm-target')
       $input.val() == $(target).val() 
 
     # Simply checks for 7-15 number digits minus all other characters, not the best check
-    @validate 'phone', ($input) ->
+    FormLogic.validate 'phone', ($input) ->
       val = $input.val().replace(/[^\d.]/g, '')
       val.length > 6 && val.length < 16
 
     # Checks that string is greater than some specified length
-    @validate 'min-length', ($input) ->
+    FormLogic.validate 'min-length', ($input) ->
       $input.val().length >= $input.data('min')
 
     # Checks that string is less than some specified length
-    @validate 'max-length', ($input) ->
+    FormLogic.validate 'max-length', ($input) ->
       $input.val().length <= $input.data('max')
 
 fl = new FormLogic
