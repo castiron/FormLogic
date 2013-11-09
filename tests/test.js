@@ -171,7 +171,18 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-      it('allows custom validators to override existing/default validators');
+      it('allows custom validators to override existing/default validators', function() {
+        var $input;
+        FormLogic.validate('minimum', function() {
+          var val;
+          val = $input.val();
+          return val > 700;
+        });
+        $input = $('#validate-custom-override');
+        $input.val(600);
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
       it('calls onValidSubmit callback');
       return it('exists in the global scope', function() {
         var fl;

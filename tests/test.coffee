@@ -150,7 +150,16 @@ describe 'FormLogic', ->
       expect($input.hasClass(errorClass)).to.be.true
 
 
-    it 'allows custom validators to override existing/default validators'
+    it 'allows custom validators to override existing/default validators', ->
+      FormLogic.validate 'minimum', ->
+        val = $input.val()
+        val > 700
+
+      $input = $('#validate-custom-override')
+      $input.val 600
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true
+
     it 'calls onValidSubmit callback'
     it 'exists in the global scope', ->
       fl = new FormLogic

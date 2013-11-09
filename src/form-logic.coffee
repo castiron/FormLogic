@@ -10,7 +10,6 @@ class @FormLogic
     @errorClass = 'error'
 
     FormLogic._instance = @
-    window.FormLogicAlreadyInitialized = true
 
 
   # Adds a validator to FormLogic
@@ -23,7 +22,7 @@ class @FormLogic
   # This makes it easier for users to leave error targets in the markup
   # without worrying about adding 'display: none' all the time.
   hideErrorTargets: ->
-    return if window.FormLogicAlreadyInitialized
+    return if FormLogic._instance
     for form in $('form')
       $form = $(form)
       for input in $form.find('[data-validate]')

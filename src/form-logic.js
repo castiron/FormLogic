@@ -13,7 +13,6 @@
       this.fieldErrorClass = 'has-error';
       this.errorClass = 'error';
       FormLogic._instance = this;
-      window.FormLogicAlreadyInitialized = true;
     }
 
     FormLogic.validate = function(name, func) {
@@ -25,7 +24,7 @@
 
     FormLogic.prototype.hideErrorTargets = function() {
       var $form, $input, $next, form, input, name, target, vNames, vString, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
-      if (window.FormLogicAlreadyInitialized) {
+      if (FormLogic._instance) {
         return;
       }
       _ref = $('form');
