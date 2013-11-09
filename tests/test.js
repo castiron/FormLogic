@@ -63,7 +63,7 @@
       });
       it('validates a required value for select elements', function() {
         var $input;
-        $input = $('#select').first();
+        $input = $('#select');
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
@@ -198,7 +198,18 @@
       });
     });
     describe('Chosen JS', function() {
-      return it('validates required for select elements');
+      it('validates required for select elements', function() {
+        var $input;
+        $input = $('#chosen-required');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
+      return it('validates required for select multiple elements', function() {
+        var $input;
+        $input = $('#chosen-required-multiple');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
     });
     return describe('Stripe', function() {
       it('validates credit card number');

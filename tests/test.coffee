@@ -56,7 +56,7 @@ describe 'FormLogic', ->
       expect($input.hasClass(errorClass)).to.be.true
 
     it 'validates a required value for select elements', ->
-      $input = $('#select').first()
+      $input = $('#select')
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
@@ -173,7 +173,15 @@ describe 'FormLogic', ->
 
 
   describe 'Chosen JS', ->
-    it 'validates required for select elements'
+    it 'validates required for select elements', ->
+      $input = $('#chosen-required')
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true
+
+    it 'validates required for select multiple elements', ->
+      $input = $('#chosen-required-multiple')
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true
 
 
   describe 'Stripe', ->

@@ -86,8 +86,9 @@ class @FormLogic
   runValidators: ($input, $form)->
     hasError = false
 
-    # Skip hidden & submit elements unless forced to validate
-    return false if ($input.is(':hidden') or $input.is(':submit')) and !$input.data('force-validation')
+    # Skip submit elements & hidden elements (unless using Chosen JS) unless forced to validate
+    if (($input.is(':hidden') and !$input.next('.chosen-container').length) or $input.is(':submit')) and !$input.data('force-validation')
+      return false 
 
     # Parse out the specified validators
     vString = $input.data('validate')
@@ -146,7 +147,8 @@ class @FormLogic
           return true if $(option).is(':checked')
         return false
       else
-        $input.val() != ''
+        val = $input.val()
+        val && $input.val() != ''
 
     # Checks that the value is a valid email address
     FormLogic.validate 'email', ($input, $form) ->

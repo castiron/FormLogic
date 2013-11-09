@@ -5,6 +5,7 @@
 	<title>FormLogic Tests</title>
 	<link rel="stylesheet" media="all" href="mocha.css">
 	<link rel="stylesheet" href="styles.css" type="text/css" />
+	<link rel="stylesheet" href="chosen/chosen.min.css" type="text/css" />
 </head>
 <body>
 	
@@ -92,6 +93,20 @@
 			<label>Custom validator overrides existing validator:</label>
 			<input type="text" id="validate-custom-override" data-validate="minimum" />
 
+			<label>Chosen required:</label>
+			<select class="chosen-select" id="chosen-required" data-validate="required">
+				<option></option>
+				<option value="3">three</option>
+				<option value="5">five</option>
+			</select>
+
+			<label>Chosen required multiple:</label>
+			<select class="chosen-select" id="chosen-required-multiple" data-validate="required" multiple>
+				<option></option>
+				<option value="7">seven</option>
+				<option value="9">nine</option>
+			</select>
+
 			<input type="submit" class="submit btn" value="submit" />
 		</form>
 
@@ -110,6 +125,8 @@
 	<script src="mocha.js"></script>
 	<script src="chai.js"></script>
 	<script src="jquery-1.10.2.min.js"></script>
+	<script src="chosen/chosen.jquery.min.js"></script>
+	<script type="text/javascript">$('.chosen-select').chosen({width: '100%'});</script>
 	<script src="../src/form-logic.js"></script>
 	<script>mocha.setup('bdd')</script>
 	<script src="test.js"></script>

@@ -111,7 +111,7 @@
     FormLogic.prototype.runValidators = function($input, $form) {
       var hasError, name, vNames, vString, _i, _len;
       hasError = false;
-      if (($input.is(':hidden') || $input.is(':submit')) && !$input.data('force-validation')) {
+      if ((($input.is(':hidden') && !$input.next('.chosen-container').length) || $input.is(':submit')) && !$input.data('force-validation')) {
         return false;
       }
       vString = $input.data('validate');
@@ -174,7 +174,7 @@
 
     FormLogic.prototype.buildDefaultValidators = function() {
       FormLogic.validate('required', function($input, $form) {
-        var name, option, _i, _len, _ref;
+        var name, option, val, _i, _len, _ref;
         if ($input.attr('type') === 'radio' || $input.attr('type') === 'checkbox') {
           name = $input.attr('name');
           _ref = $('[name="' + name + '"]');
@@ -186,7 +186,8 @@
           }
           return false;
         } else {
-          return $input.val() !== '';
+          val = $input.val();
+          return val && $input.val() !== '';
         }
       });
       FormLogic.validate('email', function($input, $form) {
