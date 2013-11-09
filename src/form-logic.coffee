@@ -71,14 +71,14 @@ class @FormLogic
 
       $form.submit (event) ->
         hasError = false
-        $form = $(@)
-        for input in $form.find('[data-validate]')
-          unless my.runValidators($(input), $form)
+        for input in $(@).find('[data-validate]')
+          unless my.runValidators($(input), $(@))
             hasError = true
 
-        if !hasError
+        unless hasError
           callback = $form.data('fl-submit-callback')
-          return callback.call($form, event) if typeof(callback) != 'function'
+          if callback && typeof(callback) == 'function'
+            return callback.call($form, event) 
 
         return !hasError
 

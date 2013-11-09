@@ -187,7 +187,15 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-      return it('calls onValidSubmit callback');
+      return it('calls onValidSubmit callback', function(done) {
+        var $form;
+        $form = $('#form-two');
+        FormLogic.onValidSubmit($form, function(event) {
+          done();
+          return false;
+        });
+        return $form.submit();
+      });
     });
     describe('Chosen JS', function() {
       return it('validates required for select elements');

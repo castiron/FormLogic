@@ -164,7 +164,12 @@ describe 'FormLogic', ->
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
-    it 'calls onValidSubmit callback'
+    it 'calls onValidSubmit callback', (done) ->
+      $form = $('#form-two')
+      FormLogic.onValidSubmit $form, (event) ->
+        done()
+        return false
+      $form.submit()
 
 
   describe 'Chosen JS', ->

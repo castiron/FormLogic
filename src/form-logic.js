@@ -90,17 +90,16 @@
         $form.submit(function(event) {
           var callback, hasError, _k, _len2, _ref2;
           hasError = false;
-          $form = $(this);
-          _ref2 = $form.find('[data-validate]');
+          _ref2 = $(this).find('[data-validate]');
           for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
             input = _ref2[_k];
-            if (!my.runValidators($(input), $form)) {
+            if (!my.runValidators($(input), $(this))) {
               hasError = true;
             }
           }
           if (!hasError) {
             callback = $form.data('fl-submit-callback');
-            if (typeof callback !== 'function') {
+            if (callback && typeof callback === 'function') {
               return callback.call($form, event);
             }
           }
