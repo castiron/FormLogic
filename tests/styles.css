@@ -1,23 +1,30 @@
-#signupForm {
+#test-forms {
   font-family: helvetica,arial,sans-serif;
   padding: 20px;
   width: 300px;
   float: left; }
-  #signupForm label {
+  #test-forms label {
     display: block;
     margin-top: 10px; }
-    #signupForm label.checkbox {
+    #test-forms label.checkbox {
       margin-top: 3px; }
-  #signupForm input[type="text"], #signupForm input[type="password"] {
+  #test-forms input[type="text"], #test-forms input[type="password"] {
     padding: 5px;
     width: 200px; }
-    #signupForm input[type="text"].exp-month, #signupForm input[type="password"].exp-month {
+    #test-forms input[type="text"].exp-month, #test-forms input[type="password"].exp-month {
       width: 25px; }
-    #signupForm input[type="text"].exp-year, #signupForm input[type="password"].exp-year {
+    #test-forms input[type="text"].exp-year, #test-forms input[type="password"].exp-year {
       width: 50px; }
-    #signupForm input[type="text"].has-error, #signupForm input[type="password"].has-error {
+    #test-forms input[type="text"].has-error, #test-forms input[type="password"].has-error {
       border: 1px solid red; }
-  #signupForm .error {
+  #test-forms input[type="submit"] {
+    display: block;
+    margin-top: 10px; }
+  #test-forms form {
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 20px;
+    padding-bottom: 10px; }
+  #test-forms .error {
     color: red; }
 
 #results {

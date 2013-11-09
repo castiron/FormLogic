@@ -1,4 +1,4 @@
-#signupForm {
+#test-forms {
   font-family: helvetica,arial,sans-serif;
   padding: 20px;
   width: 300px;
@@ -23,6 +23,17 @@
       border: 1px solid red;
     }
   }
+  input[type="submit"] {
+    display: block;
+    margin-top: 10px;
+  }
+
+  form {
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
+
   .error {
     color: red;
   }

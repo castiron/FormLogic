@@ -8,93 +8,98 @@
 </head>
 <body>
 	
-	<form id="signupForm">
-		<label>Required:</label>
-		<input type="text" id="required" data-validate="required" />
+	<div id="test-forms">
+		<form id="form-one">
+			<label>Required:</label>
+			<input type="text" id="required" data-validate="required" />
 
-		<label>Required Checkboxes:</label>
-		<label class="checkbox"><input type="checkbox" name="check" value="check1" data-validate="required" /> check 1</label>
-		<label class="checkbox"><input type="checkbox" name="check" value="check2" /> check 2</label>
+			<label>Required Checkboxes:</label>
+			<label class="checkbox"><input type="checkbox" name="check" value="check1" data-validate="required" /> check 1</label>
+			<label class="checkbox"><input type="checkbox" name="check" value="check2" /> check 2</label>
 
-		<label>Required Select Value:</label>
-		<select id="select" data-validate="required">
-			<option></option>
-			<option value="opt1">Opt 1</option>
-			<option value="opt2">Opt 2</option>
-			<option value="opt3">Opt 3</option>
-		</select>
+			<label>Required Select Value:</label>
+			<select id="select" data-validate="required">
+				<option></option>
+				<option value="opt1">Opt 1</option>
+				<option value="opt2">Opt 2</option>
+				<option value="opt3">Opt 3</option>
+			</select>
 
-		<label>Email:</label>
-		<input type="text" id="email" data-validate="email" />
+			<label>Email:</label>
+			<input type="text" id="email" data-validate="email" />
 
-		<label>Minimum:</label>
-		<input type="text" id="minimum" data-validate="minimum" data-min="300" />
+			<label>Minimum:</label>
+			<input type="text" id="minimum" data-validate="minimum" data-min="300" />
 
-		<label>Maximum:</label>
-		<input type="text" id="maximum" data-validate="maximum" data-max="300" />
+			<label>Maximum:</label>
+			<input type="text" id="maximum" data-validate="maximum" data-max="300" />
 
-		<label>Confirm Target:</label>
-		<input type="text" id="confirm-target" />
+			<label>Confirm Target:</label>
+			<input type="text" id="confirm-target" />
 
-		<label>Confirm:</label>
-		<input type="text" id="confirm" data-validate="confirm" data-confirm-target="#confirm-target" />
+			<label>Confirm:</label>
+			<input type="text" id="confirm" data-validate="confirm" data-confirm-target="#confirm-target" />
 
-		<label>Phone:</label>
-		<input type="text" id="phone" data-validate="phone" />
+			<label>Phone:</label>
+			<input type="text" id="phone" data-validate="phone" />
 
-		<label>Maximum Length:</label>
-		<input type="text" id="max-length" data-validate="max-length" data-max="4" />
+			<label>Maximum Length:</label>
+			<input type="text" id="max-length" data-validate="max-length" data-max="4" />
 
-		<label>Minimum Length:</label>
-		<input type="text" id="min-length" data-validate="min-length" data-min="3" />
+			<label>Minimum Length:</label>
+			<input type="text" id="min-length" data-validate="min-length" data-min="3" />
 
-		<label>In-between Length:</label>
-		<input type="text" id="min-max-length" data-validate="min-length max-length" data-min="3" data-max="4" />
+			<label>In-between Length:</label>
+			<input type="text" id="min-max-length" data-validate="min-length max-length" data-min="3" data-max="4" />
 
-		<label>Number:</label>
-		<input type="text" id="number" data-validate="number" />
+			<label>Number:</label>
+			<input type="text" id="number" data-validate="number" />
 
-		<div style="display: none;">
-			<label>Hidden:</label>
-			<input type="text" id="hidden1" data-validate="required" />
+			<div style="display: none;">
+				<label>Hidden:</label>
+				<input type="text" id="hidden1" data-validate="required" />
 
-			<label>Hidden:</label>
-			<input type="text" id="hidden2" data-validate="required" data-force-validation="true" />
-		</div>
+				<label>Hidden:</label>
+				<input type="text" id="hidden2" data-validate="required" data-force-validation="true" />
+			</div>
 
-		<label>No target:</label>
-		<input type="text" id="no-target" data-validate="required" data-message="Please enter something" />
+			<label>No target:</label>
+			<input type="text" id="no-target" data-validate="required" data-message="Please enter something" />
 
-		<label>Error target: </label>
-		<input type="text" id="error-target" data-validate="required" data-error="#error-result" />
-		<div id="error-result" class="error">Please enter something</div>
+			<label>Error target: </label>
+			<input type="text" id="error-target" data-validate="required" data-error="#error-result" />
+			<div id="error-result" class="error">Please enter something</div>
 
-		<label>Error target special:</label>
-		<input type="text" id="error-target-special" data-validate="required minimum" data-min="300"
-		       data-error-required="#error-result-required"
-		       data-error-minimum="#error-result-minimum" />
-		<div id="error-result-required" class="error">Please enter something</div>
-		<div id="error-result-minimum" class="error">Please enter something above 300</div>
+			<label>Error target special:</label>
+			<input type="text" id="error-target-special" data-validate="required minimum" data-min="300"
+			       data-error-required="#error-result-required"
+			       data-error-minimum="#error-result-minimum" />
+			<div id="error-result-required" class="error">Please enter something</div>
+			<div id="error-result-minimum" class="error">Please enter something above 300</div>
 
-		<label>Special message:</label>
-		<input type="text" id="special-message" data-validate="required minimum" data-min="300"
-				data-message="This message is not special."
-				data-message-minimum="This message is special. Please enter something 300 or higher." />
+			<label>Special message:</label>
+			<input type="text" id="special-message" data-validate="required minimum" data-min="300"
+					data-message="This message is not special."
+					data-message-minimum="This message is special. Please enter something 300 or higher." />
 
-		<label>No special message:</label>
-		<input type="text" id="no-special-message" data-validate="minimum" 
-						data-message="Please enter something 300 or higher." data-min="300" />
+			<label>No special message:</label>
+			<input type="text" id="no-special-message" data-validate="minimum" 
+							data-message="Please enter something 300 or higher." data-min="300" />
 
-		<label>Custom validator:</label>
-		<input type="text" id="validate-custom" data-validate="custom" />
+			<label>Custom validator:</label>
+			<input type="text" id="validate-custom" data-validate="custom" />
 
-		<label>Custom validator overrides existing validator:</label>
-		<input type="text" id="validate-custom-override" data-validate="minimum" />
+			<label>Custom validator overrides existing validator:</label>
+			<input type="text" id="validate-custom-override" data-validate="minimum" />
 
-		<div>
 			<input type="submit" class="submit btn" value="submit" />
-		</div>
-	</form>
+		</form>
+
+		<form id="form-two">
+			<label>Another form:</label>
+			<input type="submit" class="submit btn" value="submit" />
+		</form>
+	</div>
 
 	<div id="results">
 		<div id="mocha"></div>
