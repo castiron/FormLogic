@@ -137,7 +137,12 @@ describe 'FormLogic', ->
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
-    it 'validates credit card number'
+    it 'validates credit card number', ->
+      $input = $('#card-number')
+      $input.val('4242-4242-4242-424')
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true
+
     it 'validates cvc code', ->
       $input = $('#card-cvc')
       $input.val('00939')

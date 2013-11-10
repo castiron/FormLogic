@@ -188,6 +188,17 @@ class @FormLogic
       return true
 
     FormLogic.validate 'card-cvc', ($input, $form) ->
-      3 <= $input.val().replace(/\D/g,'').length <=4        
+      3 <= $input.val().replace(/\D/g,'').length <= 4        
+
+    FormLogic.validate 'card-number', ($input, $form) ->
+      regex = ///^(?:4[0-9]{12}(?:[0-9]{3})?        # Visa
+              |  5[1-5][0-9]{14}                  # MasterCard
+              |  3[47][0-9]{13}                   # American Express
+              |  3(?:0[0-5]|[68][0-9])[0-9]{11}   # Diners Club
+              |  6(?:011|5[0-9]{2})[0-9]{12}      # Discover
+              |  (?:2131|1800|35\d{3})\d{11}      # JCB
+      )$///
+      $input.val().replace(/\D/g,'').match(regex) != null
+
 
 fl = new FormLogic

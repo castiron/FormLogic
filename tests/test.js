@@ -156,7 +156,13 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-      it('validates credit card number');
+      it('validates credit card number', function() {
+        var $input;
+        $input = $('#card-number');
+        $input.val('4242-4242-4242-424');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
       it('validates cvc code', function() {
         var $input;
         $input = $('#card-cvc');
