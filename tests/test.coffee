@@ -137,6 +137,15 @@ describe 'FormLogic', ->
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
+    it 'validates credit card number'
+    it 'validates cvc code', ->
+      $input = $('#card-cvc')
+      $input.val('00939')
+      $input.blur()
+      expect($input.hasClass(errorClass)).to.be.true      
+
+    it 'validates expiration date'
+
 
   describe 'API', ->
     it 'exists in the global scope', ->
@@ -182,12 +191,6 @@ describe 'FormLogic', ->
       $input = $('#chosen-required-multiple')
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
-
-
-  describe 'Stripe', ->
-    it 'validates credit card number'
-    it 'validates cvc code'
-    it 'validates expiration date'
 
 
   # describe 'validators', ->

@@ -186,10 +186,8 @@ class @FormLogic
       return val <= max        if max != undefined and min == undefined
       return min <= val        if max == undefined and min != undefined
       return true
-        
 
-    # Checks that string is less than some specified length
-    FormLogic.validate 'max-length', ($input, $form) ->
-      $input.val().length <= $input.data('max')
+    FormLogic.validate 'card-cvc', ($input, $form) ->
+      3 <= $input.val().replace(/\D/g,'').length <=4        
 
 fl = new FormLogic

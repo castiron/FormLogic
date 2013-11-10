@@ -149,13 +149,22 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["false"];
       });
-      return it('validates hidden elements if given the data-force-validation option', function() {
+      it('validates hidden elements if given the data-force-validation option', function() {
         var $input;
         $input = $('#hidden2');
         $input.val('');
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
+      it('validates credit card number');
+      it('validates cvc code', function() {
+        var $input;
+        $input = $('#card-cvc');
+        $input.val('00939');
+        $input.blur();
+        return expect($input.hasClass(errorClass)).to.be["true"];
+      });
+      return it('validates expiration date');
     });
     describe('API', function() {
       it('exists in the global scope', function() {
@@ -197,7 +206,7 @@
         return $form.submit();
       });
     });
-    describe('Chosen JS', function() {
+    return describe('Chosen JS', function() {
       it('validates required for select elements', function() {
         var $input;
         $input = $('#chosen-required');
@@ -210,11 +219,6 @@
         $input.blur();
         return expect($input.hasClass(errorClass)).to.be["true"];
       });
-    });
-    return describe('Stripe', function() {
-      it('validates credit card number');
-      it('validates cvc code');
-      return it('validates expiration date');
     });
   });
 

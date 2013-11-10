@@ -240,8 +240,9 @@
         }
         return true;
       });
-      return FormLogic.validate('max-length', function($input, $form) {
-        return $input.val().length <= $input.data('max');
+      return FormLogic.validate('card-cvc', function($input, $form) {
+        var _ref;
+        return (3 <= (_ref = $input.val().replace(/\D/g, '').length) && _ref <= 4);
       });
     };
 
