@@ -197,5 +197,3 @@ describe 'FormLogic', ->
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
 
-
-  # describe 'validators', ->
