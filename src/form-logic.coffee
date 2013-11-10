@@ -15,13 +15,14 @@ class @FormLogic
   # Adds a validator to FormLogic
   @validate: (name, func) ->
     if !func || typeof(func) != 'function'
-      throw 'The second argument you passed to FormLogic.validator() was not a function.'
+      throw 'The second argument passed to FormLogic.validator() must be a function.'
 
     FormLogic._validators[name] = func
 
+  # Adds a listener to valid form submissions
   @onValidSubmit: (form, func) ->
     if !func || typeof(func) != 'function'
-      throw 'The second argument you passed to FormLogic.onValidSubmit() was not a function.'
+      throw 'The second argument passed to FormLogic.onValidSubmit() must be a function.'
 
     $(form).data('fl-submit-callback', func)
 

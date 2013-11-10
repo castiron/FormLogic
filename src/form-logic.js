@@ -17,14 +17,14 @@
 
     FormLogic.validate = function(name, func) {
       if (!func || typeof func !== 'function') {
-        throw 'The second argument you passed to FormLogic.validator() was not a function.';
+        throw 'The second argument passed to FormLogic.validator() must be a function.';
       }
       return FormLogic._validators[name] = func;
     };
 
     FormLogic.onValidSubmit = function(form, func) {
       if (!func || typeof func !== 'function') {
-        throw 'The second argument you passed to FormLogic.onValidSubmit() was not a function.';
+        throw 'The second argument passed to FormLogic.onValidSubmit() must be a function.';
       }
       return $(form).data('fl-submit-callback', func);
     };
