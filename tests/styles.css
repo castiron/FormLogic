@@ -6,7 +6,7 @@
   #test-forms label {
     display: block;
     margin-top: 10px; }
-    #test-forms label.checkbox {
+    #test-forms label.checkbox, #test-forms label.radio {
       margin-top: 3px; }
   #test-forms input[type="text"], #test-forms input[type="password"] {
     padding: 5px;

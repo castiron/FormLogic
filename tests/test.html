@@ -113,6 +113,55 @@
 			<label>CVC Code:</label>
 			<input type="text" id="card-cvc" data-validate="card-cvc" />
 
+			<label>Form stimulus:</label>
+			<input type="text" name="stimulus-text" />
+			<label class="checkbox"><input type="checkbox" name="stimulus-check" value="check1" /> check 1</label>
+			<label class="checkbox"><input type="checkbox" name="stimulus-check" value="check2" /> check 2</label>
+			<label class="radio"><input type="radio" name="stimulus-radio" value="radio1" /> radio 1</label>
+			<label class="radio"><input type="radio" name="stimulus-radio" value="radio2" /> radio 2</label>
+			<select name="stimulus-select">
+				<option></option>
+				<option value="opt1">Opt 1</option>
+				<option value="opt2">Opt 2</option>
+				<option value="opt3">Opt 3</option>
+			</select>
+			<select name="stimulus-select-multiple" multiple>
+				<option value="opt4">Opt 4</option>
+				<option value="opt5">Opt 5</option>
+				<option value="opt6">Opt 6</option>
+			</select>
+			<select id="stimulus-id-select">
+				<option value="opt7">Opt 7</option>
+				<option value="opt8">Opt 8</option>
+				<option value="opt9">Opt 9</option>
+			</select>
+			<select name="stimulus-any-select">
+				<option>Please select something</option>
+				<option value="opt10">Opt 10</option>
+				<option value="opt11">Opt 11</option>
+				<option value="opt12">Opt 12</option>
+			</select>
+			<select name="stimulus-chosen-select">
+				<option value="opt13">Opt 13</option>
+				<option value="opt14">Opt 14</option>
+				<option value="opt15">Opt 15</option>
+			</select>
+			<label class="checkbox"><input type="checkbox" name="stimulus-chain" value="react" /> Chain reaction</label>
+
+			<div data-prompt="stimulus-text" data-show-if="cherry">Yeah, cherry!</div>
+			<div data-prompt="stimulus-check" data-show-if="check2">Check 2, wat.</div>
+			<div data-prompt="stimulus-radio" data-show-if="radio2">Testing 1, 2...</div>
+			<div data-prompt="stimulus-select" data-show-if="opt2">Oh, that one.</div>
+			<div data-prompt="#stimulus-id-select" data-show-if="opt8">By any other name...</div>
+			<div data-prompt="stimulus-any-select">You did something!</div>
+			<div data-prompt="stimulus-chosen-select">You chose wisely.</div>
+			<div data-prompt="stimulus-chain" data-show-if="react">
+				<label class="checkbox"><input type="checkbox" name="stimulus-chain-chain" value="react-react" /> Chain reaction</label>
+			</div>
+			<div data-prompt="stimulus-chain-chain" data-show-if="react-react">
+				Never break the chain.
+			</div>
+
 			<input type="submit" class="submit btn" value="submit" />
 		</form>
 
