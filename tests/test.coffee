@@ -5,7 +5,7 @@ describe 'FormLogic', ->
   errorClass = 'has-error'
 
 
-  describe 'errors', ->
+  describe 'Errors', ->
 
     # This one must run first. 
     it 'hides error targets on page load', ->
@@ -44,7 +44,9 @@ describe 'FormLogic', ->
       $error = $input.next()
       expect($error.text() == message).to.be.true
 
-  describe 'validators', ->
+
+  describe 'Validators', ->
+
     it 'validates a required value', ->
       $input = $('#required')
       $input.blur()
@@ -152,6 +154,46 @@ describe 'FormLogic', ->
     it 'validates expiration date'
 
 
+  describe 'Dynamic Fields', ->
+
+    it 'hides dependent fields on page load', ->
+      expect($('[data-prompt]').is(':hidden')).to.be.true
+
+    it 'shows fields dependent on text input', ->
+      $input = $('[name="stimulus-text"]')
+      $input.val('cherry')
+      $input.blur()
+      expect($('[data-prompt="stimulus-text"]').is(':hidden')).to.be.false
+
+    it 'hides fields dependent on text input', ->
+      $input = $('[name="stimulus-text"]')
+      $input.val('rosie')
+      $input.blur()
+      expect($('[data-prompt="stimulus-text"]').is(':hidden')).to.be.true
+
+    it 'shows fields dependent on checkbox values', ->
+      $input = $('[name="stimulus-check"][value="check2"]')
+      $input.prop('checked', true)
+      $input.blur()
+      expect($('[data-prompt="stimulus-check"]').is(':hidden')).to.be.false
+
+
+    it 'hides fields dependent on checkbox values'
+    it 'shows fields dependent on radio values'
+    it 'hides fields dependent on radio values'
+    it 'shows fields dependent on select values'
+    it 'hides fields dependent on select values'
+    it 'shows fields dependent on select multiple values'
+    it 'hides fields dependent on select multiple values'
+    it 'takes the id selector for a prompt'
+    it 'shows fields dependent on any non-empty value'
+    it 'hides fields dependent on any non-empty value'
+    it 'shows fields dependent on values that are dependent on other fields' 
+    it 'hides fields dependent on values that are dependent on other fields' 
+    it 'shows fields dependent on multiple values (specified with semicolon-separated values)'
+    it 'hides fields dependent on multiple values (specified with semicolon-separated values)'
+
+
   describe 'API', ->
     it 'exists in the global scope', ->
       fl = new FormLogic
@@ -166,7 +208,6 @@ describe 'FormLogic', ->
       $input.val 'cherry'
       $input.blur()
       expect($input.hasClass(errorClass)).to.be.true
-
 
     it 'allows custom validators to override existing/default validators', ->
       FormLogic.validate 'number', ($input, $form) ->
@@ -187,6 +228,7 @@ describe 'FormLogic', ->
 
 
   describe 'Chosen JS', ->
+
     it 'validates required for select elements', ->
       $input = $('#chosen-required')
       $input.blur()

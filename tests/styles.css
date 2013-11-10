@@ -11,10 +11,6 @@
   #test-forms input[type="text"], #test-forms input[type="password"] {
     padding: 5px;
     width: 200px; }
-    #test-forms input[type="text"].exp-month, #test-forms input[type="password"].exp-month {
-      width: 25px; }
-    #test-forms input[type="text"].exp-year, #test-forms input[type="password"].exp-year {
-      width: 50px; }
     #test-forms input[type="text"].has-error, #test-forms input[type="password"].has-error {
       border: 1px solid red; }
   #test-forms input[type="submit"] {

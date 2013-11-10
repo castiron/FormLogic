@@ -13,12 +13,6 @@
   input[type="text"], input[type="password"]{
     padding: 5px;
     width: 200px;
-    &.exp-month {
-      width: 25px;
-    }
-    &.exp-year {
-      width: 50px;
-    }
     &.has-error {
       border: 1px solid red;
     }

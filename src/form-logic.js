@@ -8,7 +8,8 @@
       }
       FormLogic._validators = {};
       this.buildDefaultValidators();
-      this.setupHandlers();
+      this.setupValidationHandlers();
+      this.setupPrompts();
       this.hideErrorTargets();
       this.fieldErrorClass = 'has-error';
       this.errorClass = 'error';
@@ -27,6 +28,53 @@
         throw 'The second argument passed to FormLogic.onValidSubmit() must be a function.';
       }
       return $(form).data('fl-submit-callback', func);
+    };
+
+    FormLogic.prototype.setupPrompts = function() {
+      var $form, form, _i, _len, _ref, _results;
+      _ref = $('form');
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        form = _ref[_i];
+        $form = $(form);
+        _results.push($('[data-prompt]').each(function(i, el) {
+          var $el, $parent, goalString, goals, handle, parentIsCheckType, parentName, siblings;
+          $el = $(el);
+          $form = $form;
+          $el.hide();
+          handle = $el.data('prompt');
+          $parent = handle.charAt(0) === '#' ? $($form.find(handle)) : $($form.find('[name="' + handle + '"]'));
+          goalString = $el.data('show-if');
+          goals = [];
+          if (goalString) {
+            goals = $.map(goalString.split(';'), function(str) {
+              return $.trim(str);
+            });
+          }
+          parentIsCheckType = $parent.is('[type="checkbox"]') || $parent.is('[type="radio"]');
+          parentName = $parent.attr('name');
+          siblings = $form.find('[name="' + parentName + '"]');
+          return $parent.blur(function() {
+            var goal, val, _j, _len1;
+            if (parentIsCheckType) {
+
+            } else {
+              val = $(this).val();
+            }
+            if (goals.length === 0 && val !== '') {
+              return $el.show();
+            }
+            for (_j = 0, _len1 = goals.length; _j < _len1; _j++) {
+              goal = goals[_j];
+              if (goal === val) {
+                return $el.show();
+              }
+            }
+            return $el.hide();
+          });
+        }));
+      }
+      return _results;
     };
 
     FormLogic.prototype.hideErrorTargets = function() {
@@ -65,7 +113,7 @@
       return true;
     };
 
-    FormLogic.prototype.setupHandlers = function() {
+    FormLogic.prototype.setupValidationHandlers = function() {
       var $form, $input, form, input, my, _i, _j, _len, _len1, _ref, _ref1,
         _this = this;
       my = this;

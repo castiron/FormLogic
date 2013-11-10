@@ -4,7 +4,8 @@ class @FormLogic
     FormLogic._validators = {}
 
     @buildDefaultValidators()
-    @setupHandlers()
+    @setupValidationHandlers()
+    @setupPrompts()
     @hideErrorTargets()
     @fieldErrorClass = 'has-error'
     @errorClass = 'error'
@@ -25,6 +26,47 @@ class @FormLogic
       throw 'The second argument passed to FormLogic.onValidSubmit() must be a function.'
 
     $(form).data('fl-submit-callback', func)
+
+
+  setupPrompts: ->
+    for form in $('form')
+      $form = $(form)
+      $('[data-prompt]').each (i,el) ->
+        $el = $(el)
+        $form = $form # for closure
+
+        # Hide dependent field from the start
+        $el.hide()
+
+        # Locate the parent using name or ID
+        handle = $el.data('prompt')
+        $parent = if handle.charAt(0) == '#' then $($form.find(handle)) else $($form.find('[name="'+handle+'"]'))
+
+        # Determine the target values
+        goalString = $el.data('show-if')
+        goals = []
+        if goalString 
+          goals = $.map goalString.split(';'), (str) -> return $.trim str
+
+        # Collect info about the parent
+        parentIsCheckType = $parent.is('[type="checkbox"]') or $parent.is('[type="radio"]')
+        parentName = $parent.attr('name')
+        siblings = $form.find('[name="'+parentName+'"]')
+
+        # React to blur
+        $parent.blur ->
+          if parentIsCheckType
+            
+          else
+            val = $(@).val()
+
+          if goals.length == 0 and val != ''
+            return $el.show()
+
+          for goal in goals 
+            return $el.show() if goal == val
+
+          $el.hide()
 
 
 
@@ -55,7 +97,7 @@ class @FormLogic
     true
 
   # Calls validators on blur and on form submit
-  setupHandlers: ->
+  setupValidationHandlers: ->
     my = @
     for form in $('form')
       $form = $(form)
