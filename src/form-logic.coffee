@@ -29,6 +29,25 @@ class @FormLogic
 
 
   setupPrompts: ->
+
+    showChildren = ($el) -> 
+      $el.show()
+      for input in $el.find('[name]').addBack('[name]')
+        $child = $('[data-prompt="'+$(input).attr('name')+'"')
+        $(input).change() if $child
+      for input in $el.find('[id]').addBack('[id]')
+        $child = $('[data-prompt="#'+$(input).attr('id')+'"')
+        $(input).change() if $child
+
+    hideChildren = ($el) -> 
+      $el.hide()
+      for input in $el.find('[name]').addBack('[name]')
+        $child = $('[data-prompt="'+$(input).attr('name')+'"')
+        hideChildren $child if $child
+      for input in $el.find('[id]').addBack('[id]')
+        $child = $('[data-prompt="#'+$(input).attr('id')+'"')
+        hideChildren $child if $child
+
     for form in $('form')
       $('[data-prompt]').each (i,el) ->
         $el = $(el)
@@ -81,9 +100,9 @@ class @FormLogic
                 break
 
           if show
-            $el.show()
+            showChildren $el
           else
-            $el.hide()
+            hideChildren $el
 
 
   # This makes it easier for users to leave error targets in the markup

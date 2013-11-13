@@ -147,6 +147,9 @@
 				<option value="opt15">Opt 15</option>
 			</select>
 			<label class="checkbox"><input type="checkbox" name="stimulus-chain" value="react" /> Chain reaction</label>
+			<div data-prompt="stimulus-chain" data-show-if="react">
+				<label class="checkbox"><input type="checkbox" name="stimulus-chain-chain" value="react-react" /> Chain reaction</label>
+			</div>
 
 			<div data-prompt="stimulus-text" data-show-if="cherry">Yeah, cherry!</div>
 			<div data-prompt="stimulus-check" data-show-if="check2">Check 2, wat.</div>
@@ -156,9 +159,6 @@
 			<div data-prompt="#stimulus-id-select" data-show-if="opt8">By any other name...</div>
 			<div data-prompt="stimulus-any-select">You did something!</div>
 			<div data-prompt="stimulus-chosen-select">You chose wisely.</div>
-			<div data-prompt="stimulus-chain" data-show-if="react">
-				<label class="checkbox"><input type="checkbox" name="stimulus-chain-chain" value="react-react" /> Chain reaction</label>
-			</div>
 			<div data-prompt="stimulus-chain-chain" data-show-if="react-react">
 				Never break the chain.
 			</div>

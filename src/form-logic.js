@@ -31,7 +31,55 @@
     };
 
     FormLogic.prototype.setupPrompts = function() {
-      var form, _i, _len, _ref, _results;
+      var form, hideChildren, showChildren, _i, _len, _ref, _results;
+      showChildren = function($el) {
+        var $child, input, _i, _j, _len, _len1, _ref, _ref1, _results;
+        $el.show();
+        _ref = $el.find('[name]').addBack('[name]');
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          input = _ref[_i];
+          $child = $('[data-prompt="' + $(input).attr('name') + '"');
+          if ($child) {
+            $(input).change();
+          }
+        }
+        _ref1 = $el.find('[id]').addBack('[id]');
+        _results = [];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          input = _ref1[_j];
+          $child = $('[data-prompt="#' + $(input).attr('id') + '"');
+          if ($child) {
+            _results.push($(input).change());
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      };
+      hideChildren = function($el) {
+        var $child, input, _i, _j, _len, _len1, _ref, _ref1, _results;
+        $el.hide();
+        _ref = $el.find('[name]').addBack('[name]');
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          input = _ref[_i];
+          $child = $('[data-prompt="' + $(input).attr('name') + '"');
+          if ($child) {
+            hideChildren($child);
+          }
+        }
+        _ref1 = $el.find('[id]').addBack('[id]');
+        _results = [];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          input = _ref1[_j];
+          $child = $('[data-prompt="#' + $(input).attr('id') + '"');
+          if ($child) {
+            _results.push(hideChildren($child));
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      };
       _ref = $('form');
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -94,9 +142,9 @@
               }
             }
             if (show) {
-              return $el.show();
+              return showChildren($el);
             } else {
-              return $el.hide();
+              return hideChildren($el);
             }
           });
         }));
