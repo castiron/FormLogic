@@ -52,7 +52,7 @@
           }
           parentIsCheckType = $parent.is('[type="checkbox"]') || $parent.is('[type="radio"]');
           parentName = $parent.attr('name');
-          return $parent.blur(function() {
+          return $parent.change(function() {
             var goal, input, siblings, val, _j, _k, _l, _len1, _len2, _len3;
             if (parentIsCheckType) {
               siblings = $form.find('[name="' + parentName + '"]:checked');

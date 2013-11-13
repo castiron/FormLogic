@@ -180,21 +180,21 @@
         var $input;
         $input = $('[name="stimulus-text"]');
         $input.val('cherry');
-        $input.blur();
+        $input.change();
         return expect($('[data-prompt="stimulus-text"]').is(':hidden')).to.be["false"];
       });
       it('hides fields dependent on text input', function() {
         var $input;
         $input = $('[name="stimulus-text"]');
         $input.val('rosie');
-        $input.blur();
+        $input.change();
         return expect($('[data-prompt="stimulus-text"]').is(':hidden')).to.be["true"];
       });
       it('shows fields dependent on checkbox values', function() {
         var $input;
         $input = $('[name="stimulus-check"][value="check2"]');
         $input.prop('checked', true);
-        $input.blur();
+        $input.change();
         return expect($('[data-prompt="stimulus-check"]').is(':hidden')).to.be["false"];
       });
       it('hides fields dependent on checkbox values');

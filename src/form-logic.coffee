@@ -51,8 +51,7 @@ class @FormLogic
         parentIsCheckType = $parent.is('[type="checkbox"]') or $parent.is('[type="radio"]')
         parentName = $parent.attr('name')
 
-        # React to blur
-        $parent.blur ->
+        $parent.change ->
 
           # for checkboxes and radios, we have to checkout multiple input elements
           if parentIsCheckType
@@ -74,7 +73,6 @@ class @FormLogic
 
           # Hide it if we didn't find the right value.
           $el.hide()
-
 
 
   # This makes it easier for users to leave error targets in the markup
