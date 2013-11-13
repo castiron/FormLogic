@@ -189,8 +189,7 @@
     };
 
     FormLogic.prototype.setupValidationHandlers = function() {
-      var $form, $input, form, input, my, _i, _j, _len, _len1, _ref, _ref1,
-        _this = this;
+      var $form, $input, form, input, my, _i, _j, _len, _len1, _ref, _ref1;
       my = this;
       _ref = $('form');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -207,7 +206,7 @@
             return my.runValidators($(this));
           });
           $input.focus(function() {
-            return my.clearErrors($(_this));
+            return my.clearErrors($(this));
           });
         }
         $form.submit(function(event) {
@@ -264,7 +263,9 @@
         return;
       }
       $input.removeClass(this.fieldErrorClass);
-      target = $input.data('error-' + name);
+      if (name) {
+        target = $input.data('error-' + name);
+      }
       if (!target) {
         target = $input.data('error');
       }
@@ -280,11 +281,15 @@
       var message, target;
       this.clearErrors($input, name);
       $input.addClass(this.fieldErrorClass);
-      message = $input.data('message-' + name);
+      if (name) {
+        message = $input.data('message-' + name);
+      }
       if (!message) {
         message = $input.data('message');
       }
-      target = $input.data('error-' + name);
+      if (name) {
+        target = $input.data('error-' + name);
+      }
       if (!target) {
         target = $input.data('error');
       }

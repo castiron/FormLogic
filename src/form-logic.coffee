@@ -144,7 +144,7 @@ class @FormLogic
 
         $input.blur ->
           my.runValidators($(@))
-        $input.focus =>
+        $input.focus ->
           my.clearErrors($(@))
 
       $form.submit (event) ->
@@ -192,7 +192,7 @@ class @FormLogic
   clearErrors: ($input, name) ->
     return if ($input.is(':hidden') or $input.is(':submit')) and !$input.data('force-validation')
     $input.removeClass(@fieldErrorClass)
-    target = $input.data('error-'+name)
+    target = $input.data('error-'+name) if name
     target = $input.data('error') unless target
     $next = $input.next('.'+@errorClass)
 
@@ -204,9 +204,9 @@ class @FormLogic
   showError: ($input, name) ->
     @clearErrors $input, name
     $input.addClass(@fieldErrorClass)
-    message = $input.data('message-'+name)
+    message = $input.data('message-'+name) if name
     message = $input.data('message') unless message
-    target = $input.data('error-'+name)
+    target = $input.data('error-'+name) if name
     target = $input.data('error') unless target
 
     if target

@@ -225,7 +225,6 @@ describe 'FormLogic', ->
       $input.change()
       expect($('[data-prompt="stimulus-id-select"]').is(':hidden')).to.be.false
 
-
     it 'shows fields dependent on any non-empty value', ->
       $input = $('[name="stimulus-any-select"]')
       $input.val('opt11')
