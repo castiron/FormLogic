@@ -246,9 +246,27 @@
         $input.change();
         return expect($('[data-prompt="stimulus-select-multiple"]').is(':hidden')).to.be["true"];
       });
-      it('takes the id selector for a prompt');
-      it('shows fields dependent on any non-empty value');
-      it('hides fields dependent on any non-empty value');
+      it('takes the id selector for a prompt', function() {
+        var $input;
+        $input = $('[name="stimulus-id-select"]');
+        $input.val('opt8');
+        $input.change();
+        return expect($('[data-prompt="stimulus-id-select"]').is(':hidden')).to.be["false"];
+      });
+      it('shows fields dependent on any non-empty value', function() {
+        var $input;
+        $input = $('[name="stimulus-any-select"]');
+        $input.val('opt11');
+        $input.change();
+        return expect($('[data-prompt="stimulus-any-select"]').is(':hidden')).to.be["false"];
+      });
+      it('hides fields dependent on any non-empty value', function() {
+        var $input;
+        $input = $('[name="stimulus-any-select"]');
+        $input.find('option').first().prop('selected', true);
+        $input.change();
+        return expect($('[data-prompt="stimulus-any-select"]').is(':hidden')).to.be["true"];
+      });
       it('shows fields dependent on values that are dependent on other fields');
       it('hides fields dependent on values that are dependent on other fields');
       it('shows fields dependent on multiple values (specified with semicolon-separated values)');

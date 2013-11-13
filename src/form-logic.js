@@ -37,7 +37,7 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         form = _ref[_i];
         _results.push($('[data-prompt]').each(function(i, el) {
-          var $el, $form, $parent, goalString, goals, handle, parentIsCheckType, parentName;
+          var $el, $form, $parent, goalString, goals, handle, parentName, parentType;
           $el = $(el);
           $form = $el.parent('form');
           $el.hide();
@@ -50,33 +50,43 @@
               return $.trim(str);
             });
           }
-          parentIsCheckType = $parent.is('[type="checkbox"]') || $parent.is('[type="radio"]');
+          parentType = $parent.prop('type');
           parentName = $parent.attr('name');
           return $parent.change(function() {
-            var goal, input, show, siblings, val, values, _j, _k, _len1, _len2;
+            var checkbox, givenValue, goal, option, show, siblings, val, values, _j, _k, _l, _len1, _len2, _len3, _ref1;
             show = false;
             values = [];
-            if (parentIsCheckType) {
-              siblings = $form.find('[name="' + parentName + '"]:checked');
-              for (_j = 0, _len1 = siblings.length; _j < _len1; _j++) {
-                input = siblings[_j];
-                values.push($(input).val());
-              }
-            } else {
-              val = $(this).val();
-              if (typeof val === 'string') {
+            val = $(this).val();
+            switch (parentType) {
+              case 'radio':
+              case 'checkbox':
+                siblings = $form.find('[name="' + parentName + '"]:checked');
+                for (_j = 0, _len1 = siblings.length; _j < _len1; _j++) {
+                  checkbox = siblings[_j];
+                  values.push($(checkbox).val());
+                }
+                break;
+              case 'select-one':
+              case 'select-multiple':
+                _ref1 = $(this).find('option:selected');
+                for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
+                  option = _ref1[_k];
+                  givenValue = $(option).attr('value');
+                  if (givenValue) {
+                    values.push(givenValue);
+                  }
+                }
+                break;
+              default:
                 values.push(val);
-              } else {
-                values = val;
-              }
             }
             if (values.length === 0) {
               show = false;
             } else if (goals.length === 0 && values.length > 0) {
               show = true;
             } else {
-              for (_k = 0, _len2 = goals.length; _k < _len2; _k++) {
-                goal = goals[_k];
+              for (_l = 0, _len3 = goals.length; _l < _len3; _l++) {
+                goal = goals[_l];
                 if ($.inArray(goal, values) !== -1) {
                   show = true;
                   break;

@@ -48,23 +48,26 @@ class @FormLogic
           goals = $.map goalString.split(';'), (str) -> return $.trim str
 
         # Collect info about the parent
-        parentIsCheckType = $parent.is('[type="checkbox"]') or $parent.is('[type="radio"]')
+        parentType = $parent.prop('type')
         parentName = $parent.attr('name')
 
         $parent.change ->
           show = false
           values = []
+          val = $(@).val()
 
           # Build an array of values no matter what type of element it is          
-          if parentIsCheckType
-            siblings = $form.find('[name="'+parentName+'"]:checked')
-            values.push $(input).val() for input in siblings
-          else
-            val = $(@).val()
-            if typeof val == 'string'
-              values.push val
+          switch parentType
+            when 'radio','checkbox'
+              siblings = $form.find('[name="'+parentName+'"]:checked')
+              values.push $(checkbox).val() for checkbox in siblings
+            when 'select-one','select-multiple'
+              for option in $(@).find('option:selected')
+                givenValue = $(option).attr('value')
+                values.push givenValue if givenValue  
             else
-              values = val 
+              values.push val
+               
 
           # Check the values 
           if values.length == 0 # early exit
