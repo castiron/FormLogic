@@ -267,8 +267,25 @@
         $input.change();
         return expect($('[data-prompt="stimulus-any-select"]').is(':hidden')).to.be["true"];
       });
-      it('shows fields dependent on values that are dependent on other fields');
-      it('hides fields dependent on values that are dependent on other fields');
+      it('shows fields dependent on values that are dependent on other fields', function() {
+        var $input, $input2;
+        $input = $('[name="stimulus-chain"]');
+        $input.prop('checked', true);
+        $input.change();
+        $input2 = $('[name="stimulus-chain-chain"]');
+        if (!$input2.is(':hidden')) {
+          $input2.prop('checked', true);
+          $input2.change();
+        }
+        return expect($('[data-prompt="stimulus-chain-chain"]').is(':hidden')).to.be["false"];
+      });
+      it('hides fields dependent on values that are dependent on other fields', function() {
+        var $input;
+        $input = $('[name="stimulus-chain"]');
+        $input.prop('checked', false);
+        $input.change();
+        return expect($('[data-prompt="stimulus-chain-chain"]').is(':hidden')).to.be["true"];
+      });
       it('shows fields dependent on multiple values (specified with semicolon-separated values)');
       return it('hides fields dependent on multiple values (specified with semicolon-separated values)');
     });
