@@ -197,13 +197,55 @@
         $input.change();
         return expect($('[data-prompt="stimulus-check"]').is(':hidden')).to.be["false"];
       });
-      it('hides fields dependent on checkbox values');
-      it('shows fields dependent on radio values');
-      it('hides fields dependent on radio values');
-      it('shows fields dependent on select values');
-      it('hides fields dependent on select values');
-      it('shows fields dependent on select multiple values');
-      it('hides fields dependent on select multiple values');
+      it('hides fields dependent on checkbox values', function() {
+        var $input;
+        $input = $('[name="stimulus-check"][value="check2"]');
+        $input.prop('checked', false);
+        $input.change();
+        return expect($('[data-prompt="stimulus-check"]').is(':hidden')).to.be["true"];
+      });
+      it('shows fields dependent on radio values', function() {
+        var $input;
+        $input = $('[name="stimulus-radio"][value="radio2"]');
+        $input.prop('checked', true);
+        $input.change();
+        return expect($('[data-prompt="stimulus-radio"]').is(':hidden')).to.be["false"];
+      });
+      it('hides fields dependent on radio values', function() {
+        var $input;
+        $input = $('[name="stimulus-radio"][value="radio2"]');
+        $input.prop('checked', false);
+        $input.change();
+        return expect($('[data-prompt="stimulus-radio"]').is(':hidden')).to.be["true"];
+      });
+      it('shows fields dependent on select values', function() {
+        var $input;
+        $input = $('[name="stimulus-select"]');
+        $input.val('opt2');
+        $input.change();
+        return expect($('[data-prompt="stimulus-select"]').is(':hidden')).to.be["false"];
+      });
+      it('hides fields dependent on select values', function() {
+        var $input;
+        $input = $('[name="stimulus-select"]');
+        $input.val('opt1');
+        $input.change();
+        return expect($('[data-prompt="stimulus-select"]').is(':hidden')).to.be["true"];
+      });
+      it('shows fields dependent on select multiple values', function() {
+        var $input;
+        $input = $('[name="stimulus-select-multiple"]');
+        $input.val(['opt6']);
+        $input.change();
+        return expect($('[data-prompt="stimulus-select-multiple"]').is(':hidden')).to.be["false"];
+      });
+      it('hides fields dependent on select multiple values', function() {
+        var $input;
+        $input = $('[name="stimulus-select-multiple"]');
+        $input.val(['opt4']);
+        $input.change();
+        return expect($('[data-prompt="stimulus-select-multiple"]').is(':hidden')).to.be["true"];
+      });
       it('takes the id selector for a prompt');
       it('shows fields dependent on any non-empty value');
       it('hides fields dependent on any non-empty value');

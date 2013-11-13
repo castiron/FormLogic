@@ -52,27 +52,35 @@ class @FormLogic
         parentName = $parent.attr('name')
 
         $parent.change ->
+          show = false
+          values = []
 
-          # for checkboxes and radios, we have to checkout multiple input elements
+          # Build an array of values no matter what type of element it is          
           if parentIsCheckType
             siblings = $form.find('[name="'+parentName+'"]:checked')
-            for input in siblings
-              val = $(input).val()
-              if goals.length == 0 and val != '' # any value works
-                return $el.show()
-              for goal in goals                  # only specific values work
-                return $el.show() if goal == val
-
-          # other input elements
+            values.push $(input).val() for input in siblings
           else
             val = $(@).val()
-            if goals.length == 0 and val != '' # any value works
-              return $el.show()
-            for goal in goals                  # only specific values work
-              return $el.show() if goal == val
+            if typeof val == 'string'
+              values.push val
+            else
+              values = val 
 
-          # Hide it if we didn't find the right value.
-          $el.hide()
+          # Check the values 
+          if values.length == 0 # early exit
+            show = false
+          else if goals.length == 0 and values.length > 0
+            show = true
+          else 
+            for goal in goals 
+              if $.inArray(goal, values) != -1
+                show = true
+                break
+
+          if show
+            $el.show()
+          else
+            $el.hide()
 
 
   # This makes it easier for users to leave error targets in the markup

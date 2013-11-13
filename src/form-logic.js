@@ -53,35 +53,41 @@
           parentIsCheckType = $parent.is('[type="checkbox"]') || $parent.is('[type="radio"]');
           parentName = $parent.attr('name');
           return $parent.change(function() {
-            var goal, input, siblings, val, _j, _k, _l, _len1, _len2, _len3;
+            var goal, input, show, siblings, val, values, _j, _k, _len1, _len2;
+            show = false;
+            values = [];
             if (parentIsCheckType) {
               siblings = $form.find('[name="' + parentName + '"]:checked');
               for (_j = 0, _len1 = siblings.length; _j < _len1; _j++) {
                 input = siblings[_j];
-                val = $(input).val();
-                if (goals.length === 0 && val !== '') {
-                  return $el.show();
-                }
-                for (_k = 0, _len2 = goals.length; _k < _len2; _k++) {
-                  goal = goals[_k];
-                  if (goal === val) {
-                    return $el.show();
-                  }
-                }
+                values.push($(input).val());
               }
             } else {
               val = $(this).val();
-              if (goals.length === 0 && val !== '') {
-                return $el.show();
+              if (typeof val === 'string') {
+                values.push(val);
+              } else {
+                values = val;
               }
-              for (_l = 0, _len3 = goals.length; _l < _len3; _l++) {
-                goal = goals[_l];
-                if (goal === val) {
-                  return $el.show();
+            }
+            if (values.length === 0) {
+              show = false;
+            } else if (goals.length === 0 && values.length > 0) {
+              show = true;
+            } else {
+              for (_k = 0, _len2 = goals.length; _k < _len2; _k++) {
+                goal = goals[_k];
+                if ($.inArray(goal, values) !== -1) {
+                  show = true;
+                  break;
                 }
               }
             }
-            return $el.hide();
+            if (show) {
+              return $el.show();
+            } else {
+              return $el.hide();
+            }
           });
         }));
       }
