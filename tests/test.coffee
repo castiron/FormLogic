@@ -260,9 +260,6 @@ describe 'FormLogic', ->
       $input.change()
       expect($('[data-prompt="stimulus-chain-chain"]').is(':hidden')).to.be.false
 
-    it 'shows fields dependent on multiple values (specified with semicolon-separated values)'
-    it 'hides fields dependent on multiple values (specified with semicolon-separated values)'
-
 
   describe 'API', ->
     it 'exists in the global scope', ->

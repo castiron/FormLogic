@@ -286,15 +286,13 @@
         $input.change();
         return expect($('[data-prompt="stimulus-chain-chain"]').is(':hidden')).to.be["true"];
       });
-      it('re-shows dependent fields of dependent fields when user shows higher level field', function() {
+      return it('re-shows dependent fields of dependent fields when user shows higher level field', function() {
         var $input;
         $input = $('[name="stimulus-chain"]');
         $input.prop('checked', true);
         $input.change();
         return expect($('[data-prompt="stimulus-chain-chain"]').is(':hidden')).to.be["false"];
       });
-      it('shows fields dependent on multiple values (specified with semicolon-separated values)');
-      return it('hides fields dependent on multiple values (specified with semicolon-separated values)');
     });
     describe('API', function() {
       it('exists in the global scope', function() {
