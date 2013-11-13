@@ -31,16 +31,15 @@
     };
 
     FormLogic.prototype.setupPrompts = function() {
-      var $form, form, _i, _len, _ref, _results;
+      var form, _i, _len, _ref, _results;
       _ref = $('form');
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         form = _ref[_i];
-        $form = $(form);
         _results.push($('[data-prompt]').each(function(i, el) {
-          var $el, $parent, goalString, goals, handle, parentIsCheckType, parentName, siblings;
+          var $el, $form, $parent, goalString, goals, handle, parentIsCheckType, parentName;
           $el = $(el);
-          $form = $form;
+          $form = $el.parent('form');
           $el.hide();
           handle = $el.data('prompt');
           $parent = handle.charAt(0) === '#' ? $($form.find(handle)) : $($form.find('[name="' + handle + '"]'));
@@ -53,21 +52,33 @@
           }
           parentIsCheckType = $parent.is('[type="checkbox"]') || $parent.is('[type="radio"]');
           parentName = $parent.attr('name');
-          siblings = $form.find('[name="' + parentName + '"]');
           return $parent.blur(function() {
-            var goal, val, _j, _len1;
+            var goal, input, siblings, val, _j, _k, _l, _len1, _len2, _len3;
             if (parentIsCheckType) {
-
+              siblings = $form.find('[name="' + parentName + '"]:checked');
+              for (_j = 0, _len1 = siblings.length; _j < _len1; _j++) {
+                input = siblings[_j];
+                val = $(input).val();
+                if (goals.length === 0 && val !== '') {
+                  return $el.show();
+                }
+                for (_k = 0, _len2 = goals.length; _k < _len2; _k++) {
+                  goal = goals[_k];
+                  if (goal === val) {
+                    return $el.show();
+                  }
+                }
+              }
             } else {
               val = $(this).val();
-            }
-            if (goals.length === 0 && val !== '') {
-              return $el.show();
-            }
-            for (_j = 0, _len1 = goals.length; _j < _len1; _j++) {
-              goal = goals[_j];
-              if (goal === val) {
+              if (goals.length === 0 && val !== '') {
                 return $el.show();
+              }
+              for (_l = 0, _len3 = goals.length; _l < _len3; _l++) {
+                goal = goals[_l];
+                if (goal === val) {
+                  return $el.show();
+                }
               }
             }
             return $el.hide();

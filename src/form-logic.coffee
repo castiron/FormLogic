@@ -30,10 +30,9 @@ class @FormLogic
 
   setupPrompts: ->
     for form in $('form')
-      $form = $(form)
       $('[data-prompt]').each (i,el) ->
         $el = $(el)
-        $form = $form # for closure
+        $form = $el.parent('form')
 
         # Hide dependent field from the start
         $el.hide()
@@ -51,21 +50,29 @@ class @FormLogic
         # Collect info about the parent
         parentIsCheckType = $parent.is('[type="checkbox"]') or $parent.is('[type="radio"]')
         parentName = $parent.attr('name')
-        siblings = $form.find('[name="'+parentName+'"]')
 
         # React to blur
         $parent.blur ->
+
+          # for checkboxes and radios, we have to checkout multiple input elements
           if parentIsCheckType
-            
+            siblings = $form.find('[name="'+parentName+'"]:checked')
+            for input in siblings
+              val = $(input).val()
+              if goals.length == 0 and val != '' # any value works
+                return $el.show()
+              for goal in goals                  # only specific values work
+                return $el.show() if goal == val
+
+          # other input elements
           else
             val = $(@).val()
+            if goals.length == 0 and val != '' # any value works
+              return $el.show()
+            for goal in goals                  # only specific values work
+              return $el.show() if goal == val
 
-          if goals.length == 0 and val != ''
-            return $el.show()
-
-          for goal in goals 
-            return $el.show() if goal == val
-
+          # Hide it if we didn't find the right value.
           $el.hide()
 
 
