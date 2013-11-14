@@ -10,6 +10,7 @@
       this.buildDefaultValidators();
       this.setupValidationHandlers();
       this.setupPrompts();
+      this.setupMasks();
       this.hideErrorTargets();
       this.fieldErrorClass = 'has-error';
       this.errorClass = 'error';
@@ -28,6 +29,78 @@
         throw 'The second argument passed to FormLogic.onValidSubmit() must be a function.';
       }
       return $(form).data('fl-submit-callback', func);
+    };
+
+    FormLogic.prototype.setupMasks = function() {
+      return $('[data-mask]').each(function(i, el) {
+        var $el, mask, type;
+        $el = $(el);
+        mask = $el.data('mask');
+        if ($.trim(mask) === '') {
+          return;
+        }
+        type = $el.prop('type');
+        if (!(type === 'text' || type === 'textfield' || type === 'input')) {
+          return;
+        }
+        return $el.on('input', function(event) {
+          var cursorPosition, foundSpace, maskChar, newVal, next, nextChar, nextVal, pos, val, _i, _ref;
+          val = $(this).val();
+          nextVal = (function() {
+            var valPos;
+            valPos = 0;
+            return function() {
+              return val.charAt(valPos++);
+            };
+          })();
+          nextChar = function(compareFunc) {
+            var valChar;
+            valChar = nextVal();
+            if (!valChar) {
+              return ' ';
+            }
+            if (compareFunc(valChar)) {
+              return valChar;
+            }
+            return nextChar(compareFunc);
+          };
+          newVal = '';
+          cursorPosition = 1;
+          foundSpace = false;
+          for (pos = _i = 0, _ref = mask.length; 0 <= _ref ? _i <= _ref : _i >= _ref; pos = 0 <= _ref ? ++_i : --_i) {
+            maskChar = mask.charAt(pos);
+            switch (maskChar) {
+              case '0':
+                next = nextChar(function(valChar) {
+                  var _ref1;
+                  return (47 < (_ref1 = valChar.charCodeAt(0)) && _ref1 < 58);
+                });
+                break;
+              case 'A':
+                next = nextChar(function(valChar) {
+                  var _ref1;
+                  return (64 < (_ref1 = valChar.charCodeAt(0)) && _ref1 < 91);
+                });
+                break;
+              case '?':
+                next = nextChar(function(valChar) {
+                  var _ref1, _ref2;
+                  return ((47 < (_ref1 = valChar.charCodeAt(0)) && _ref1 < 58)) || ((64 < (_ref2 = valChar.charCodeAt(0)) && _ref2 < 91));
+                });
+                break;
+              default:
+                next = maskChar;
+            }
+            if (next === ' ' && maskChar !== ' ') {
+              foundSpace = true;
+            } else if (foundSpace === false) {
+              ++cursorPosition;
+            }
+            newVal += next;
+          }
+          return $(this).val(newVal);
+        });
+      });
     };
 
     FormLogic.prototype.setupPrompts = function() {

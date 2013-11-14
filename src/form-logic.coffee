@@ -6,6 +6,7 @@ class @FormLogic
     @buildDefaultValidators()
     @setupValidationHandlers()
     @setupPrompts()
+    @setupMasks()
     @hideErrorTargets()
     @fieldErrorClass = 'has-error'
     @errorClass = 'error'
@@ -26,6 +27,63 @@ class @FormLogic
       throw 'The second argument passed to FormLogic.onValidSubmit() must be a function.'
 
     $(form).data('fl-submit-callback', func)
+
+
+  setupMasks: ->
+    $('[data-mask]').each (i,el) ->
+      $el = $(el)
+      mask = $el.data('mask')
+      return if $.trim(mask) == ''
+      type = $el.prop('type')
+      return unless type == 'text' or type == 'textfield' or type == 'input'
+
+      $el.on 'input', (event) ->
+        val = $(@).val()
+
+        # Each call invokes the next letter in the value string
+        nextVal = do ->
+          valPos = 0
+          return -> val.charAt valPos++
+
+        # Determines the next character for the new 
+        # value using a given compare function 
+        nextChar = (compareFunc) ->
+          valChar = nextVal()
+          return ' ' unless valChar
+          return valChar if compareFunc(valChar)
+          return nextChar compareFunc
+
+        # Loops through the mask characters and 
+        # determines what should be added to newVal
+        # for each character
+        newVal = ''
+        cursorPosition = 1 # start with 1 to end up AFTER the last valid value
+        foundSpace = false
+        for pos in [0..mask.length]  
+          maskChar = mask.charAt pos
+          switch maskChar
+            when '0' 
+              next = nextChar (valChar) -> 
+                47 < valChar.charCodeAt(0) < 58
+            when 'A'
+              next = nextChar (valChar) -> 
+                64 < valChar.charCodeAt(0) < 91
+            when '?'
+              next = nextChar (valChar) -> 
+                (47 < valChar.charCodeAt(0) < 58) or (64 < valChar.charCodeAt(0) < 91)
+            else
+              next = maskChar
+
+          # The cursor should be set after the last valid value
+          if next == ' ' && maskChar != ' '
+            foundSpace = true 
+          else if foundSpace == false
+            ++cursorPosition
+          newVal += next
+
+        $(@).val newVal
+
+
 
 
   setupPrompts: ->
