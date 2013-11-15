@@ -44,7 +44,7 @@
           return;
         }
         return $el.on('input', function(event) {
-          var cursorPosition, foundSpace, maskChar, newVal, next, nextChar, nextVal, pos, val, _i, _ref;
+          var cursorPosition, isLetter, isLetterOrNumber, isNumber, maskChar, newVal, next, nextChar, nextVal, pos, range, val, valIsDone, _i, _ref;
           val = $(this).val();
           nextVal = (function() {
             var valPos;
@@ -64,41 +64,70 @@
             }
             return nextChar(compareFunc);
           };
+          isNumber = function(str) {
+            var _ref;
+            return (47 < (_ref = str.charCodeAt(0)) && _ref < 58);
+          };
+          isLetter = function(str) {
+            var _ref, _ref1;
+            return ((64 < (_ref = str.charCodeAt(0)) && _ref < 91)) || ((96 < (_ref1 = str.charCodeAt(0)) && _ref1 < 123));
+          };
+          isLetterOrNumber = function(str) {
+            return isNumber(str) || isLetter(str);
+          };
           newVal = '';
-          cursorPosition = 1;
-          foundSpace = false;
+          cursorPosition = 0;
+          valIsDone = false;
           for (pos = _i = 0, _ref = mask.length; 0 <= _ref ? _i <= _ref : _i >= _ref; pos = 0 <= _ref ? ++_i : --_i) {
+            if (valIsDone) {
+              break;
+            }
             maskChar = mask.charAt(pos);
             switch (maskChar) {
               case '0':
-                next = nextChar(function(valChar) {
-                  var _ref1;
-                  return (47 < (_ref1 = valChar.charCodeAt(0)) && _ref1 < 58);
-                });
+                next = nextChar(isNumber);
                 break;
               case 'A':
-                next = nextChar(function(valChar) {
-                  var _ref1;
-                  return (64 < (_ref1 = valChar.charCodeAt(0)) && _ref1 < 91);
-                });
+                next = nextChar(isLetter).toUpperCase();
+                break;
+              case 'a':
+                next = nextChar(isLetter).toLowerCase();
+                break;
+              case 'Z':
+                next = nextChar(isLetter);
                 break;
               case '?':
-                next = nextChar(function(valChar) {
-                  var _ref1, _ref2;
-                  return ((47 < (_ref1 = valChar.charCodeAt(0)) && _ref1 < 58)) || ((64 < (_ref2 = valChar.charCodeAt(0)) && _ref2 < 91));
-                });
+                next = nextChar(isLetterOrNumber);
+                break;
+              case 'X':
+                next = nextChar(isLetterOrNumber).toUpperCase();
+                break;
+              case 'x':
+                next = nextChar(isLetterOrNumber).toLowerCase();
+                break;
+              case '\\':
+                next = mask.charAt(++pos);
                 break;
               default:
                 next = maskChar;
             }
             if (next === ' ' && maskChar !== ' ') {
-              foundSpace = true;
-            } else if (foundSpace === false) {
+              valIsDone = true;
+            } else {
               ++cursorPosition;
             }
             newVal += next;
           }
-          return $(this).val(newVal);
+          $(this).val(newVal.replace(/( )+$/, ''));
+          if (this.setSelectionRange) {
+            return this.setSelectionRange(cursorPosition, cursorPosition);
+          } else if (this.createTextRange) {
+            range = this.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', cursorPosition);
+            range.moveStart('character', cursorPosition);
+            return range.select();
+          }
         });
       });
     };

@@ -53,35 +53,59 @@ class @FormLogic
           return valChar if compareFunc(valChar)
           return nextChar compareFunc
 
+        isNumber = (str) -> 47 < str.charCodeAt(0) < 58
+        isLetter = (str) -> (64 < str.charCodeAt(0) < 91) or (96 < str.charCodeAt(0) < 123)
+        isLetterOrNumber = (str) -> isNumber(str) or isLetter(str)
+
         # Loops through the mask characters and 
         # determines what should be added to newVal
         # for each character
         newVal = ''
-        cursorPosition = 1 # start with 1 to end up AFTER the last valid value
-        foundSpace = false
-        for pos in [0..mask.length]  
+        cursorPosition = 0
+        valIsDone = false
+        for pos in [0..mask.length] 
+          break if valIsDone 
           maskChar = mask.charAt pos
           switch maskChar
-            when '0' 
-              next = nextChar (valChar) -> 
-                47 < valChar.charCodeAt(0) < 58
-            when 'A'
-              next = nextChar (valChar) -> 
-                64 < valChar.charCodeAt(0) < 91
-            when '?'
-              next = nextChar (valChar) -> 
-                (47 < valChar.charCodeAt(0) < 58) or (64 < valChar.charCodeAt(0) < 91)
-            else
-              next = maskChar
+            # numbers only
+            when '0'  then next = nextChar isNumber
+            # force uppercase
+            when 'A'  then next = nextChar(isLetter).toUpperCase()
+            # force lowercase
+            when 'a'  then next = nextChar(isLetter).toLowerCase()
+            # letters only, any case
+            when 'Z'  then next = nextChar isLetter
+            # letter or number, any case
+            when '?'  then next = nextChar isLetterOrNumber
+            # letter or number, uppercase
+            when 'X'  then next = nextChar(isLetterOrNumber).toUpperCase()
+            # letter o number, lowercase
+            when 'x'  then next = nextChar(isLetterOrNumber).toLowerCase()
+            # escape character
+            when '\\' then next = mask.charAt ++pos 
+            # not a key letter
+            else           next = maskChar
 
           # The cursor should be set after the last valid value
           if next == ' ' && maskChar != ' '
-            foundSpace = true 
-          else if foundSpace == false
+            valIsDone = true 
+          else #if valIsDone == false
             ++cursorPosition
           newVal += next
 
-        $(@).val newVal
+        # update value
+        $(@).val newVal.replace(/( )+$/,'')
+
+        # update cursor
+        if @setSelectionRange
+          @setSelectionRange cursorPosition, cursorPosition
+        else if @createTextRange
+          range = @createTextRange()
+          range.collapse true
+          range.moveEnd 'character', cursorPosition
+          range.moveStart 'character', cursorPosition
+          range.select()
+        
 
 
 
