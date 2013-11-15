@@ -38,7 +38,7 @@ class @FormLogic
       return unless type == 'text' or type == 'textfield' or type == 'input'
 
       $el.on 'input', (event) ->
-        val = $(@).val()
+        val = $(@).val().replace(/( )+$/,'')
 
         # Each call invokes the next letter in the value string
         nextVal = do ->
@@ -62,9 +62,7 @@ class @FormLogic
         # for each character
         newVal = ''
         cursorPosition = 0
-        valIsDone = false
-        for pos in [0..mask.length] 
-          break if valIsDone 
+        for pos in [0..Math.min(mask.length, val.length)] 
           maskChar = mask.charAt pos
           switch maskChar
             # numbers only
@@ -86,11 +84,7 @@ class @FormLogic
             # not a key letter
             else           next = maskChar
 
-          # The cursor should be set after the last valid value
-          if next == ' ' && maskChar != ' '
-            valIsDone = true 
-          else #if valIsDone == false
-            ++cursorPosition
+          ++cursorPosition
           newVal += next
 
         # update value

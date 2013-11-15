@@ -44,8 +44,8 @@
           return;
         }
         return $el.on('input', function(event) {
-          var cursorPosition, isLetter, isLetterOrNumber, isNumber, maskChar, newVal, next, nextChar, nextVal, pos, range, val, valIsDone, _i, _ref;
-          val = $(this).val();
+          var cursorPosition, isLetter, isLetterOrNumber, isNumber, maskChar, newVal, next, nextChar, nextVal, pos, range, val, _i, _ref;
+          val = $(this).val().replace(/( )+$/, '');
           nextVal = (function() {
             var valPos;
             valPos = 0;
@@ -77,11 +77,7 @@
           };
           newVal = '';
           cursorPosition = 0;
-          valIsDone = false;
-          for (pos = _i = 0, _ref = mask.length; 0 <= _ref ? _i <= _ref : _i >= _ref; pos = 0 <= _ref ? ++_i : --_i) {
-            if (valIsDone) {
-              break;
-            }
+          for (pos = _i = 0, _ref = Math.min(mask.length, val.length); 0 <= _ref ? _i <= _ref : _i >= _ref; pos = 0 <= _ref ? ++_i : --_i) {
             maskChar = mask.charAt(pos);
             switch (maskChar) {
               case '0':
@@ -111,11 +107,7 @@
               default:
                 next = maskChar;
             }
-            if (next === ' ' && maskChar !== ' ') {
-              valIsDone = true;
-            } else {
-              ++cursorPosition;
-            }
+            ++cursorPosition;
             newVal += next;
           }
           $(this).val(newVal.replace(/( )+$/, ''));
