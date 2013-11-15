@@ -81,7 +81,7 @@ class @FormLogic
             when 'x'  then next = nextChar(isLetterOrNumber).toLowerCase()
             # escape character
             when '\\' then next = mask.charAt ++pos 
-            # not a key letter
+            # not a key letter, use mask
             else           next = maskChar
 
           ++cursorPosition
