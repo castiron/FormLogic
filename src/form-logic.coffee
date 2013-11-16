@@ -77,11 +77,11 @@ class @FormLogic
             when '?'  then next = nextChar isLetterOrNumber
             # letter or number, uppercase
             when 'X'  then next = nextChar(isLetterOrNumber).toUpperCase()
-            # letter o number, lowercase
+            # letter or number, lowercase
             when 'x'  then next = nextChar(isLetterOrNumber).toLowerCase()
             # escape character
             when '\\' then next = mask.charAt ++pos 
-            # not a key letter, use mask
+            # not a key letter, use maskChar
             else           next = maskChar
 
           ++cursorPosition
