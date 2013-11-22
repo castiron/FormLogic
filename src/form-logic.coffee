@@ -39,6 +39,7 @@ class @FormLogic
 
       $el.on 'input', (event) ->
         val = $(@).val().replace(/( )+$/,'')
+        console.log "val: '"+val+"'"
 
         # Each call invokes the next letter in the value string
         nextVal = do ->
@@ -49,9 +50,9 @@ class @FormLogic
         # value using a given compare function 
         nextChar = (compareFunc) ->
           valChar = nextVal()
-          return ' ' unless valChar
-          return valChar if compareFunc(valChar)
-          return nextChar compareFunc
+          return false unless valChar            # end of input
+          return valChar if compareFunc(valChar) # nextVal is valid
+          return nextChar compareFunc            # skip this val and try the next
 
         isNumber = (str) -> 47 < str.charCodeAt(0) < 58
         isLetter = (str) -> (64 < str.charCodeAt(0) < 91) or (96 < str.charCodeAt(0) < 123)
@@ -62,8 +63,10 @@ class @FormLogic
         # for each character
         newVal = ''
         cursorPosition = 0
-        for pos in [0..Math.min(mask.length, val.length)] 
+        for pos in [0..mask.length] 
+          console.log 'loop: '+pos
           maskChar = mask.charAt pos
+          console.log "- maskChar: '"+ maskChar+"'"
           switch maskChar
             # numbers only
             when '0'  then next = nextChar isNumber
@@ -82,13 +85,21 @@ class @FormLogic
             # escape character
             when '\\' then next = mask.charAt ++pos 
             # not a key letter, use maskChar
-            else           next = maskChar
+            else           
+              next = maskChar
+
+          # Quit if there're no more input characters
+          break if next == false 
 
           ++cursorPosition
           newVal += next
+          console.log "- next: '"+next+"'"
 
         # update value
         $(@).val newVal.replace(/( )+$/,'')
+        console.log "newVal: '"+newVal.replace(/( )+$/,'')+"'"
+        console.log 'cursorPosition: '+cursorPosition
+        console.log ' '
 
         # update cursor
         if @setSelectionRange

@@ -46,6 +46,7 @@
         return $el.on('input', function(event) {
           var cursorPosition, isLetter, isLetterOrNumber, isNumber, maskChar, newVal, next, nextChar, nextVal, pos, range, val, _i, _ref;
           val = $(this).val().replace(/( )+$/, '');
+          console.log("val: '" + val + "'");
           nextVal = (function() {
             var valPos;
             valPos = 0;
@@ -57,7 +58,7 @@
             var valChar;
             valChar = nextVal();
             if (!valChar) {
-              return ' ';
+              return false;
             }
             if (compareFunc(valChar)) {
               return valChar;
@@ -77,8 +78,10 @@
           };
           newVal = '';
           cursorPosition = 0;
-          for (pos = _i = 0, _ref = Math.min(mask.length, val.length); 0 <= _ref ? _i <= _ref : _i >= _ref; pos = 0 <= _ref ? ++_i : --_i) {
+          for (pos = _i = 0, _ref = mask.length; 0 <= _ref ? _i <= _ref : _i >= _ref; pos = 0 <= _ref ? ++_i : --_i) {
+            console.log('loop: ' + pos);
             maskChar = mask.charAt(pos);
+            console.log("- maskChar: '" + maskChar + "'");
             switch (maskChar) {
               case '0':
                 next = nextChar(isNumber);
@@ -107,10 +110,17 @@
               default:
                 next = maskChar;
             }
+            if (next === false) {
+              break;
+            }
             ++cursorPosition;
             newVal += next;
+            console.log("- next: '" + next + "'");
           }
           $(this).val(newVal.replace(/( )+$/, ''));
+          console.log("newVal: '" + newVal.replace(/( )+$/, '') + "'");
+          console.log('cursorPosition: ' + cursorPosition);
+          console.log(' ');
           if (this.setSelectionRange) {
             return this.setSelectionRange(cursorPosition, cursorPosition);
           } else if (this.createTextRange) {
