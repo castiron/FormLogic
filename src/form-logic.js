@@ -44,7 +44,7 @@
           return;
         }
         return $el.on('input', function(event) {
-          var cursorPosition, isLetter, isLetterOrNumber, isNumber, maskChar, newVal, next, nextChar, nextVal, pos, range, val, _i, _ref;
+          var cursorPosition, index, isLetter, isLetterOrNumber, isNumber, lastMaskChars, maskChar, newVal, next, nextChar, nextVal, numMaskCharsToRemove, pos, range, val, _i, _j, _ref, _ref1;
           val = $(this).val().replace(/( )+$/, '');
           console.log("val: '" + val + "'");
           nextVal = (function() {
@@ -78,6 +78,7 @@
           };
           newVal = '';
           cursorPosition = 0;
+          lastMaskChars = '';
           for (pos = _i = 0, _ref = mask.length; 0 <= _ref ? _i <= _ref : _i >= _ref; pos = 0 <= _ref ? ++_i : --_i) {
             console.log('loop: ' + pos);
             maskChar = mask.charAt(pos);
@@ -109,7 +110,9 @@
                 break;
               default:
                 next = maskChar;
+                lastMaskChars += maskChar;
             }
+            console.log('lastMaskChars: ' + lastMaskChars);
             if (next === false) {
               break;
             }
@@ -117,7 +120,20 @@
             newVal += next;
             console.log("- next: '" + next + "'");
           }
-          $(this).val(newVal.replace(/( )+$/, ''));
+          numMaskCharsToRemove = 0;
+          for (index = _j = -1, _ref1 = newVal.length * -1; -1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; index = -1 <= _ref1 ? ++_j : --_j) {
+            console.log('newval(index, 1): ' + newVal.substr(index, 1));
+            console.log('lastMaskChars(index, 1): ' + lastMaskChars.substr(index, 1));
+            if (newVal.substr(index, 1) === lastMaskChars.substr(index, 1)) {
+              ++numMaskCharsToRemove;
+            } else {
+              break;
+            }
+          }
+          if (numMaskCharsToRemove !== 0) {
+            newVal = newVal.slice(0, numMaskCharsToRemove * -1);
+          }
+          $(this).val(newVal);
           console.log("newVal: '" + newVal.replace(/( )+$/, '') + "'");
           console.log('cursorPosition: ' + cursorPosition);
           console.log(' ');

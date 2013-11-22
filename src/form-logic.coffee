@@ -63,6 +63,7 @@ class @FormLogic
         # for each character
         newVal = ''
         cursorPosition = 0
+        lastMaskChars = ''
         for pos in [0..mask.length] 
           console.log 'loop: '+pos
           maskChar = mask.charAt pos
@@ -87,7 +88,9 @@ class @FormLogic
             # not a key letter, use maskChar
             else           
               next = maskChar
+              lastMaskChars += maskChar
 
+          console.log 'lastMaskChars: '+lastMaskChars
           # Quit if there're no more input characters
           break if next == false 
 
@@ -95,8 +98,22 @@ class @FormLogic
           newVal += next
           console.log "- next: '"+next+"'"
 
+        # remove mask chars at the end (makes dealing with backspaces easier)
+        numMaskCharsToRemove = 0
+        for index in [-1..(newVal.length * -1)]
+          console.log 'newval(index, 1): '+newVal.substr(index, 1)
+          console.log 'lastMaskChars(index, 1): '+lastMaskChars.substr(index, 1)
+          if newVal.substr(index, 1) == lastMaskChars.substr(index, 1)
+            ++numMaskCharsToRemove
+          else 
+            break
+            
+        if numMaskCharsToRemove != 0            
+          newVal = newVal.slice(0, numMaskCharsToRemove * -1)
+
+
         # update value
-        $(@).val newVal.replace(/( )+$/,'')
+        $(@).val newVal
         console.log "newVal: '"+newVal.replace(/( )+$/,'')+"'"
         console.log 'cursorPosition: '+cursorPosition
         console.log ' '
