@@ -85,10 +85,16 @@
                 next = nextChar(isNumber);
                 break;
               case 'A':
-                next = nextChar(isLetter).toUpperCase();
+                next = nextChar(isLetter);
+                if (next !== false) {
+                  next.toUpperCase();
+                }
                 break;
               case 'a':
-                next = nextChar(isLetter).toLowerCase();
+                next = nextChar(isLetter);
+                if (next !== false) {
+                  next.toLowerCase();
+                }
                 break;
               case 'Z':
                 next = nextChar(isLetter);
@@ -97,10 +103,16 @@
                 next = nextChar(isLetterOrNumber);
                 break;
               case 'X':
-                next = nextChar(isLetterOrNumber).toUpperCase();
+                next = nextChar(isLetterOrNumber);
+                if (next !== false) {
+                  next.toUpperCase();
+                }
                 break;
               case 'x':
-                next = nextChar(isLetterOrNumber).toLowerCase();
+                next = nextChar(isLetterOrNumber);
+                if (next !== false) {
+                  next.toLowerCase();
+                }
                 break;
               case '\\':
                 next = mask.charAt(++pos);

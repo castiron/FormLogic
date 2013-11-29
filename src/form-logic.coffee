@@ -66,22 +66,43 @@ class @FormLogic
         for pos in [0..mask.length] 
           maskChar = mask.charAt pos
           switch maskChar
+
             # numbers only
-            when '0'  then next = nextChar isNumber
-            # force uppercase
-            when 'A'  then next = nextChar(isLetter).toUpperCase()
-            # force lowercase
-            when 'a'  then next = nextChar(isLetter).toLowerCase()
+            when '0' 
+              next = nextChar isNumber
+
+            # letters only, uppercase
+            when 'A' 
+              next = nextChar(isLetter)
+              next.toUpperCase() if next != false
+
+            # letters only, lowercase
+            when 'a' 
+              next = nextChar(isLetter)
+              next.toLowerCase() if next != false
+
             # letters only, any case
-            when 'Z'  then next = nextChar isLetter
+            when 'Z' 
+              next = nextChar isLetter
+
             # letter or number, any case
-            when '?'  then next = nextChar isLetterOrNumber
+            when '?'
+              next = nextChar isLetterOrNumber
+
             # letter or number, uppercase
-            when 'X'  then next = nextChar(isLetterOrNumber).toUpperCase()
+            when 'X'
+              next = nextChar(isLetterOrNumber)
+              next.toUpperCase() if next != false
+
             # letter or number, lowercase
-            when 'x'  then next = nextChar(isLetterOrNumber).toLowerCase()
+            when 'x'
+              next = nextChar(isLetterOrNumber)
+              next.toLowerCase() if next != false
+
             # escape character
-            when '\\' then next = mask.charAt ++pos 
+            when '\\'
+              next = mask.charAt ++pos 
+
             # not a key letter, use maskChar
             else           
               next = maskChar
