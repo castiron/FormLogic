@@ -38,13 +38,12 @@ class @FormLogic
       return unless type == 'text' or type == 'textfield' or type == 'input'
 
       $el.on 'input', (event) ->
-        val = $(@).val().replace(/( )+$/,'')
-        console.log "val: '"+val+"'"
+        inputVal = $(@).val().replace(/( )+$/,'')
 
         # Each call invokes the next letter in the value string
         nextVal = do ->
           valPos = 0
-          return -> val.charAt valPos++
+          return -> inputVal.charAt valPos++
 
         # Determines the next character for the new 
         # value using a given compare function 
@@ -52,7 +51,7 @@ class @FormLogic
           valChar = nextVal()
           return false unless valChar            # end of input
           return valChar if compareFunc(valChar) # nextVal is valid
-          return nextChar compareFunc            # skip this val and try the next
+          return nextChar compareFunc            # skip this valChar and try the next
 
         isNumber = (str) -> 47 < str.charCodeAt(0) < 58
         isLetter = (str) -> (64 < str.charCodeAt(0) < 91) or (96 < str.charCodeAt(0) < 123)
@@ -65,9 +64,7 @@ class @FormLogic
         cursorPosition = 0
         lastMaskChars = ''
         for pos in [0..mask.length] 
-          console.log 'loop: '+pos
           maskChar = mask.charAt pos
-          console.log "- maskChar: '"+ maskChar+"'"
           switch maskChar
             # numbers only
             when '0'  then next = nextChar isNumber
@@ -90,45 +87,37 @@ class @FormLogic
               next = maskChar
               lastMaskChars += maskChar
 
-          console.log 'lastMaskChars: '+lastMaskChars
           # Quit if there're no more input characters
           break if next == false 
 
           ++cursorPosition
           newVal += next
-          console.log "- next: '"+next+"'"
 
         # remove mask chars at the end (makes dealing with backspaces easier)
         numMaskCharsToRemove = 0
         for index in [-1..(newVal.length * -1)]
-          console.log 'newval(index, 1): '+newVal.substr(index, 1)
-          console.log 'lastMaskChars(index, 1): '+lastMaskChars.substr(index, 1)
           if newVal.substr(index, 1) == lastMaskChars.substr(index, 1)
             ++numMaskCharsToRemove
           else 
             break
-            
+
         if numMaskCharsToRemove != 0            
           newVal = newVal.slice(0, numMaskCharsToRemove * -1)
-
+          cursorPosition -= numMaskCharsToRemove
 
         # update value
         $(@).val newVal
         console.log "newVal: '"+newVal.replace(/( )+$/,'')+"'"
-        console.log 'cursorPosition: '+cursorPosition
-        console.log ' '
 
         # update cursor
+        # TODO adjust for middle of string edits
+        # NOTE: must use 
         if @setSelectionRange
-          @setSelectionRange cursorPosition, cursorPosition
-        else if @createTextRange
-          range = @createTextRange()
-          range.collapse true
-          range.moveEnd 'character', cursorPosition
-          range.moveStart 'character', cursorPosition
-          range.select()
-        
+          @setSelectionRange(cursorPosition, cursorPosition)
 
+        console.log 'cursorPosition: '+cursorPosition
+
+        console.log ' '
 
 
 
