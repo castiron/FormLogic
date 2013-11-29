@@ -105,19 +105,17 @@ class @FormLogic
           newVal = newVal.slice(0, numMaskCharsToRemove * -1)
           cursorPosition -= numMaskCharsToRemove
 
+        # Adjust for middle of string edits
+        if @setSelectionRange
+          if @selectionStart != inputVal.length
+            cursorPosition = if @selectionStart > inputVal.length then @selectionStart + 1 else @selectionStart
+
         # update value
         $(@).val newVal
-        console.log "newVal: '"+newVal.replace(/( )+$/,'')+"'"
 
         # update cursor
-        # TODO adjust for middle of string edits
-        # NOTE: must use 
         if @setSelectionRange
           @setSelectionRange(cursorPosition, cursorPosition)
-
-        console.log 'cursorPosition: '+cursorPosition
-
-        console.log ' '
 
 
 

@@ -127,13 +127,15 @@
             newVal = newVal.slice(0, numMaskCharsToRemove * -1);
             cursorPosition -= numMaskCharsToRemove;
           }
-          $(this).val(newVal);
-          console.log("newVal: '" + newVal.replace(/( )+$/, '') + "'");
           if (this.setSelectionRange) {
-            this.setSelectionRange(cursorPosition, cursorPosition);
+            if (this.selectionStart !== inputVal.length) {
+              cursorPosition = this.selectionStart > inputVal.length ? this.selectionStart + 1 : this.selectionStart;
+            }
           }
-          console.log('cursorPosition: ' + cursorPosition);
-          return console.log(' ');
+          $(this).val(newVal);
+          if (this.setSelectionRange) {
+            return this.setSelectionRange(cursorPosition, cursorPosition);
+          }
         });
       });
     };
