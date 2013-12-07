@@ -160,7 +160,7 @@
         _ref = $el.find('[name]').addBack('[name]');
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           input = _ref[_i];
-          $child = $('[data-prompt="' + $(input).attr('name') + '"');
+          $child = $('[data-prompt="' + $(input).attr('name') + '"]');
           if ($child) {
             $(input).change();
           }
@@ -169,7 +169,7 @@
         _results = [];
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           input = _ref1[_j];
-          $child = $('[data-prompt="#' + $(input).attr('id') + '"');
+          $child = $('[data-prompt="#' + $(input).attr('id') + '"]');
           if ($child) {
             _results.push($(input).change());
           } else {
@@ -184,7 +184,7 @@
         _ref = $el.find('[name]').addBack('[name]');
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           input = _ref[_i];
-          $child = $('[data-prompt="' + $(input).attr('name') + '"');
+          $child = $('[data-prompt="' + $(input).attr('name') + '"]');
           if ($child) {
             hideChildren($child);
           }
@@ -193,7 +193,7 @@
         _results = [];
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           input = _ref1[_j];
-          $child = $('[data-prompt="#' + $(input).attr('id') + '"');
+          $child = $('[data-prompt="#' + $(input).attr('id') + '"]');
           if ($child) {
             _results.push(hideChildren($child));
           } else {

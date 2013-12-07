@@ -145,19 +145,19 @@ class @FormLogic
     showChildren = ($el) -> 
       $el.show()
       for input in $el.find('[name]').addBack('[name]')
-        $child = $('[data-prompt="'+$(input).attr('name')+'"')
+        $child = $('[data-prompt="'+$(input).attr('name')+'"]')
         $(input).change() if $child
       for input in $el.find('[id]').addBack('[id]')
-        $child = $('[data-prompt="#'+$(input).attr('id')+'"')
+        $child = $('[data-prompt="#'+$(input).attr('id')+'"]')
         $(input).change() if $child
 
     hideChildren = ($el) -> 
       $el.hide()
       for input in $el.find('[name]').addBack('[name]')
-        $child = $('[data-prompt="'+$(input).attr('name')+'"')
+        $child = $('[data-prompt="'+$(input).attr('name')+'"]')
         hideChildren $child if $child
       for input in $el.find('[id]').addBack('[id]')
-        $child = $('[data-prompt="#'+$(input).attr('id')+'"')
+        $child = $('[data-prompt="#'+$(input).attr('id')+'"]')
         hideChildren $child if $child
 
     for form in $('form')
