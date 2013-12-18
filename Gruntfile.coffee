@@ -33,6 +33,14 @@ module.exports = (grunt) ->
         options:
           run: true
           reporter: 'Spec'
+    assemble:
+      options:
+        layoutdir: 'docs/layouts'
+#        partials: 'docs/partials'
+      sections:
+        files:
+          'docs/': ['docs/sections/*.hbs']
+
 
 
   grunt.loadNpmTasks 'grunt-contrib-uglify'
@@ -40,6 +48,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-sass'
   grunt.loadNpmTasks 'grunt-mocha'
+  grunt.loadNpmTasks 'assemble'
 
   # Default task
   grunt.registerTask 'default', ['uglify']
