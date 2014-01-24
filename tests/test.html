@@ -71,6 +71,13 @@
 			<input type="text" id="error-target" data-validate="required" data-error="#error-result" />
 			<div id="error-result" class="error">Please enter something</div>
 
+			<label>Error target gets hidden: </label>
+			<input type="text" id="error-target-fixed" data-validate="required number" data-min="300"
+			       data-error-required="#error-result-fixed"
+			       data-error-number="#error-result-fixed-number"/>
+			<div id="error-result-fixed" class="error">Please enter something</div>
+			<div id="error-result-fixed-number" class="error">Please enter a number above 299</div>
+
 			<label>Error target special:</label>
 			<input type="text" id="error-target-special" data-validate="required number" data-min="300"
 			       data-error-required="#error-result-required"

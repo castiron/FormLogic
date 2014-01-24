@@ -328,7 +328,19 @@
             return my.runValidators($(this));
           });
           $input.focus(function() {
-            return my.clearErrors($(this));
+            var name, vNames, vString, _k, _len2, _results;
+            vString = $(this).data('validate');
+            if (typeof vString !== 'string') {
+              return my.clearErrors($(this));
+            } else {
+              vNames = vString.split(' ');
+              _results = [];
+              for (_k = 0, _len2 = vNames.length; _k < _len2; _k++) {
+                name = vNames[_k];
+                _results.push(my.clearErrors($(this), name));
+              }
+              return _results;
+            }
           });
         }
         $form.submit(function(event) {
@@ -446,20 +458,23 @@
         return re.test($input.val());
       });
       FormLogic.validate('number', function($input, $form) {
-        var max, min, val;
-        val = parseFloat($input.val());
-        min = parseFloat($input.data('max'));
-        max = parseFloat($input.data('min'));
-        if (!(!isNaN(val) && isFinite(val))) {
+        var isnum, max, min, val;
+        isnum = function(v) {
+          return !isNaN(v) && isFinite(v) && /^[0-9]*\.?[0-9]+$/.test(v);
+        };
+        if (!isnum($input.val())) {
           return false;
         }
-        if (max !== void 0 && min !== void 0) {
+        val = parseFloat($input.val());
+        min = parseFloat($input.data('min'));
+        max = parseFloat($input.data('max'));
+        if (isnum(max) && isnum(min)) {
           return (min <= val && val <= max);
         }
-        if (max !== void 0 && min === void 0) {
+        if (isnum(max) && !isnum(min)) {
           return val <= max;
         }
-        if (max === void 0 && min !== void 0) {
+        if (!isnum(max) && isnum(min)) {
           return min <= val;
         }
         return true;

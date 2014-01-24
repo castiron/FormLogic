@@ -44,6 +44,16 @@ describe 'FormLogic', ->
       $error = $input.next()
       expect($error.text() == message).to.be.true
 
+    it 'hides error target messages after fixing the error', ->
+      $input = $('#error-target-fixed')
+      $error = $('#error-result-fixed-number')
+      $input.focus()
+      $input.val(200)
+      $input.blur() # show error
+      $input.focus().val(300)
+      $input.blur()
+      expect($error.is(':visible')).to.be.false
+
 
   describe 'Validators', ->
 

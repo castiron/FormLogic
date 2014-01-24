@@ -257,7 +257,12 @@ class @FormLogic
         $input.blur ->
           my.runValidators($(@))
         $input.focus ->
-          my.clearErrors($(@))
+          vString = $(@).data('validate')
+          if typeof vString != 'string'
+            my.clearErrors($(@))
+          else
+            vNames = vString.split(' ')
+            my.clearErrors($(@), name) for name in vNames
 
       $form.submit (event) ->
         hasError = false
@@ -347,13 +352,19 @@ class @FormLogic
 
     # Checks that the value is numeric
     FormLogic.validate 'number', ($input, $form) ->
+      isnum = (v) -> !isNaN(v) && isFinite(v) && /^[0-9]*\.?[0-9]+$/.test(v)
+
+      # Check if original value is a number
+      return false unless isnum($input.val())
+
+      # Parse out numbers
       val = parseFloat($input.val())
-      min = parseFloat($input.data('max'))
-      max = parseFloat($input.data('min'))
-      return false             unless !isNaN(val) && isFinite(val)
-      return min <= val <= max if max != undefined and min != undefined
-      return val <= max        if max != undefined and min == undefined
-      return min <= val        if max == undefined and min != undefined
+      min = parseFloat($input.data('min'))
+      max = parseFloat($input.data('max'))
+
+      return min <= val <= max if isnum(max) and isnum(min)
+      return val <= max        if isnum(max) and !isnum(min)
+      return min <= val        if !isnum(max) and isnum(min)
       return true
 
     # Compares the value of two input elements to be sure they're equal

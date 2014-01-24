@@ -38,7 +38,7 @@
         $error = $input.next();
         return expect($error.text() === message).to.be["true"];
       });
-      return it('shows general message (data-message) if specialized messages are not provided', function() {
+      it('shows general message (data-message) if specialized messages are not provided', function() {
         var $error, $input, message;
         $input = $('#no-special-message');
         message = $('#no-special-message').data('message');
@@ -46,6 +46,17 @@
         $input.blur();
         $error = $input.next();
         return expect($error.text() === message).to.be["true"];
+      });
+      return it('hides error target messages after fixing the error', function() {
+        var $error, $input;
+        $input = $('#error-target-fixed');
+        $error = $('#error-result-fixed-number');
+        $input.focus();
+        $input.val(200);
+        $input.blur();
+        $input.focus().val(300);
+        $input.blur();
+        return expect($error.is(':visible')).to.be["false"];
       });
     });
     describe('Validators', function() {
