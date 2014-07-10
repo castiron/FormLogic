@@ -163,7 +163,7 @@ class @FormLogic
     for form in $('form')
       $('[data-prompt]').each (i,el) ->
         $el = $(el)
-        $form = $el.parent('form')
+        $form = $el.parents('form:first')
 
         # Hide dependent field from the start
         $el.hide()

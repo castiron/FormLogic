@@ -209,7 +209,7 @@
         _results.push($('[data-prompt]').each(function(i, el) {
           var $el, $form, $parent, goalString, goals, handle, parentName, parentType;
           $el = $(el);
-          $form = $el.parent('form');
+          $form = $el.parents('form:first');
           $el.hide();
           handle = $el.data('prompt');
           $parent = handle.charAt(0) === '#' ? $($form.find(handle)) : $($form.find('[name="' + handle + '"]'));
