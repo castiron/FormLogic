@@ -20,7 +20,7 @@ FormLogic depends on jQuery because I'm lazy and you should be too.
             <input name="name" type="text" data-validate="required" data-message="Please provide a name." />
 
             <!-- DYNAMIC FIELDS -->
-            <div data-depends-on="name" data-show-if="Samantha">
+            <div data-prompt="name" data-show-if="Samantha">
                 <label>Special Field for Samantha</label>
                 <input name="age" type="text" />
             </div>
@@ -33,7 +33,7 @@ This, `data-validate="required"`, will validate the input element to make sure t
 enters something. If the user doesn't enter anything, then the value of `data-message` is
 shown as an error message after the input element. All validations happen when the user submits the form.
 
-The `data-depends-on` attribute hides this element until the user types 'Samantha' into the field
+The `data-prompt` attribute hides this element until the user types 'Samantha' into the field
 with the name `name`.
 
 ### API
@@ -134,20 +134,20 @@ the message to be displayed.
 Any element with this data attribute will be shown when an invalid form was submitted. This is for showing
 text like, "Please correct the errors below." No value is needed for the attribute: `data-flash-errors="true"`.
 
-#### `data-depends-on`
+#### `data-prompt`
 
 Use this attribute to show that one field is dependent on another field. Use the `name` attribute of the
 form element, **not** the `id` attribute. Along with this, you must use a `data-show-if...` attribute.
 
 #### `data-show-if`
 
-Used with `data-depends-on`, this attribute determines when to show this field. For example, if this
+Used with `data-prompt`, this attribute determines when to show this field. For example, if this
 element is dependent on a field named `charities` and `data-show-if="YMCA"`, then this element will
 only be shown when user selects the YMCA charity. This can take multiple values separated by semi-colons.
 
 #### `data-show-if-any`
 
-Used with `data-depends-on`, this attribute shows this field whenever anything is selected or added
+Used with `data-prompt`, this attribute shows this field whenever anything is selected or added
 to the field on which this depends.
 
 ### Integrating with Stripe
@@ -259,7 +259,7 @@ This validator is a little more complex because it involves more than one input 
             <input type="radio" name="donate" value="no"> No
         </label>
 
-        <div data-depends-on="donate" data-show-if="yes">
+        <div data-prompt="donate" data-show-if="yes">
             <label>Which ones?</label>
             <label>
                 <input type="checkbox" name="charities[]" value="For the kids"> For the kids
@@ -271,10 +271,10 @@ This validator is a little more complex because it involves more than one input 
                 <input type="checkbox" name="charities[]" value="Wounded Soldiers"> Wounded Soldier
             </label>
         </div>
-        <div data-depends-on="charities[]" data-show-if-any="true">
+        <div data-prompt="charities[]" data-show-if-any="true">
             <strong>THANKS!</strong>
         </div>
-        <div data-depends-on="charities[]" data-show-if="For the kids; Donald Fund">
+        <div data-prompt="charities[]" data-show-if="For the kids; Donald Fund">
             <strong>I like that one!</strong>
         </div>
 
