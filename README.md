@@ -63,6 +63,8 @@ It works like normal validators:
 
 If a custom validator has the same name as a default one, then it will override the default.
 
+One thing to note about custom validators is that the only validator that checks for empty values is the `required` validator. So, if you create a custom validator, it won't be invoked for empty values. Just use `required` to check that it's not empty. 
+
 #### Change some details
 
     // Class added to invalid fields
