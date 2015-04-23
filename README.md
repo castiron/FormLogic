@@ -1,13 +1,11 @@
 # FormLogic
 
-FormLogic is an unobtrusive JavaScript library for handling client-side form validation and dynamic
-form manipulation. Unlike other validation libraries, all of the work is in the markup using the
-underrated `data` property.
+FormLogic is an unobtrusive JavaScript library for handling client-side form validation and dynamic form manipulation. Unlike other validation libraries, all of the work is in the markup using the underrated `data` property.
 
 
-### Getting Started
+## Getting Started
 
-FormLogic depends on jQuery because I'm lazy and you should be too.
+FormLogic depends on jQuery.
 
     <head>
         <script src="jquery.min.js" type="text/javascript"></script>
@@ -17,7 +15,8 @@ FormLogic depends on jQuery because I'm lazy and you should be too.
         <form>
             <!-- VALIDATION -->
             <label>Name:</label>
-            <input name="name" type="text" data-validate="required" data-message="Please provide a name." />
+            <input name="name" type="text" data-validate="required"
+                   data-message="Please provide a name." />
 
             <!-- DYNAMIC FIELDS -->
             <div data-prompt="name" data-show-if="Samantha">
@@ -29,20 +28,16 @@ FormLogic depends on jQuery because I'm lazy and you should be too.
         </form>
     </body>
 
-This, `data-validate="required"`, will validate the input element to make sure that the user
-enters something. If the user doesn't enter anything, then the value of `data-message` is
-shown as an error message after the input element. All validations happen when the user submits the form.
+This, `data-validate="required"`, will validate the input element to make sure that the user enters something. If the user doesn't enter anything, then the value of `data-message` is shown as an error message after the input element. All validations happen when the user submits the form.
 
-The `data-prompt` attribute hides this element until the user types 'Samantha' into the field
-with the name `name`.
+The `data-prompt` attribute hides this element until the user types 'Samantha' into the field with the name `name`.
 
-### API
+## Configuration
 
-#### Configuration
+The main goal of FormLogic is to be light on the JavaScript configuration and heavy on the markup.
 
-The main goal of FormLogic is to be light on the JavaScript configuration and heavy
-on the markup.
 
+#### Do something after valid submit
 Currently, the only possible configuration is a callback for when the form is successfully validated:
 
     FormLogic.onValidSubmit = function() {
@@ -52,7 +47,31 @@ Currently, the only possible configuration is a callback for when the form is su
          return true; // to submit the form
     }
 
-At some point, custom validators can be added to the options object.
+#### Add custom validators
+
+    // Custom validation that number is greater than 700
+    FormLogic.validate('my-requirements', function($input, $form) {
+        var val = $input.val();
+        return val > 700;
+    });
+
+It works like normal validators:
+
+    <input data-validate="required my-requirements" type="text"
+           data-message-required="Please guess a number"
+           data-message-my-requirements="Gotcha! It's gotta be greater than 700." />
+
+If a custom validator has the same name as a default one, then it will override the default.
+
+#### Change some details
+
+    // Class added to invalid fields
+    FormLogic.fieldErrorClass = 'this-input-is-invalid'
+
+    // Class used when generating an error tag after the input (see data-message)
+    FormLogic.errorClass = 'oops'
+
+## Validation
 
 #### `data-validate`
 
@@ -68,30 +87,21 @@ The current set of validators are:
 * `maximum` - The value must be equal or below the value in the `data-maximum` property.
 * `number` - The value must be an integer or float.
 * `confirm` - The value must match the value of the element specified by `data-confirm-target`
+* `phone` - Simple phone validation (mostly just length, ignores non digits)
+* `length` - Used with `data-min` and/or `data-max` to check string lengths
 
-Stripe validators (see below for details):
-* `stripe-number` - Credit card validation
-* `stripe-cvc` - Credit card security code validation
-* `stripe-expiry` - Credit card expiration validation
+Credit card validators:
+* `card-number` - Credit card validation; checks against patterns of major credit card companies
+* `card-cvc` - Credit card security code validation; checks 3 or 4 digits long
 
-At some point, custom validators will also be accepted.
 
 #### `data-message`
 
-This property determines what the error message should be if the input value is
-invalid. Using `data-message` is fine if there is only one validator. However,
-to give a more specific error, you can have different messages for different validators.
-You just have to add the validator name to the `data-message` property. For example,
-`data-message-email` will only show if the email is not properly validated and `data-message-required`
-show if the value is empty.
+This property determines what the error message should be if the input value is invalid. Using `data-message` is fine if there is only one validator. However, to give a more specific error, you can have different messages for different validators. You just have to add the validator name to the `data-message` property. For example, `data-message-email` will only show if the email is not properly validated and `data-message-required` show if the value is empty.
 
-If you want to use the same error message for all validators, then, by all means, use
-`data-message`. However, using `data-message` means that all validators except `required` will
-show that message if there's an error. So, the only time you can use `data-message` with other
-messages is with `data-message-required`.
+If you want to use the same error message for all validators, then, by all means, use `data-message`. However, using `data-message` means that all validators except `required` will show that message if there's an error. So, the only time you can use `data-message` with other messages is with `data-message-required`.
 
-For example, the error will be 'Please provide a year', if nothing is provided. And if there is
-a value and it's invalid, the error will be 'Please provide a _valid_ year in the future.'
+For example, the error will be 'Please provide a year', if nothing is provided. And if there is a value and it's invalid, the error will be 'Please provide a _valid_ year in the future.'
 
     <input type="text" class="exp-year" data-hint="YYYY"
            data-validate="required number minimum maximum"
@@ -101,8 +111,21 @@ a value and it's invalid, the error will be 'Please provide a _valid_ year in th
            data-message="Please provide a <em>valid</em> year in the future."/>
     <div class="error"></div>
 
-After error messages are shown, if the user clicks on the input field again, then the error message
-goes away.
+After error messages are shown, if the user clicks on the input field again, then the error message goes away.
+
+#### `data-error`
+
+Use this to be more specific about where the error messages show up. With it you specify a selector, probably an ID: `data-error="#my-custom-error-for-this-input"`. Now if there is an error, this will be shown. Nothing is thus added to the dom, because it is already there. Used in conjunction with `data-message`, you can both specify a target and a message. The message will be added as the text value of the `data-error` target.
+
+    <input data-validate="required" type=text"
+           data-message="You should enter something here"
+           data-error="#error-for-this" />
+    <div class="error-wrap">
+        <div id="error-for-this">
+            <!-- I am populated later -->
+        </div>
+    </div>
+
 
 #### `data-minimum`
 
@@ -114,94 +137,56 @@ When using the `maximum` validator, you must specify what that maximum should be
 
 #### `data-confirm-target`
 
-When using the `confirm` validator, you must specify what element contains the value to confirm with.
-This takes a CSS selector. Typically, you'd use this for situations where you have a password input
-element and a password confirmation input element.
+When using the `confirm` validator, you must specify what element contains the value to confirm with. This takes a CSS selector. Typically, you'd use this for situations where you have a password input element and a password confirmation input element.
 
-#### `data-hint`
+#### `data-min` and/or `data-max`
 
-This is a convenience property that shows a hint in the input box. While the hint is shown, the input
-element will have the class `has-hint`.
+Used when validating "length".
 
-#### `data-error-target`
+#### `data-force-validation`
 
-All error messages are added after the input element in a `<div class="error"></div>` element. If that isn't where
-you want the message to go, then you can set `data-error-target` with a CSS selector of where you want
-the message to be displayed.
+For hidden elements (which are not normally validated), you may need to force validation by adding this attribute.
 
-### `data-flash-errors`
+## Input Masking
 
-Any element with this data attribute will be shown when an invalid form was submitted. This is for showing
-text like, "Please correct the errors below." No value is needed for the attribute: `data-flash-errors="true"`.
+#### `data-mask`
+
+This is a simple implementation of masking user input as it's being typed. You can do something like:
+
+    <input type="text" id="mask-phone" data-mask="(000) 000 - 0000" />
+    <input type="text" id="mask-policy" data-mask="AA-????-????" />
+    
+And the input will be handled as expected. 
+
+char | meaning
+--- | ---
+`0` | numbers only
+`A` | letters only, uppercase
+`a` | letters only, lowercase
+`Z` | letters only, any case
+`?` | letter or number, any case
+`X` | letter or number, uppercase
+`x` | letter or number, lowercase
+`\` | escape character
+other | used literally
+
+    
+
+## Dynamic Form Elements
 
 #### `data-prompt`
 
-Use this attribute to show that one field is dependent on another field. Use the `name` attribute of the
-form element, **not** the `id` attribute. Along with this, you must use a `data-show-if...` attribute.
+Use this attribute to show that one field is dependent on another field. Use the `name` attribute of the form element, **not** the `id` attribute. Along with this, you must use a `data-show-if...` attribute.
 
 #### `data-show-if`
 
-Used with `data-prompt`, this attribute determines when to show this field. For example, if this
-element is dependent on a field named `charities` and `data-show-if="YMCA"`, then this element will
-only be shown when user selects the YMCA charity. This can take multiple values separated by semi-colons.
+Used with `data-prompt`, this attribute determines when to show this field. For example, if this element is dependent on a field named `charities` and `data-show-if="YMCA"`, then this element will only be shown when user selects the YMCA charity. This can take multiple values separated by semi-colons.
 
 #### `data-show-if-any`
 
-Used with `data-prompt`, this attribute shows this field whenever anything is selected or added
-to the field on which this depends.
+Used with `data-prompt`, this attribute shows this field whenever anything is selected or added to the field on which this depends.
 
-### Integrating with Stripe
-
-Stripe, an online credit card processor, has convenience methods for validating credit card info that allow you to accept a wider range of credit card numbers (i.e. `4444 4444 4444 4444` and `4444-4444-4444-4444` are both acceptable for generating Stripe tokens.
-
-To use these methods you must include the 	`Stripe.js` source: 
-
-    <script src="https://js.stripe.com/v1/"></script>
-
-And you **must** include your publishable Stripe API key on the form with the `data-stripe-key` attribute.
-
-#### `data-stripe-key`
-
-This is a required attribute for forms that are leveraging the `Stripe.js` source to generate a Stripe credit card token. It must be placed on the `<form>` element with the public Stripe API key.
-
-#### `data-expiry-month-target`
-
-Required for `stripe-expiry` validator. Takes a css selector that points to the expiration month input element.
-
-#### `data-expiry-year-target`
-
-Required for `stripe-expiry` validator. Takes a css selector that points to the expiration year input element.
-
-#### Stripe Validators
-
-#### `stripe-number`, `stripe-cvc`
-
-Stripe validators follow the same patterns as other validation methods. And like other attributes, you can still use `data-message` to display the errors or be more specific with `data-message-stripe-number` or `data-message-stripe-cvc`. 
-
-### `stripe-expiry`
-
-This validator is a little more complex because it involves more than one input element. Any element with this validator must provide two attributes: `data-expiry-month-target` and `data-expiry-year-target`. These attributes respectively take a css selector (i.e. `.exp-month` or `#exp-month`) that points to the appropriate input element. You can add this validator to either the month input or the year input, it doesn't matter; probably not both. It may be useful to use the `data-error-target` element for displaying the errors from the two elements in the one spot. Each target can still have other validators, like 	`required` if you want.
-
-    <label>Expiration:</label>
-    <input type="text" class="exp-month" data-hint="MM"
-           data-validate="required stripe-expiry"
-           data-expiry-month-target=".exp-month"
-           data-expiry-year-target=".exp-year"
-           data-error-target="#expiration-error"
-           data-message-required="Please provide a month."
-           data-message-stripe-expiry="Please provide a <em>valid</em> month in the future."/>
-    <input type="text" class="exp-year" data-hint="YYYY"
-           data-validate="required"
-           data-message-required="Please provide a year." />
-    <div id="expiration-error" class="error"></div>
-
-### TODO
-
-* Use custom validators.
-* Accept an alternative error class other than `.error`.
-* Create more validators: creditcard, phone, minlength, maxlength, etc.
-
-### Example
+## Example
 
     <form id="signupForm">
         <label>Email:</label>
