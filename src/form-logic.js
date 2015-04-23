@@ -352,9 +352,9 @@
             }
           }
           if (!hasError) {
-            callback = $form.data('fl-submit-callback');
+            callback = $(this).data('fl-submit-callback');
             if (callback && typeof callback === 'function') {
-              return callback.call($form, event);
+              return callback.call($(this), event);
             }
           }
           return !hasError;

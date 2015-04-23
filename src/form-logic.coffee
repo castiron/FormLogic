@@ -271,9 +271,9 @@ class @FormLogic
             hasError = true
 
         unless hasError
-          callback = $form.data('fl-submit-callback')
+          callback = $(@).data('fl-submit-callback')
           if callback && typeof(callback) == 'function'
-            return callback.call($form, event) 
+            return callback.call($(@), event)
 
         return !hasError
 
