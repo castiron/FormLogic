@@ -311,44 +311,42 @@
     };
 
     FormLogic.prototype.setupValidationHandlers = function() {
-      var $form, $input, form, input, my, _i, _j, _len, _len1, _ref, _ref1;
+      var my;
       my = this;
-      _ref = $('form');
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        form = _ref[_i];
+      return $('form').each(function(i, form) {
+        var $form;
         $form = $(form);
-        _ref1 = $form.find('[data-validate]');
-        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-          input = _ref1[_j];
+        $form.find('[data-validate]').each(function(x, input) {
+          var $input;
           $input = $(input);
           if ($(this).attr('type') === 'checkbox' || $(this).attr('type') === 'radio') {
             return;
           }
           $input.blur(function() {
-            return my.runValidators($(this));
+            return my.runValidators($(this), $form);
           });
-          $input.focus(function() {
-            var name, vNames, vString, _k, _len2, _results;
+          return $input.focus(function() {
+            var name, vNames, vString, _i, _len, _results;
             vString = $(this).data('validate');
             if (typeof vString !== 'string') {
               return my.clearErrors($(this));
             } else {
               vNames = vString.split(' ');
               _results = [];
-              for (_k = 0, _len2 = vNames.length; _k < _len2; _k++) {
-                name = vNames[_k];
+              for (_i = 0, _len = vNames.length; _i < _len; _i++) {
+                name = vNames[_i];
                 _results.push(my.clearErrors($(this), name));
               }
               return _results;
             }
           });
-        }
-        $form.submit(function(event) {
-          var callback, hasError, _k, _len2, _ref2;
+        });
+        return $form.submit(function(event) {
+          var callback, hasError, input, _i, _len, _ref;
           hasError = false;
-          _ref2 = $(this).find('[data-validate]');
-          for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
-            input = _ref2[_k];
+          _ref = $(this).find('[data-validate]');
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            input = _ref[_i];
             if (!my.runValidators($(input), $(this))) {
               hasError = true;
             }
@@ -361,7 +359,7 @@
           }
           return !hasError;
         });
-      }
+      });
     };
 
     FormLogic.prototype.runValidators = function($input, $form) {

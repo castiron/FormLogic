@@ -246,16 +246,16 @@ class @FormLogic
   # Calls validators on blur and on form submit
   setupValidationHandlers: ->
     my = @
-    for form in $('form')
+    $('form').each (i, form) ->
       $form = $(form)
-      for input in $form.find('[data-validate]')
+      $form.find('[data-validate]').each (x, input) ->
         $input = $(input)
 
         # Don't do blur validations for checkboxes and radio elements
         return if $(@).attr('type') == 'checkbox' || $(@).attr('type') == 'radio'
 
         $input.blur ->
-          my.runValidators($(@))
+          my.runValidators($(@), $form)
         $input.focus ->
           vString = $(@).data('validate')
           if typeof vString != 'string'
