@@ -326,7 +326,9 @@ class @FormLogic
     target = $input.data('error-'+name) if name
     target = $input.data('error') unless target
 
-    if target
+    if target and message
+      $(target).text(message).show()
+    else if target
       $(target).show()
     else if message
       $input.after('<div class="'+@errorClass+'">'+message+'</div>')

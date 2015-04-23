@@ -427,7 +427,9 @@
       if (!target) {
         target = $input.data('error');
       }
-      if (target) {
+      if (target && message) {
+        return $(target).text(message).show();
+      } else if (target) {
         return $(target).show();
       } else if (message) {
         return $input.after('<div class="' + this.errorClass + '">' + message + '</div>');
