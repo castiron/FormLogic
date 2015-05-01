@@ -24,11 +24,25 @@
       return FormLogic._validators[name] = func;
     };
 
+    FormLogic.onBeforeValidation = function(form, func) {
+      if (!func || typeof func !== 'function') {
+        throw 'The second argument passed to FormLogic.onBeforeValidation() must be a function.';
+      }
+      return $(form).data('fl-before-validation-callback', func);
+    };
+
     FormLogic.onValidSubmit = function(form, func) {
       if (!func || typeof func !== 'function') {
         throw 'The second argument passed to FormLogic.onValidSubmit() must be a function.';
       }
-      return $(form).data('fl-submit-callback', func);
+      return $(form).data('fl-valid-submit-callback', func);
+    };
+
+    FormLogic.onInvalidSubmit = function(form, func) {
+      if (!func || typeof func !== 'function') {
+        throw 'The second argument passed to FormLogic.onInvalidSubmit() must be a function.';
+      }
+      return $(form).data('fl-invalid-submit-callback', func);
     };
 
     FormLogic.prototype.setupMasks = function() {
@@ -344,6 +358,10 @@
         return $form.submit(function(event) {
           var callback, hasError, input, _i, _len, _ref;
           hasError = false;
+          callback = $(this).data('fl-before-validation-callback');
+          if (callback && typeof callback === 'function') {
+            callback.call($(this), event);
+          }
           _ref = $(this).find('[data-validate]');
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             input = _ref[_i];
@@ -351,8 +369,13 @@
               hasError = true;
             }
           }
-          if (!hasError) {
-            callback = $(this).data('fl-submit-callback');
+          if (hasError) {
+            callback = $(this).data('fl-invalid-submit-callback');
+            if (callback && typeof callback === 'function') {
+              callback.call($(this), event);
+            }
+          } else {
+            callback = $(this).data('fl-valid-submit-callback');
             if (callback && typeof callback === 'function') {
               return callback.call($(this), event);
             }
@@ -366,7 +389,7 @@
       var hasError, name, vNames, vString, _i, _len;
       hasError = false;
       if ((($input.is(':hidden') && !$input.next('.chosen-container').length) || $input.is(':submit')) && !$input.data('force-validation')) {
-        return false;
+        return true;
       }
       vString = $input.data('validate');
       if (typeof vString !== 'string') {

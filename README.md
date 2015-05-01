@@ -37,8 +37,8 @@ The `data-prompt` attribute hides this element until the user types 'Samantha' i
 The main goal of FormLogic is to be light on the JavaScript configuration and heavy on the markup.
 
 
-#### Do something after valid submit
-Currently, the only possible configuration is a callback for when the form is successfully validated:
+#### Hooks around submissions
+You can hook in before validation and after the form is valid or invalid. 
 
     FormLogic.onValidSubmit = function() {
          // Do whatever extra validation you need to do.
@@ -46,6 +46,13 @@ Currently, the only possible configuration is a callback for when the form is su
 
          return true; // to submit the form
     }
+    FormLogic.onValidSubmit = function() {
+         // return value ignored
+    }
+	FormLogic.onBeforeValidation = function () {
+		// return value ignored
+	}
+
 
 #### Add custom validators
 

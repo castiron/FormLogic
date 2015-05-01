@@ -21,12 +21,22 @@ class @FormLogic
 
     FormLogic._validators[name] = func
 
-  # Adds a listener to valid form submissions
+  # Adds a listeners to  form submissions
+
+  @onBeforeValidation: (form, func) ->
+    if !func || typeof(func) != 'function'
+      throw 'The second argument passed to FormLogic.onBeforeValidation() must be a function.'
+    $(form).data('fl-before-validation-callback', func)
+
   @onValidSubmit: (form, func) ->
     if !func || typeof(func) != 'function'
       throw 'The second argument passed to FormLogic.onValidSubmit() must be a function.'
+    $(form).data('fl-valid-submit-callback', func)
 
-    $(form).data('fl-submit-callback', func)
+  @onInvalidSubmit: (form, func) ->
+    if !func || typeof(func) != 'function'
+      throw 'The second argument passed to FormLogic.onInvalidSubmit() must be a function.'
+    $(form).data('fl-invalid-submit-callback', func)
 
 
   setupMasks: ->
@@ -266,24 +276,34 @@ class @FormLogic
 
       $form.submit (event) ->
         hasError = false
+
+        callback = $(@).data('fl-before-validation-callback')
+        if callback && typeof(callback) == 'function'
+          callback.call($(@), event)
+
         for input in $(@).find('[data-validate]')
           unless my.runValidators($(input), $(@))
             hasError = true
 
-        unless hasError
-          callback = $(@).data('fl-submit-callback')
+        if hasError
+          callback = $(@).data('fl-invalid-submit-callback')
+          if callback && typeof(callback) == 'function'
+            callback.call($(@), event)
+        else
+          callback = $(@).data('fl-valid-submit-callback')
           if callback && typeof(callback) == 'function'
             return callback.call($(@), event)
 
         return !hasError
 
   # Evaluates the input according to the validators specified by data-validate
+  # Returns true if valid and false if not valid
   runValidators: ($input, $form)->
     hasError = false
 
     # Skip submit elements & hidden elements (unless using Chosen JS) unless forced to validate
     if (($input.is(':hidden') and !$input.next('.chosen-container').length) or $input.is(':submit')) and !$input.data('force-validation')
-      return false 
+      return true
 
     # Parse out the specified validators
     vString = $input.data('validate')
