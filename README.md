@@ -46,12 +46,14 @@ You can hook in before validation and after the form is valid or invalid.
 
          return true; // to submit the form
     }
-    FormLogic.onValidSubmit = function() {
+    
+    FormLogic.onInvalidSubmit = function() {
          // return value ignored
     }
-	FormLogic.onBeforeValidation = function () {
-		// return value ignored
-	}
+    
+    FormLogic.onBeforeValidation = function () {
+         // return value ignored
+    }
 
 
 #### Add custom validators
