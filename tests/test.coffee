@@ -166,8 +166,11 @@ describe 'FormLogic', ->
 
   describe 'Dynamic Fields', ->
 
-    it 'hides dependent fields on page load', ->
-      expect($('[data-prompt]').is(':hidden')).to.be.true
+    it 'shows dependent fields on page load unless parent value matches', ->
+      expect($('[data-prompt="stimulus-visible-onload"]').is(':hidden')).to.be.false
+
+    it 'hides dependent fields on page load if parent value matches', ->
+      expect($('[data-prompt="stimulus-hidden-onload"]').is(':hidden')).to.be.true
 
     it 'shows fields dependent on text input', ->
       $input = $('[name="stimulus-text"]')

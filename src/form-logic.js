@@ -221,7 +221,7 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         form = _ref[_i];
         _results.push($('[data-prompt]').each(function(i, el) {
-          var $el, $form, $parent, goalString, goals, handle, parentName, parentType;
+          var $el, $form, $parent, goalString, goals, handle, handleVisibility, parentName, parentType;
           $el = $(el);
           $form = $el.parents('form:first');
           $el.hide();
@@ -236,7 +236,7 @@
           }
           parentType = $parent.prop('type');
           parentName = $parent.attr('name');
-          return $parent.change(function() {
+          handleVisibility = function() {
             var checkbox, givenValue, goal, option, show, siblings, val, values, _j, _k, _l, _len1, _len2, _len3, _ref1;
             show = false;
             values = [];
@@ -282,7 +282,9 @@
             } else {
               return hideChildren($el);
             }
-          });
+          };
+          $parent.change(handleVisibility);
+          return handleVisibility.call($parent);
         }));
       }
       return _results;

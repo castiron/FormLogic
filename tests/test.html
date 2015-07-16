@@ -121,6 +121,12 @@
 			<input type="text" id="card-cvc" data-validate="card-cvc" />
 
 			<label>Form stimulus:</label>
+			<label class="checkbox"><input type="checkbox" name="stimulus-visible-onload" value="show" checked="checked"/> show </label>
+			<label class="checkbox"><input type="checkbox" name="stimulus-visible-onload" value="hide" /> hide</label>
+
+			<label class="checkbox"><input type="checkbox" name="stimulus-hidden-onload" value="hide" checked="checked"/> hide</label>
+			<label class="checkbox"><input type="checkbox" name="stimulus-hidden-onload" value="show" /> show</label>
+
 			<input type="text" name="stimulus-text" />
 			<label class="checkbox"><input type="checkbox" name="stimulus-check" value="check1" /> check 1</label>
 			<label class="checkbox"><input type="checkbox" name="stimulus-check" value="check2" /> check 2</label>
@@ -158,6 +164,8 @@
 				<label class="checkbox"><input type="checkbox" name="stimulus-chain-chain" value="react-react" /> Chain reaction</label>
 			</div>
 
+			<div data-prompt="stimulus-visible-onload" data-show-if="show">should see this</div>
+			<div data-prompt="stimulus-hidden-onload" data-show-if="show">should not see this</div>
 			<div data-prompt="stimulus-text" data-show-if="cherry">Yeah, cherry!</div>
 			<div data-prompt="stimulus-check" data-show-if="check2">Check 2, wat.</div>
 			<div data-prompt="stimulus-radio" data-show-if="radio2">Testing 1, 2...</div>

@@ -192,12 +192,12 @@ class @FormLogic
         parentType = $parent.prop('type')
         parentName = $parent.attr('name')
 
-        $parent.change ->
+        handleVisibility = ->
           show = false
           values = []
           val = $(@).val()
 
-          # Build an array of values no matter what type of element it is          
+          # Build an array of values no matter what type of element it is
           switch parentType
             when 'radio','checkbox'
               siblings = $form.find('[name="'+parentName+'"]:checked')
@@ -205,18 +205,18 @@ class @FormLogic
             when 'select-one','select-multiple'
               for option in $(@).find('option:selected')
                 givenValue = $(option).attr('value')
-                values.push givenValue if givenValue  
+                values.push givenValue if givenValue
             else
               values.push val
-               
 
-          # Check the values 
+
+          # Check the values
           if values.length == 0 # early exit
             show = false
           else if goals.length == 0 and values.length > 0
             show = true
-          else 
-            for goal in goals 
+          else
+            for goal in goals
               if $.inArray(goal, values) != -1
                 show = true
                 break
@@ -226,6 +226,8 @@ class @FormLogic
           else
             hideChildren $el
 
+        $parent.change handleVisibility
+        handleVisibility.call($parent)
 
   # This makes it easier for users to leave error targets in the markup
   # without worrying about adding 'display: none' all the time.

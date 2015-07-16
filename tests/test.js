@@ -184,8 +184,11 @@
       return it('validates expiration date');
     });
     describe('Dynamic Fields', function() {
-      it('hides dependent fields on page load', function() {
-        return expect($('[data-prompt]').is(':hidden')).to.be["true"];
+      it('shows dependent fields on page load unless parent value matches', function() {
+        return expect($('[data-prompt="stimulus-visible-onload"]').is(':hidden')).to.be["false"];
+      });
+      it('hides dependent fields on page load if parent value matches', function() {
+        return expect($('[data-prompt="stimulus-hidden-onload"]').is(':hidden')).to.be["true"];
       });
       it('shows fields dependent on text input', function() {
         var $input;
