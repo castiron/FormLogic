@@ -55,8 +55,8 @@ class @FormLogic
           valPos = 0
           return -> inputVal.charAt valPos++
 
-        # Determines the next character for the new 
-        # value using a given compare function 
+        # Determines the next character for the new
+        # value using a given compare function
         nextChar = (compareFunc) ->
           valChar = nextVal()
           return false unless valChar            # end of input
@@ -67,32 +67,32 @@ class @FormLogic
         isLetter = (str) -> (64 < str.charCodeAt(0) < 91) or (96 < str.charCodeAt(0) < 123)
         isLetterOrNumber = (str) -> isNumber(str) or isLetter(str)
 
-        # Loops through the mask characters and 
+        # Loops through the mask characters and
         # determines what should be added to newVal
         # for each character
         newVal = ''
         cursorPosition = 0
         lastMaskChars = ''
-        for pos in [0..mask.length] 
+        for pos in [0..mask.length]
           maskChar = mask.charAt pos
           switch maskChar
 
             # numbers only
-            when '0' 
+            when '0'
               next = nextChar isNumber
 
             # letters only, uppercase
-            when 'A' 
+            when 'A'
               next = nextChar(isLetter)
               next.toUpperCase() if next != false
 
             # letters only, lowercase
-            when 'a' 
+            when 'a'
               next = nextChar(isLetter)
               next.toLowerCase() if next != false
 
             # letters only, any case
-            when 'Z' 
+            when 'Z'
               next = nextChar isLetter
 
             # letter or number, any case
@@ -111,15 +111,15 @@ class @FormLogic
 
             # escape character
             when '\\'
-              next = mask.charAt ++pos 
+              next = mask.charAt ++pos
 
             # not a key letter, use maskChar
-            else           
+            else
               next = maskChar
               lastMaskChars += maskChar
 
           # Quit if there're no more input characters
-          break if next == false 
+          break if next == false
 
           ++cursorPosition
           newVal += next
@@ -129,10 +129,10 @@ class @FormLogic
         for index in [-1..(newVal.length * -1)]
           if newVal.substr(index, 1) == lastMaskChars.substr(index, 1)
             ++numMaskCharsToRemove
-          else 
+          else
             break
 
-        if numMaskCharsToRemove != 0            
+        if numMaskCharsToRemove != 0
           newVal = newVal.slice(0, numMaskCharsToRemove * -1)
           cursorPosition -= numMaskCharsToRemove
 
@@ -152,7 +152,7 @@ class @FormLogic
 
   setupPrompts: ->
 
-    showChildren = ($el) -> 
+    showChildren = ($el) ->
       $el.show()
       for input in $el.find('[name]').addBack('[name]')
         $child = $('[data-prompt="'+$(input).attr('name')+'"]')
@@ -161,7 +161,7 @@ class @FormLogic
         $child = $('[data-prompt="#'+$(input).attr('id')+'"]')
         $(input).change() if $child
 
-    hideChildren = ($el) -> 
+    hideChildren = ($el) ->
       $el.hide()
       for input in $el.find('[name]').addBack('[name]')
         $child = $('[data-prompt="'+$(input).attr('name')+'"]')
@@ -185,7 +185,7 @@ class @FormLogic
         # Determine the target values
         goalString = $el.data('show-if')
         goals = []
-        if goalString 
+        if goalString
           goals = $.map goalString.split(';'), (str) -> return $.trim str
 
         # Collect info about the parent
@@ -199,13 +199,15 @@ class @FormLogic
 
           # Build an array of values no matter what type of element it is
           switch parentType
-            when 'radio','checkbox'
+            when 'radio'
+            when 'checkbox'
               siblings = $form.find('[name="'+parentName+'"]:checked')
               values.push $(checkbox).val() for checkbox in siblings
-            when 'select-one','select-multiple'
+            when 'select-one'
+            when 'select-multiple'
               for option in $(@).find('option:selected')
                 givenValue = $(option).attr('value')
-                values.push givenValue if givenValue
+                if givenValue then values.push givenValue
             else
               values.push val
 
@@ -394,7 +396,7 @@ class @FormLogic
     # Compares the value of two input elements to be sure they're equal
     FormLogic.validate 'confirm', ($input, $form) ->
       target = $input.data('confirm-target')
-      $input.val() == $(target).val() 
+      $input.val() == $(target).val()
 
     # Simply checks for 7-15 number digits minus all other characters, not the best check
     FormLogic.validate 'phone', ($input, $form) ->
@@ -413,7 +415,7 @@ class @FormLogic
       return true
 
     FormLogic.validate 'card-cvc', ($input, $form) ->
-      3 <= $input.val().replace(/\D/g,'').length <= 4        
+      3 <= $input.val().replace(/\D/g,'').length <= 4
 
     FormLogic.validate 'card-number', ($input, $form) ->
       regex = ///^(?:4[0-9]{12}(?:[0-9]{3})?        # Visa
